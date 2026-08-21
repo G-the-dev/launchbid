@@ -48,7 +48,7 @@ export default function DashboardProductCard({
 
   return (
     <li className={`${card} p-4`}>
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-3 sm:gap-4">
         <Favicon src={product.favicon_url} name={product.name} size={40} />
         <div className="min-w-0 flex-1">
           <Link
@@ -62,7 +62,7 @@ export default function DashboardProductCard({
             click{product.click_count === 1 ? "" : "s"}
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-4">
+        <div className="ml-auto flex shrink-0 items-center gap-3 sm:gap-4">
           <Link
             href={`/p/${product.slug}#boost`}
             className="mc-btn px-3 py-1.5 text-sm"

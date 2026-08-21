@@ -55,7 +55,7 @@ export default async function Home({
   return (
     <div className="pt-12">
       <section className="py-10 text-center">
-        <h1 className="pixel-text text-4xl text-balance uppercase">
+        <h1 className="pixel-text text-3xl text-balance uppercase sm:text-4xl">
           Mine your way to <span className="text-gold">#1</span>
         </h1>
         <p className="mx-auto mt-4 max-w-md text-base text-pretty text-mcgray">
@@ -66,7 +66,7 @@ export default async function Home({
         <form
           action="/submit"
           method="get"
-          className="mx-auto mt-7 flex max-w-md gap-2"
+          className="mx-auto mt-7 flex max-w-md flex-col gap-2 sm:flex-row"
         >
           <label htmlFor="hero-url" className="sr-only">
             Your product&apos;s website
@@ -79,7 +79,7 @@ export default async function Home({
             placeholder="yourproduct.com"
             className="mc-input min-w-0 flex-1 px-3.5 py-2.5 text-base"
           />
-          <button type="submit" className={`${btnPrimary} shrink-0`}>
+          <button type="submit" className={`${btnPrimary} w-full shrink-0 sm:w-auto`}>
             Spawn my product
           </button>
         </form>

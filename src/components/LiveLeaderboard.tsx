@@ -28,7 +28,7 @@ function PodiumCard({
   return (
     <div
       className={`mc-panel flex flex-col items-center p-5 text-center ${
-        center ? "order-2 border-gold/60 sm:-mt-4" : rank === 2 ? "order-1 sm:mt-6" : "order-3 sm:mt-6"
+        center ? "border-gold/60 sm:order-2 sm:-mt-4" : rank === 2 ? "sm:order-1 sm:mt-6" : "sm:order-3 sm:mt-6"
       }`}
     >
       {center && (
@@ -147,7 +147,7 @@ export default function LiveLeaderboard({
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b-2 border-black/70 text-left text-xs uppercase text-mcdim">
-                <th scope="col" className="px-4 py-3 font-normal">
+                <th scope="col" className="px-3 py-3 font-normal sm:px-4">
                   #
                 </th>
                 <th scope="col" className="py-3 pr-4 font-normal">
@@ -178,7 +178,7 @@ export default function LiveLeaderboard({
                     key={product.id}
                     className="border-b-2 border-black/40 transition-colors last:border-b-0 hover:bg-white/5"
                   >
-                    <td className="pixel-text px-4 py-3.5 text-base tabular-nums text-mcgray">
+                    <td className="pixel-text px-3 py-3.5 text-base tabular-nums text-mcgray sm:px-4">
                       #{rank}
                     </td>
                     <td className="py-3.5 pr-4">
@@ -194,7 +194,7 @@ export default function LiveLeaderboard({
                           name={product.name}
                           size={36}
                         />
-                        <span className="pixel-text max-w-56 truncate text-base">
+                        <span className="pixel-text max-w-36 truncate text-base sm:max-w-56">
                           {product.name}
                         </span>
                       </a>
@@ -213,8 +213,8 @@ export default function LiveLeaderboard({
                     <td className="pixel-text py-3.5 pr-4 text-right text-base tabular-nums">
                       {formatTokens(product.total_amount)}
                     </td>
-                    <td className="py-3.5 pr-4 text-right">
-                      <Link href={`/p/${product.slug}#boost`} className={btnSolid}>
+                    <td className="py-3.5 pr-3 text-right sm:pr-4">
+                      <Link href={`/p/${product.slug}#boost`} className="mc-btn px-2.5 py-2 text-sm sm:px-4">
                         Outbid
                       </Link>
                     </td>

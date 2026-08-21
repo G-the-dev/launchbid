@@ -32,7 +32,7 @@ export default function ShareClaimForm() {
       <label htmlFor="share-url" className="mb-1.5 block text-sm font-medium">
         Link to your post
       </label>
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row">
         <input
           id="share-url"
           type="url"
@@ -45,7 +45,7 @@ export default function ShareClaimForm() {
         <button
           type="submit"
           disabled={pending}
-          className="shrink-0 rounded-none mc-btn px-4 py-2.5 text-sm"
+          className="mc-btn w-full shrink-0 rounded-none px-4 py-2.5 text-sm sm:w-auto"
         >
           {pending ? "Checking…" : `Claim ${SHARE_X_TOKENS} ⚡`}
         </button>

@@ -96,7 +96,7 @@ export default function BuyTokensForm({
       <section className={`${card} p-6`}>
         <Step n={2} title={`Pay ₹${selected.inr} with any UPI app`} />
         {selected.qr ? (
-          <div className="mt-4 flex items-center gap-5">
+          <div className="mt-4 flex flex-col items-center gap-4 text-center sm:flex-row sm:gap-5 sm:text-left">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={selected.qr}
