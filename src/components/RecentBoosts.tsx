@@ -34,7 +34,7 @@ export default function RecentBoosts({ boosts }: { boosts: BoostWithProfile[] })
                 {boost.profiles?.display_name ?? "A backer"}
               </span>{" "}
               bid{" "}
-              <span className="font-semibold tabular-nums text-amber-400">
+              <span className="font-semibold tabular-nums text-zinc-100">
                 {formatTokens(boost.amount)}
               </span>
             </span>

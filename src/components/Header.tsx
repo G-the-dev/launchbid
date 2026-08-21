@@ -23,7 +23,7 @@ export default async function Header() {
     <header className="sticky top-0 z-40 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between gap-4 px-4">
         <Link href="/" className="text-lg font-semibold">
-          Launch<span className="text-amber-400">Bid</span>
+          Launch<span className="text-zinc-400">Bid</span>
         </Link>
         <nav className="flex items-center gap-4">
           <Link href="/earn" className={btnQuiet}>

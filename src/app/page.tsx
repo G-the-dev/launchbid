@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import HeroShader from "@/components/HeroShader";
 import LiveLeaderboard from "@/components/LiveLeaderboard";
 import { SHARE_X_TOKENS, VISIT_TOKENS, formatTokens } from "@/lib/tokens";
 import { btnPrimary, card } from "@/lib/ui";
@@ -45,11 +46,20 @@ export default async function Home() {
 
   return (
     <div className="pt-14">
-      <section className="text-center">
+      <section className="relative py-10 text-center">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute top-[-6.5rem] left-1/2 -z-10 h-[26rem] w-screen -translate-x-1/2 overflow-hidden"
+        >
+          <HeroShader />
+          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/40 via-zinc-950/20 to-background" />
+        </div>
         <h1 className="text-4xl font-semibold text-balance">
           The top 10 spots on this board
           <br className="hidden sm:block" /> are{" "}
-          <span className="text-amber-400">for sale</span>
+          <span className="underline decoration-zinc-600 decoration-2 underline-offset-8">
+            for sale
+          </span>
         </h1>
         <p className="mx-auto mt-4 max-w-md text-base text-pretty text-zinc-400">
           No upvotes, no algorithm. Products rank by tokens bid on them — stack
@@ -90,9 +100,9 @@ export default async function Home() {
             <Link
               key={way.title}
               href={way.href}
-              className={`${card} group p-5 transition-colors hover:border-amber-500/50`}
+              className={`${card} group p-5 transition-colors hover:border-zinc-500`}
             >
-              <h3 className="text-base font-semibold group-hover:text-amber-400">
+              <h3 className="text-base font-semibold ">
                 {way.title}
               </h3>
               <p className="mt-1 text-sm text-pretty text-zinc-400">{way.desc}</p>

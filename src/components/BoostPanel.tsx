@@ -72,7 +72,7 @@ export default function BoostPanel({
               }}
               className={`rounded-lg border px-4 py-2.5 text-sm font-medium tabular-nums transition-colors ${
                 !custom && selected === preset
-                  ? "border-amber-500 bg-amber-500/10 text-amber-300"
+                  ? "border-zinc-300 bg-white/10 text-white"
                   : "border-zinc-700 hover:border-zinc-500"
               }`}
             >
@@ -86,7 +86,7 @@ export default function BoostPanel({
             onChange={(e) => setCustom(e.target.value)}
             placeholder="Custom"
             aria-label="Custom token amount"
-            className="w-28 rounded-lg border border-zinc-700 bg-transparent px-3.5 py-2.5 text-sm tabular-nums outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-500"
+            className="w-28 rounded-lg border border-zinc-700 bg-transparent px-3.5 py-2.5 text-sm tabular-nums outline-none transition-colors placeholder:text-zinc-500 focus:border-zinc-400"
           />
         </div>
       </fieldset>
@@ -107,11 +107,11 @@ export default function BoostPanel({
       {amountValid && !affordable && (
         <p className="mt-3 text-sm text-pretty text-zinc-300">
           You need {formatTokens(amount - balance)} more.{" "}
-          <Link href="/earn" className="font-medium text-amber-400 underline">
+          <Link href="/earn" className="font-medium text-zinc-100 underline">
             Earn them free
           </Link>{" "}
           or{" "}
-          <Link href="/tokens" className="font-medium text-amber-400 underline">
+          <Link href="/tokens" className="font-medium text-zinc-100 underline">
             buy a pack with UPI
           </Link>
           .

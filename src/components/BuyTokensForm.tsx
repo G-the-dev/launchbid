@@ -74,7 +74,7 @@ export default function BuyTokensForm({
               onClick={() => setSelected(pack)}
               className={`rounded-lg border px-4 py-3 text-left transition-colors ${
                 selected.inr === pack.inr
-                  ? "border-amber-500 bg-amber-500/10"
+                  ? "border-zinc-300 bg-white/10"
                   : "border-zinc-700 hover:border-zinc-500"
               }`}
             >

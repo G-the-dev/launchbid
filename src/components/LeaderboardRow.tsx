@@ -5,9 +5,9 @@ import { btnSolid } from "@/lib/ui";
 import Favicon from "./Favicon";
 
 const RANK_COLORS: Record<number, string> = {
-  1: "text-amber-400",
-  2: "text-zinc-200",
-  3: "text-amber-700",
+  1: "text-zinc-50",
+  2: "text-zinc-300",
+  3: "text-zinc-400",
 };
 
 export default function LeaderboardRow({
@@ -27,7 +27,7 @@ export default function LeaderboardRow({
   return (
     <li
       className={`flex items-center gap-4 border-b border-zinc-800 px-4 py-4 transition-colors last:border-b-0 hover:bg-zinc-800/40 ${
-        rank === 1 ? "bg-amber-500/5" : ""
+        rank === 1 ? "bg-white/[0.04]" : ""
       }`}
     >
       <span

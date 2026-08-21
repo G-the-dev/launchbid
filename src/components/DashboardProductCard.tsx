@@ -65,7 +65,7 @@ export default function DashboardProductCard({
         <div className="flex shrink-0 items-center gap-4">
           <Link
             href={`/p/${product.slug}#boost`}
-            className="rounded-lg bg-amber-500 px-3 py-1.5 text-sm font-semibold text-zinc-950 transition-colors hover:bg-amber-400"
+            className="rounded-lg bg-zinc-50 px-3 py-1.5 text-sm font-semibold text-zinc-950 transition-colors hover:bg-white"
           >
             Boost
           </Link>
