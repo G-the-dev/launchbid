@@ -1,25 +1,39 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { createProduct, getSiteMetadata } from "@/app/actions/products";
 import type { SiteMetadata } from "@/lib/types";
 import { btnPrimary, card, input, label } from "@/lib/ui";
 import Favicon from "./Favicon";
 
-export default function SubmitForm() {
-  const [url, setUrl] = useState("");
+export default function SubmitForm({ initialUrl = "" }: { initialUrl?: string }) {
+  const [url, setUrl] = useState(initialUrl);
   const [meta, setMeta] = useState<SiteMetadata | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+  const autoRan = useRef(false);
 
-  const lookUp = (e: React.FormEvent) => {
-    e.preventDefault();
+  const runLookup = (value: string) => {
     setError(null);
     startTransition(async () => {
-      const result = await getSiteMetadata(url);
+      const result = await getSiteMetadata(value);
       if ("error" in result) setError(result.error);
       else setMeta(result);
     });
+  };
+
+  // Arriving from the homepage box: look the URL up immediately.
+  useEffect(() => {
+    if (initialUrl && !autoRan.current) {
+      autoRan.current = true;
+      runLookup(initialUrl);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialUrl]);
+
+  const lookUp = (e: React.FormEvent) => {
+    e.preventDefault();
+    runLookup(url);
   };
 
   const submit = (e: React.FormEvent) => {
@@ -111,7 +125,7 @@ export default function SubmitForm() {
           className={input}
         />
         <p className="mt-1.5 text-sm text-zinc-400">
-          This is what the board shows under your name — make it count.
+          This is what the board shows under your name, so make it count.
         </p>
       </div>
 

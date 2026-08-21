@@ -31,7 +31,7 @@ export async function claimShareReward(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { error: "Your session is still starting — try again in a second." };
+  if (!user) return { error: "Your session is still starting. Try again in a second." };
   if (!X_POST_RE.test(postUrl.trim())) {
     return { error: "That doesn't look like a link to an X post." };
   }
@@ -67,13 +67,13 @@ export async function createPurchase(input: {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { error: "Your session is still starting — try again in a second." };
+  if (!user) return { error: "Your session is still starting. Try again in a second." };
 
   const pack = TOKEN_PACKS.find((p) => p.inr === input.packInr);
   if (!pack) return { error: "Pick a token pack." };
   const email = input.email.trim().toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return { error: "Enter a valid email — token updates go there." };
+    return { error: "Enter a valid email. Token updates go there." };
   }
   const utr = input.utr.trim();
   if (!/^[A-Za-z0-9]{6,30}$/.test(utr)) {

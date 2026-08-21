@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatTokens } from "@/lib/tokens";
 import { btnQuiet, btnSolid } from "@/lib/ui";
+import { Logo } from "./Logo";
 
 export default async function Header() {
   const supabase = await createClient();
@@ -23,8 +24,8 @@ export default async function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between gap-4 px-4">
-        <Link href="/" className="text-lg font-semibold">
-          Launch<span className="text-zinc-400">Bid</span>
+        <Link href="/">
+          <Logo />
         </Link>
         <nav className="flex items-center gap-4">
           <Link href="/earn" className={btnQuiet}>
@@ -35,7 +36,7 @@ export default async function Header() {
           </Link>
           <Link
             href="/tokens"
-            title="Your token balance — top up with UPI"
+            title="Your token balance: top up with UPI"
             className={`${btnSolid} tabular-nums`}
           >
             {formatTokens(balance)}

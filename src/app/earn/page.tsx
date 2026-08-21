@@ -45,7 +45,7 @@ export default async function EarnPage() {
   }
 
   const shareText = encodeURIComponent(
-    `The top 10 spots on this board are literally for sale. I'm bidding my product to #1 on LaunchBid — outbid me: ${process.env.NEXT_PUBLIC_SITE_URL}`
+    `The top 10 spots on this board are literally for sale. I'm bidding my product to #1 on LaunchBid. Outbid me: ${process.env.NEXT_PUBLIC_SITE_URL}`
   );
   const intentUrl = `https://twitter.com/intent/tweet?text=${shareText}`;
 
@@ -53,7 +53,7 @@ export default async function EarnPage() {
     <div className="mx-auto max-w-lg pt-12">
       <h1 className="text-2xl font-semibold">Earn tokens</h1>
       <p className="mt-1 text-base text-pretty text-zinc-400">
-        Tokens are bids. Three free ways to stack them — no payment needed.
+        Tokens are bids. Three free ways to stack them, no payment needed.
       </p>
 
       <div className={`${card} mt-6 flex items-center justify-between px-6 py-4`}>
@@ -75,7 +75,7 @@ export default async function EarnPage() {
           </div>
           {shareClaimed ? (
             <p className="mt-2 rounded-lg bg-emerald-500/10 px-4 py-2.5 text-sm text-emerald-300">
-              Claimed — thanks for spreading the word.
+              Claimed. Thanks for spreading the word.
             </p>
           ) : (
             <>
@@ -103,7 +103,7 @@ export default async function EarnPage() {
             </span>
           </div>
           <p className="mt-1 mb-4 text-sm text-pretty text-zinc-400">
-            Click through to any product's site — up to 10 rewarded visits a
+            Click through to any product's site, up to 10 rewarded visits a
             day. Your own products don't count.
           </p>
           <Link href="/" className={btnSecondary}>
@@ -119,7 +119,7 @@ export default async function EarnPage() {
             </span>
           </div>
           <p className="mt-1 mb-4 text-sm text-pretty text-zinc-400">
-            Your first listing comes with a welcome bonus — enough to place
+            Your first listing comes with a welcome bonus, enough to place
             your first bids.
           </p>
           <Link href="/submit" className={btnSecondary}>
@@ -132,7 +132,7 @@ export default async function EarnPage() {
           <Link href="/tokens" className="font-medium underline">
             Buy a token pack with UPI
           </Link>{" "}
-          — from ₹49.
+          from ₹49.
         </p>
       </div>
 

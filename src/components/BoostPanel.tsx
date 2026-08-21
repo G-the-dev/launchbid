@@ -37,7 +37,7 @@ export default function BoostPanel({
       } else {
         setMessage({
           ok: true,
-          text: `Bid landed — the board just re-ranked. You have ${formatTokens(result.balance ?? 0)} left.`,
+          text: `Bid landed. The board just re-ranked. You have ${formatTokens(result.balance ?? 0)} left.`,
         });
         router.refresh();
       }
@@ -53,7 +53,7 @@ export default function BoostPanel({
         </span>
       </div>
       <p className="mt-1 text-sm text-pretty text-zinc-400">
-        Every token you bid adds to its lifetime total — that total is its rank.
+        Every token you bid adds to its lifetime total. That total is its rank.
       </p>
 
       <fieldset className="mt-5">

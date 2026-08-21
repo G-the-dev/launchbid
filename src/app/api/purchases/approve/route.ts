@@ -60,7 +60,7 @@ export async function GET(request: Request) {
   await sendMail({
     to: purchase.email,
     subject: `Your ${formatTokens(purchase.tokens)} just landed on LaunchBid`,
-    html: `<p>Payment confirmed — <b>${purchase.tokens} tokens</b> are in your LaunchBid balance.</p>
+    html: `<p>Payment confirmed: <b>${purchase.tokens} tokens</b> are in your LaunchBid balance.</p>
 <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}">Spend them on the leaderboard</a> and take your spot.</p>
 <p style="color:#888;font-size:0.85em">You'll also get product updates from LaunchBid at this address.</p>`,
   });

@@ -9,6 +9,7 @@ export type Product = {
   total_amount: number;
   boost_count: number;
   click_count: number;
+  last_boost_at: string | null;
   created_at: string;
 };
 

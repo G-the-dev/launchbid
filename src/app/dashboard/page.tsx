@@ -48,7 +48,7 @@ export default async function DashboardPage() {
         <div className="rounded-xl border border-dashed border-zinc-700 py-16 text-center">
           <p className="text-base font-medium">Nothing listed from this browser yet.</p>
           <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-zinc-400">
-            List your product to start climbing the board — it comes with 25
+            List your product to start climbing the board. It comes with 25
             free tokens.
           </p>
           <Link href="/submit" className={`${btnPrimary} mt-5`}>

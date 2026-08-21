@@ -44,7 +44,7 @@ export default async function TokensPage() {
         </span>
       </div>
       <p className="mt-1 mb-8 text-base text-pretty text-zinc-400">
-        Pay with any UPI app in three steps — pick a pack, scan, confirm.
+        Pay with any UPI app in three steps: pick a pack, scan, confirm.
         Tokens land after we match your payment, confirmed by email.
       </p>
 

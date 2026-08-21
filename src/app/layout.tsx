@@ -11,9 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "LaunchBid — bid your product to #1",
+  title: "LaunchBid: bid your product to #1",
   description:
-    "The top 10 spots on this board are for sale. Products rank by tokens bid on them — earn tokens free or buy with UPI, then outbid the board.",
+    "The top 10 spots on this board are for sale. Products rank by tokens bid on them. Earn tokens free or buy with UPI, then outbid the board.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

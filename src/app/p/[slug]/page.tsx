@@ -76,7 +76,7 @@ export default async function ProductPage({
               target="_blank"
               rel="noopener noreferrer nofollow"
               className="hover:underline"
-              title={`Open ${host} — you earn 2 tokens`}
+              title={`Open ${host}: you earn 2 tokens`}
             >
               {product.name}
             </a>
@@ -91,7 +91,7 @@ export default async function ProductPage({
             target="_blank"
             rel="noopener noreferrer nofollow"
             className="mt-1 inline-block text-sm font-medium text-zinc-400 hover:text-zinc-100 hover:underline"
-            title="Visit — you earn 2 tokens"
+            title="Visit: you earn 2 tokens"
           >
             {host} ↗
           </a>

@@ -102,7 +102,7 @@ export default function BuyTokensForm({
               className="shrink-0 rounded-lg bg-white p-2 ring-1 ring-zinc-300"
             />
             <div className="text-sm text-pretty text-zinc-400">
-              <p>Scan with GPay, PhonePe, Paytm — any UPI app.</p>
+              <p>Scan with any UPI app: GPay, PhonePe, Paytm.</p>
               {vpa && (
                 <p className="mt-2">
                   Or send directly to{" "}
@@ -115,7 +115,7 @@ export default function BuyTokensForm({
           </div>
         ) : (
           <p className="mt-3 text-sm text-zinc-400">
-            UPI payments are being set up — check back shortly.
+            UPI payments are being set up. Check back shortly.
           </p>
         )}
       </section>
@@ -154,7 +154,7 @@ export default function BuyTokensForm({
               className={`${input} font-mono`}
             />
             <p className="mt-1.5 text-sm text-zinc-400">
-              Shown in your UPI app right after paying — it's how we match your
+              Shown in your UPI app right after paying. It's how we match your
               payment.
             </p>
           </div>
@@ -168,7 +168,7 @@ export default function BuyTokensForm({
       >
         {pending
           ? "Submitting…"
-          : `I've paid ₹${selected.inr} — credit ${selected.tokens} tokens`}
+          : `I've paid ₹${selected.inr}, credit ${selected.tokens} tokens`}
       </button>
       {error && (
         <p className="rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-300">

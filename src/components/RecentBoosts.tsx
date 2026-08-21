@@ -15,7 +15,7 @@ export default function RecentBoosts({ boosts }: { boosts: BoostWithProfile[] })
   if (boosts.length === 0) {
     return (
       <p className="py-2 text-center text-sm text-zinc-400">
-        No bids yet — the first one sets the price of this spot.
+        No bids yet. The first one sets the price of this spot.
       </p>
     );
   }
