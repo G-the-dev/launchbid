@@ -23,8 +23,9 @@ const KIND_LABELS: Record<TokenEvent["kind"], string> = {
 export default async function EarnPage() {
   const supabase = await createClient();
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
+  const user = session?.user ?? null;
 
   let balance = 0;
   let events: TokenEvent[] = [];

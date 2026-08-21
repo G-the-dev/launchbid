@@ -40,23 +40,18 @@ export default function LeaderboardRow({
       </span>
       <Favicon src={product.favicon_url} name={product.name} size={44} />
       <div className="min-w-0 flex-1">
-        <Link
-          href={`/p/${product.slug}`}
+        <a
+          href={`/go/${product.slug}`}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
           className="block truncate text-base font-semibold hover:underline"
+          title={`Open ${host} — you earn 2 tokens`}
         >
-          {product.name}
-        </Link>
+          {product.name} <span className="text-zinc-500">↗</span>
+        </a>
         <p className="truncate text-sm text-zinc-400">
           {product.tagline ? `${product.tagline} · ` : ""}
-          <a
-            href={`/go/${product.slug}`}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            className="hover:text-zinc-100 hover:underline"
-            title="Visit — you earn 2 tokens"
-          >
-            {host} ↗
-          </a>
+          {host}
         </p>
       </div>
       <div className="shrink-0 text-right">

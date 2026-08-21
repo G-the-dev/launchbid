@@ -35,15 +35,16 @@ export default async function ProductPage({
       .eq("product_id", product.id)
       .order("created_at", { ascending: false })
       .limit(10),
-    supabase.auth.getUser(),
+    supabase.auth.getSession(),
   ]);
 
   let balance = 0;
-  if (auth.user) {
+  const authUser = auth.session?.user ?? null;
+  if (authUser) {
     const { data: profile } = await supabase
       .from("profiles")
       .select("token_balance")
-      .eq("id", auth.user.id)
+      .eq("id", authUser.id)
       .single();
     balance = Number(profile?.token_balance ?? 0);
   }
@@ -69,7 +70,17 @@ export default async function ProductPage({
       <section className="flex items-start gap-4">
         <Favicon src={product.favicon_url} name={product.name} size={56} />
         <div className="min-w-0">
-          <h1 className="text-2xl font-semibold text-balance">{product.name}</h1>
+          <h1 className="text-2xl font-semibold text-balance">
+            <a
+              href={`/go/${product.slug}`}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              className="hover:underline"
+              title={`Open ${host} — you earn 2 tokens`}
+            >
+              {product.name}
+            </a>
+          </h1>
           {product.tagline && (
             <p className="mt-1 text-base text-pretty text-zinc-400">
               {product.tagline}

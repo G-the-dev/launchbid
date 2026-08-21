@@ -6,8 +6,9 @@ import { btnQuiet, btnSolid } from "@/lib/ui";
 export default async function Header() {
   const supabase = await createClient();
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
+  const user = session?.user ?? null;
 
   let balance = 0;
   if (user) {
