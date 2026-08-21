@@ -36,6 +36,7 @@ export default function BoostPanel({
       if (result.error) {
         setMessage({ ok: false, text: result.error });
       } else {
+        window.dispatchEvent(new Event("lb:balance"));
         sfxLevelUp();
         setMessage({
           ok: true,

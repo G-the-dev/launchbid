@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { getBalance } from "@/lib/data";
-import { formatTokens } from "@/lib/tokens";
 import { btnQuiet } from "@/lib/ui";
 import SoundControl from "./SoundControl";
+import TokenBalance from "./TokenBalance";
 import { Logo } from "./Logo";
 
 export default async function Header() {
@@ -27,7 +27,7 @@ export default async function Header() {
             title="Your token balance: top up with UPI"
             className="mc-btn mc-btn-grass px-3.5 py-1.5 text-sm tabular-nums"
           >
-            {formatTokens(balance)}
+            <TokenBalance initial={balance} />
             <span aria-hidden className="opacity-60">·</span>
             Top up
           </Link>

@@ -20,6 +20,7 @@ export default function ShareClaimForm() {
       const result = await claimShareReward(url);
       if (result.error) setError(result.error);
       else {
+        window.dispatchEvent(new Event("lb:balance"));
         sfxLevelUp();
         router.refresh();
       }
