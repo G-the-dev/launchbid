@@ -1,6 +1,5 @@
 import QRCode from "qrcode";
 import { getBalance } from "@/lib/data";
-import { getIntlPacks } from "@/lib/polar";
 import { TOKEN_PACKS, formatTokens, upiPayUri } from "@/lib/tokens";
 import BuyTokensForm from "@/components/BuyTokensForm";
 
@@ -52,12 +51,7 @@ export default async function TokensPage({
           </p>
         </div>
       )}
-      <BuyTokensForm
-        packs={packs}
-        vpa={vpa}
-        defaultEmail=""
-        intlPacks={getIntlPacks().map(({ usd, tokens }) => ({ usd, tokens }))}
-      />
+      <BuyTokensForm packs={packs} vpa={vpa} defaultEmail="" />
     </div>
   );
 }

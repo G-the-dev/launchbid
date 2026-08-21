@@ -6,7 +6,6 @@ import { sfxLevelUp } from "@/lib/sound";
 import { btnPrimary, card, input, label } from "@/lib/ui";
 
 type Pack = { inr: number; tokens: number; qr: string | null };
-type IntlPack = { usd: number; tokens: number };
 
 function Step({ n, title }: { n: number; title: string }) {
   return (
@@ -23,33 +22,11 @@ export default function BuyTokensForm({
   packs,
   vpa,
   defaultEmail,
-  intlPacks = [],
 }: {
   packs: Pack[];
   vpa: string;
   defaultEmail: string;
-  intlPacks?: IntlPack[];
 }) {
-  const [intlPending, setIntlPending] = useState<number | null>(null);
-  const [intlError, setIntlError] = useState<string | null>(null);
-
-  const payIntl = async (usd: number) => {
-    setIntlError(null);
-    setIntlPending(usd);
-    try {
-      const res = await fetch("/api/polar/checkout", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ usd }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Could not start checkout.");
-      window.location.href = data.url;
-    } catch (e) {
-      setIntlError(e instanceof Error ? e.message : "Could not start checkout.");
-      setIntlPending(null);
-    }
-  };
   const [selected, setSelected] = useState<Pack>(packs[1] ?? packs[0]);
   const [email, setEmail] = useState(defaultEmail);
   const [utr, setUtr] = useState("");
@@ -187,40 +164,6 @@ export default function BuyTokensForm({
           </div>
         </div>
       </section>
-
-      {intlPacks.length > 0 && (
-        <section className="mc-panel p-6">
-          <h2 className="pixel-text text-base">Outside India? Pay by card</h2>
-          <p className="mt-1 mb-4 text-sm text-pretty text-mcgray">
-            International payments run through Polar (cards, worldwide).
-            Tokens are credited automatically within a minute, no UTR needed.
-          </p>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {intlPacks.map((pack) => (
-              <button
-                key={pack.usd}
-                type="button"
-                disabled={intlPending !== null}
-                onClick={() => payIntl(pack.usd)}
-                className="mc-btn flex-col px-3 py-3 text-sm"
-              >
-                <span className="tabular-nums">${pack.usd}</span>
-                <span className="text-xs opacity-80 tabular-nums">
-                  {pack.tokens} tokens
-                </span>
-              </button>
-            ))}
-          </div>
-          {intlPending !== null && (
-            <p className="mt-3 text-sm text-mcgray">Opening secure checkout…</p>
-          )}
-          {intlError && (
-            <p className="mt-3 bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
-              {intlError}
-            </p>
-          )}
-        </section>
-      )}
 
       <button
         type="submit"
