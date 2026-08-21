@@ -57,32 +57,44 @@ export default async function ProductPage({
     host = product.url;
   }
 
+  const stats = [
+    { k: "Rank", v: `#${rank}` },
+    { k: "Tokens bid", v: formatTokens(product.total_amount) },
+    { k: "Boosts", v: String(product.boost_count) },
+    { k: "Clicks", v: String(product.click_count) },
+  ];
+
   return (
-    <div className="pt-12 space-y-8">
+    <div className="space-y-8 pt-12">
       <section className="flex items-start gap-4">
         <Favicon src={product.favicon_url} name={product.name} size={56} />
-        <div className="min-w-0 flex-1">
-          <h1 className="text-2xl font-bold truncate">{product.name}</h1>
-          {product.tagline && <p className="opacity-70 mt-1">{product.tagline}</p>}
+        <div className="min-w-0">
+          <h1 className="text-2xl font-semibold text-balance">{product.name}</h1>
+          {product.tagline && (
+            <p className="mt-1 text-base text-pretty text-stone-500 dark:text-stone-400">
+              {product.tagline}
+            </p>
+          )}
           <a
             href={`/go/${product.slug}`}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="text-sm text-amber-600 dark:text-amber-400 hover:underline"
+            className="mt-1 inline-block text-sm font-medium text-stone-500 hover:text-stone-900 hover:underline dark:text-stone-400 dark:hover:text-stone-100"
+            title="Visit — you earn 2 tokens"
           >
             {host} ↗
           </a>
         </div>
-        <div className="text-right shrink-0">
-          <div className="text-2xl font-bold tabular-nums">
-            {formatTokens(product.total_amount)}
-          </div>
-          <div className="text-sm opacity-70">
-            rank #{rank} · {product.click_count} click
-            {product.click_count === 1 ? "" : "s"}
-          </div>
-        </div>
       </section>
+
+      <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-stone-200 bg-stone-200 text-center sm:grid-cols-4 dark:border-white/10 dark:bg-white/10">
+        {stats.map(({ k, v }) => (
+          <div key={k} className="bg-background px-2 py-3">
+            <dd className="text-base font-semibold tabular-nums">{v}</dd>
+            <dt className="mt-0.5 text-sm text-stone-500 dark:text-stone-400">{k}</dt>
+          </div>
+        ))}
+      </dl>
 
       <BoostPanel productId={product.id} balance={balance} />
 

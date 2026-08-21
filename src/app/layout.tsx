@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import SessionBootstrap from "@/components/SessionBootstrap";
@@ -15,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LaunchBid — the leaderboard money built",
+  title: "LaunchBid — bid your product to #1",
   description:
-    "Promote your product by bidding for it. The top 10 highest-boosted products own the leaderboard.",
+    "The top 10 spots on this board are for sale. Products rank by tokens bid on them — earn tokens free or buy with UPI, then outbid the board.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -26,14 +27,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-dvh flex-col">
         <SessionBootstrap />
         <Header />
-        <main className="flex-1 w-full max-w-3xl mx-auto px-4 pb-16">
+        <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-24">
           {children}
         </main>
-        <footer className="border-t border-black/10 dark:border-white/10 py-6 text-center text-xs opacity-60">
-          LaunchBid — every rupee is a vote. Top 10 win the board.
+        <footer className="border-t border-stone-200 py-8 dark:border-white/10">
+          <div className="mx-auto flex max-w-3xl items-center justify-between px-4 text-sm text-stone-500 dark:text-stone-400">
+            <span>Every token is a bid. Top 10 own the board.</span>
+            <Link href="/earn" className="font-medium hover:underline">
+              Earn free tokens
+            </Link>
+          </div>
         </footer>
       </body>
     </html>

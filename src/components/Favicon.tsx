@@ -12,7 +12,8 @@ export default function Favicon({
   if (!src) {
     return (
       <span
-        className="shrink-0 rounded-lg bg-black/10 dark:bg-white/10 flex items-center justify-center font-bold"
+        aria-hidden
+        className="flex shrink-0 items-center justify-center rounded-lg bg-stone-100 text-base font-semibold text-stone-500 dark:bg-white/10 dark:text-stone-300"
         style={{ width: size, height: size }}
       >
         {name.charAt(0).toUpperCase()}
@@ -27,7 +28,7 @@ export default function Favicon({
       width={size}
       height={size}
       referrerPolicy="no-referrer"
-      className="shrink-0 rounded-lg object-contain bg-white"
+      className="shrink-0 rounded-lg bg-white object-contain p-0.5 ring-1 ring-stone-200 dark:ring-white/10"
     />
   );
 }

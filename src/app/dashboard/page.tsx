@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { Product } from "@/lib/types";
+import { btnPrimary } from "@/lib/ui";
 import DashboardProductCard from "@/components/DashboardProductCard";
 
 export const dynamic = "force-dynamic";
@@ -33,28 +34,28 @@ export default async function DashboardPage() {
 
   return (
     <div className="pt-12">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">My products</h1>
-        <Link
-          href="/submit"
-          className="text-sm rounded-full bg-amber-500 text-black font-medium px-4 py-1.5 hover:bg-amber-400 transition-colors"
-        >
-          Submit another
-        </Link>
+      <div className="mb-6 flex items-baseline justify-between">
+        <h1 className="text-2xl font-semibold">My products</h1>
+        {products.length > 0 && (
+          <Link href="/submit" className="text-sm font-medium underline">
+            List another
+          </Link>
+        )}
       </div>
 
       {products.length === 0 ? (
-        <div className="text-center py-16 border border-dashed border-black/20 dark:border-white/20 rounded-2xl opacity-70">
-          <p className="font-medium">Nothing listed yet.</p>
-          <p className="text-sm mt-1">
-            <Link href="/submit" className="underline">
-              Submit your product
-            </Link>{" "}
-            and start climbing the board.
+        <div className="rounded-xl border border-dashed border-stone-300 py-16 text-center dark:border-white/15">
+          <p className="text-base font-medium">Nothing listed from this browser yet.</p>
+          <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-stone-500 dark:text-stone-400">
+            List your product to start climbing the board — it comes with 25
+            free tokens.
           </p>
+          <Link href="/submit" className={`${btnPrimary} mt-5`}>
+            List your product
+          </Link>
         </div>
       ) : (
-        <ul className="space-y-3">
+        <ul className="space-y-2">
           {products.map((product, i) => (
             <DashboardProductCard
               key={product.id}

@@ -9,6 +9,7 @@ import {
   MIN_BOOST_TOKENS,
   formatTokens,
 } from "@/lib/tokens";
+import { btnPrimary } from "@/lib/ui";
 
 export default function BoostPanel({
   productId,
@@ -36,7 +37,7 @@ export default function BoostPanel({
       } else {
         setMessage({
           ok: true,
-          text: `Boost landed — the board just moved. Balance: ${formatTokens(result.balance ?? 0)}`,
+          text: `Boost landed — the board just re-ranked. You have ${formatTokens(result.balance ?? 0)} left.`,
         });
         router.refresh();
       }
@@ -46,75 +47,84 @@ export default function BoostPanel({
   return (
     <section
       id="boost"
-      className="rounded-2xl border border-amber-500/40 bg-amber-500/5 p-5 space-y-4"
+      className="rounded-xl border border-stone-200 bg-white p-6 dark:border-white/10 dark:bg-stone-900"
     >
       <div className="flex items-baseline justify-between gap-3">
-        <h2 className="font-semibold">Boost this product</h2>
-        <span className="text-sm opacity-70 tabular-nums">
-          You have {formatTokens(balance)}
+        <h2 className="text-xl font-semibold">Boost this product</h2>
+        <span className="text-sm tabular-nums text-stone-500 dark:text-stone-400">
+          Your balance: {formatTokens(balance)}
         </span>
       </div>
+      <p className="mt-1 text-sm text-pretty text-stone-500 dark:text-stone-400">
+        Every token you bid adds to its lifetime total — that total is its rank.
+      </p>
 
-      <div className="flex flex-wrap gap-2">
-        {BOOST_PRESETS_TOKENS.map((preset) => (
-          <button
-            key={preset}
-            type="button"
-            onClick={() => {
-              setSelected(preset);
-              setCustom("");
-            }}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium border transition-colors ${
-              !custom && selected === preset
-                ? "bg-amber-500 text-black border-amber-500"
-                : "border-black/15 dark:border-white/15 hover:border-amber-500"
-            }`}
-          >
-            {formatTokens(preset)}
-          </button>
-        ))}
-        <input
-          type="number"
-          min={MIN_BOOST_TOKENS}
-          value={custom}
-          onChange={(e) => setCustom(e.target.value)}
-          placeholder="custom"
-          className="w-24 rounded-full border border-black/15 dark:border-white/15 bg-transparent px-3 py-1.5 text-sm outline-none focus:border-amber-500"
-        />
-      </div>
+      <fieldset className="mt-5">
+        <legend className="mb-1.5 block text-sm font-medium">Amount</legend>
+        <div className="flex flex-wrap items-center gap-2">
+          {BOOST_PRESETS_TOKENS.map((preset) => (
+            <button
+              key={preset}
+              type="button"
+              aria-pressed={!custom && selected === preset}
+              onClick={() => {
+                setSelected(preset);
+                setCustom("");
+              }}
+              className={`rounded-lg border px-4 py-2.5 text-sm font-medium tabular-nums transition-colors ${
+                !custom && selected === preset
+                  ? "border-amber-500 bg-amber-500/10"
+                  : "border-stone-300 hover:border-stone-400 dark:border-white/15 dark:hover:border-white/30"
+              }`}
+            >
+              {formatTokens(preset)}
+            </button>
+          ))}
+          <input
+            type="number"
+            min={MIN_BOOST_TOKENS}
+            value={custom}
+            onChange={(e) => setCustom(e.target.value)}
+            placeholder="Custom"
+            aria-label="Custom token amount"
+            className="w-28 rounded-lg border border-stone-300 bg-transparent px-3.5 py-2.5 text-sm tabular-nums outline-none transition-colors placeholder:text-stone-400 focus:border-amber-500 dark:border-white/15"
+          />
+        </div>
+      </fieldset>
 
       <button
         type="button"
         onClick={boost}
         disabled={pending || !amountValid || !affordable}
-        className="w-full rounded-xl bg-amber-500 text-black py-2.5 font-semibold hover:bg-amber-400 disabled:opacity-50 transition-colors"
+        className={`${btnPrimary} mt-4 w-full`}
       >
         {pending
-          ? "Boosting…"
+          ? "Placing your bid…"
           : amountValid
-            ? `Boost ${formatTokens(amount)}`
-            : `Minimum ${MIN_BOOST_TOKENS} tokens`}
+            ? `Bid ${formatTokens(amount)}`
+            : `Bids start at ${MIN_BOOST_TOKENS} tokens`}
       </button>
 
       {amountValid && !affordable && (
-        <p className="text-sm">
-          Not enough tokens —{" "}
-          <Link href="/earn" className="underline font-medium">
-            earn free tokens
+        <p className="mt-3 text-sm text-pretty">
+          You need {formatTokens(amount - balance)} more.{" "}
+          <Link href="/earn" className="font-medium underline">
+            Earn them free
           </Link>{" "}
           or{" "}
-          <Link href="/tokens" className="underline font-medium">
-            buy a pack via UPI
+          <Link href="/tokens" className="font-medium underline">
+            buy a pack with UPI
           </Link>
           .
         </p>
       )}
       {message && (
         <p
-          className={`text-sm rounded-xl py-2.5 px-4 ${
+          role="status"
+          className={`mt-3 rounded-lg px-4 py-2.5 text-sm ${
             message.ok
               ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
-              : "text-red-500"
+              : "bg-red-500/10 text-red-700 dark:text-red-300"
           }`}
         >
           {message.text}

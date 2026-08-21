@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatTokens } from "@/lib/tokens";
+import { btnQuiet } from "@/lib/ui";
 
 export default async function Header() {
   const supabase = await createClient();
@@ -19,30 +20,24 @@ export default async function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-black/10 dark:border-white/10 bg-background/80 backdrop-blur">
-      <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between gap-3">
-        <Link href="/" className="font-bold text-lg tracking-tight shrink-0">
+    <header className="sticky top-0 z-40 border-b border-stone-200 bg-background/80 backdrop-blur dark:border-white/10">
+      <div className="mx-auto flex h-14 max-w-3xl items-center justify-between gap-4 px-4">
+        <Link href="/" className="text-lg font-semibold">
           Launch<span className="text-amber-500">Bid</span>
         </Link>
-        <nav className="flex items-center gap-3 text-sm">
-          <Link
-            href="/tokens"
-            className="rounded-full border border-amber-500/50 bg-amber-500/10 px-3 py-1 font-medium tabular-nums hover:bg-amber-500/20 transition-colors"
-            title="Your token balance — click to get more"
-          >
-            {formatTokens(balance)}
-          </Link>
-          <Link href="/earn" className="hover:underline">
+        <nav className="flex items-center gap-4">
+          <Link href="/earn" className={btnQuiet}>
             Earn
           </Link>
-          <Link href="/dashboard" className="hover:underline">
+          <Link href="/dashboard" className={btnQuiet}>
             My products
           </Link>
           <Link
-            href="/submit"
-            className="rounded-full bg-amber-500 text-black font-medium px-4 py-1.5 hover:bg-amber-400 transition-colors"
+            href="/tokens"
+            title="Your token balance — get more"
+            className="inline-flex items-center rounded-lg border border-stone-300 px-3 py-1.5 text-sm font-semibold tabular-nums transition-colors hover:border-amber-500 dark:border-white/15 dark:hover:border-amber-500"
           >
-            Submit
+            {formatTokens(balance)}
           </Link>
         </nav>
       </div>

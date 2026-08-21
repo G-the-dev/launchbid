@@ -35,16 +35,16 @@ export default async function TokensPage() {
   );
 
   return (
-    <div className="pt-12 max-w-lg mx-auto">
-      <div className="flex items-baseline justify-between mb-2">
-        <h1 className="text-2xl font-bold">Buy tokens</h1>
-        <span className="tabular-nums font-semibold">{formatTokens(balance)}</span>
+    <div className="mx-auto max-w-lg pt-12">
+      <div className="flex items-baseline justify-between gap-3">
+        <h1 className="text-2xl font-semibold">Buy tokens</h1>
+        <span className="text-sm tabular-nums text-stone-500 dark:text-stone-400">
+          Your balance: {formatTokens(balance)}
+        </span>
       </div>
-      <p className="text-sm opacity-70 mb-8">
-        Pay with any UPI app — scan the QR or send to{" "}
-        <span className="font-mono font-medium">{vpa || "(UPI ID coming soon)"}</span>,
-        then enter your payment reference below. Tokens land after a quick
-        verification, confirmed to your email.
+      <p className="mt-1 mb-8 text-base text-pretty text-stone-500 dark:text-stone-400">
+        Pay with any UPI app in three steps — pick a pack, scan, confirm.
+        Tokens land after we match your payment, confirmed by email.
       </p>
 
       <BuyTokensForm packs={packs} vpa={vpa} defaultEmail={user?.email ?? ""} />

@@ -2,8 +2,20 @@
 
 import { useState, useTransition } from "react";
 import { createPurchase } from "@/app/actions/tokens";
+import { btnPrimary, card, input, label } from "@/lib/ui";
 
 type Pack = { inr: number; tokens: number; qr: string | null };
+
+function Step({ n, title }: { n: number; title: string }) {
+  return (
+    <h2 className="flex items-center gap-2.5 text-base font-semibold">
+      <span className="flex size-6 items-center justify-center rounded-full bg-stone-900 text-xs font-semibold text-stone-50 dark:bg-stone-100 dark:text-stone-900">
+        {n}
+      </span>
+      {title}
+    </h2>
+  );
+}
 
 export default function BuyTokensForm({
   packs,
@@ -37,12 +49,12 @@ export default function BuyTokensForm({
 
   if (status === "sent") {
     return (
-      <div className="rounded-2xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 p-5 text-sm">
-        <p className="font-semibold mb-1">Payment submitted ✓</p>
-        <p>
-          We&apos;re verifying your ₹{selected.inr} payment. Your{" "}
-          {selected.tokens} tokens will appear in your balance shortly, and
-          you&apos;ll get a confirmation at {email}.
+      <div className="rounded-xl bg-emerald-500/10 p-6 text-emerald-800 dark:text-emerald-300">
+        <p className="text-base font-semibold">Payment submitted</p>
+        <p className="mt-1 text-sm text-pretty">
+          We're matching your ₹{selected.inr} payment now. Your{" "}
+          {selected.tokens} tokens will appear in your balance shortly, and a
+          confirmation goes to {email}.
         </p>
       </div>
     );
@@ -50,86 +62,119 @@ export default function BuyTokensForm({
 
   return (
     <form onSubmit={submit} className="space-y-6">
-      <div className="grid grid-cols-2 gap-2">
-        {packs.map((pack) => (
-          <button
-            key={pack.inr}
-            type="button"
-            onClick={() => setSelected(pack)}
-            className={`rounded-xl border px-4 py-3 text-left transition-colors ${
-              selected.inr === pack.inr
-                ? "border-amber-500 bg-amber-500/10"
-                : "border-black/15 dark:border-white/15 hover:border-amber-500"
-            }`}
-          >
-            <div className="font-bold">₹{pack.inr}</div>
-            <div className="text-sm opacity-70">{pack.tokens} tokens</div>
-          </button>
-        ))}
-      </div>
+      <section className={`${card} p-6`}>
+        <Step n={1} title="Pick a pack" />
+        <div className="mt-4 grid grid-cols-2 gap-2" role="radiogroup" aria-label="Token pack">
+          {packs.map((pack) => (
+            <button
+              key={pack.inr}
+              type="button"
+              role="radio"
+              aria-checked={selected.inr === pack.inr}
+              onClick={() => setSelected(pack)}
+              className={`rounded-lg border px-4 py-3 text-left transition-colors ${
+                selected.inr === pack.inr
+                  ? "border-amber-500 bg-amber-500/10"
+                  : "border-stone-300 hover:border-stone-400 dark:border-white/15 dark:hover:border-white/30"
+              }`}
+            >
+              <span className="block text-base font-semibold tabular-nums">
+                ₹{pack.inr}
+              </span>
+              <span className="block text-sm tabular-nums text-stone-500 dark:text-stone-400">
+                {pack.tokens} tokens
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
 
-      <div className="rounded-2xl border border-black/10 dark:border-white/10 p-5 text-center">
+      <section className={`${card} p-6`}>
+        <Step n={2} title={`Pay ₹${selected.inr} with any UPI app`} />
         {selected.qr ? (
-          <>
+          <div className="mt-4 flex items-center gap-5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={selected.qr}
-              alt={`UPI QR for ₹${selected.inr}`}
-              width={200}
-              height={200}
-              className="mx-auto rounded-lg bg-white p-2"
+              alt={`UPI QR code for ₹${selected.inr}`}
+              width={144}
+              height={144}
+              className="shrink-0 rounded-lg bg-white p-2 ring-1 ring-stone-200"
             />
-            <p className="text-sm mt-3">
-              Scan to pay <b>₹{selected.inr}</b>
+            <div className="text-sm text-pretty text-stone-500 dark:text-stone-400">
+              <p>Scan with GPay, PhonePe, Paytm — any UPI app.</p>
               {vpa && (
-                <>
-                  {" "}
-                  or send to <span className="font-mono">{vpa}</span>
-                </>
+                <p className="mt-2">
+                  Or send directly to{" "}
+                  <span className="font-mono font-medium text-stone-900 dark:text-stone-100">
+                    {vpa}
+                  </span>
+                </p>
               )}
-            </p>
-          </>
+            </div>
+          </div>
         ) : (
-          <p className="text-sm opacity-70">
+          <p className="mt-3 text-sm text-stone-500 dark:text-stone-400">
             UPI payments are being set up — check back shortly.
           </p>
         )}
-      </div>
+      </section>
 
-      <div className="space-y-3">
-        <label className="block text-sm">
-          <span className="opacity-70">Your email (for confirmation + updates)</span>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-black/15 dark:border-white/15 bg-transparent px-4 py-2.5 outline-none focus:border-amber-500"
-          />
-        </label>
-        <label className="block text-sm">
-          <span className="opacity-70">
-            UPI transaction ID / UTR (shown in your payment app after paying)
-          </span>
-          <input
-            type="text"
-            required
-            value={utr}
-            onChange={(e) => setUtr(e.target.value)}
-            placeholder="e.g. 421912345678"
-            className="mt-1 w-full rounded-xl border border-black/15 dark:border-white/15 bg-transparent px-4 py-2.5 font-mono outline-none focus:border-amber-500"
-          />
-        </label>
-      </div>
+      <section className={`${card} p-6`}>
+        <Step n={3} title="Confirm your payment" />
+        <div className="mt-4 space-y-4">
+          <div>
+            <label htmlFor="buy-email" className={label}>
+              Email for confirmation
+            </label>
+            <input
+              id="buy-email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className={input}
+            />
+            <p className="mt-1.5 text-sm text-stone-500 dark:text-stone-400">
+              We'll confirm your tokens here, plus occasional LaunchBid updates.
+            </p>
+          </div>
+          <div>
+            <label htmlFor="buy-utr" className={label}>
+              UPI reference (UTR)
+            </label>
+            <input
+              id="buy-utr"
+              type="text"
+              required
+              value={utr}
+              onChange={(e) => setUtr(e.target.value)}
+              placeholder="e.g. 421912345678"
+              className={`${input} font-mono`}
+            />
+            <p className="mt-1.5 text-sm text-stone-500 dark:text-stone-400">
+              Shown in your UPI app right after paying — it's how we match your
+              payment.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <button
         type="submit"
         disabled={pending || !selected.qr}
-        className="w-full rounded-xl bg-amber-500 text-black py-2.5 font-semibold hover:bg-amber-400 disabled:opacity-50 transition-colors"
+        className={`${btnPrimary} w-full`}
       >
-        {pending ? "Submitting…" : `I've paid ₹${selected.inr} — credit ${selected.tokens} tokens`}
+        {pending
+          ? "Submitting…"
+          : `I've paid ₹${selected.inr} — credit ${selected.tokens} tokens`}
       </button>
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && (
+        <p className="rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-700 dark:text-red-300">
+          {error}
+        </p>
+      )}
     </form>
   );
 }

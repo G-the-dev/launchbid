@@ -14,31 +14,33 @@ function timeAgo(iso: string): string {
 export default function RecentBoosts({ boosts }: { boosts: BoostWithProfile[] }) {
   if (boosts.length === 0) {
     return (
-      <p className="text-sm opacity-60 text-center py-4">
-        No boosts yet — be the first to put tokens on it.
+      <p className="py-2 text-center text-sm text-stone-500 dark:text-stone-400">
+        No bids yet — the first one sets the price of this spot.
       </p>
     );
   }
 
   return (
     <section>
-      <h2 className="font-semibold mb-3">Recent boosts</h2>
-      <ul className="space-y-2 text-sm">
+      <h2 className="mb-3 text-xl font-semibold">Recent bids</h2>
+      <ul className="space-y-2">
         {boosts.map((boost) => (
           <li
             key={boost.id}
-            className="flex items-center justify-between rounded-xl border border-black/10 dark:border-white/10 px-4 py-2.5"
+            className="flex items-center justify-between rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm dark:border-white/10 dark:bg-stone-900"
           >
             <span className="truncate">
               <span className="font-medium">
-                {boost.profiles?.display_name ?? "Someone"}
+                {boost.profiles?.display_name ?? "A backer"}
               </span>{" "}
-              boosted{" "}
-              <span className="font-semibold text-amber-600 dark:text-amber-400">
+              bid{" "}
+              <span className="font-semibold tabular-nums">
                 {formatTokens(boost.amount)}
               </span>
             </span>
-            <span className="opacity-50 shrink-0 ml-3">{timeAgo(boost.created_at)}</span>
+            <span className="ml-3 shrink-0 text-stone-500 dark:text-stone-400">
+              {timeAgo(boost.created_at)}
+            </span>
           </li>
         ))}
       </ul>

@@ -1,15 +1,15 @@
 import SubmitForm from "@/components/SubmitForm";
+import { WELCOME_TOKENS } from "@/lib/tokens";
 
 export const dynamic = "force-dynamic";
 
 export default function SubmitPage() {
   return (
-    <div className="pt-12 max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold">Submit your product</h1>
-      <p className="text-sm opacity-70 mt-2 mb-8">
-        Paste your website URL — we&apos;ll pull the name and description, you
-        tweak it, then boost it onto the board. Your first listing earns a
-        25-token welcome bonus.
+    <div className="mx-auto max-w-lg pt-12">
+      <h1 className="text-2xl font-semibold">List your product</h1>
+      <p className="mt-1 mb-8 text-base text-pretty text-stone-500 dark:text-stone-400">
+        Paste your URL and we'll pull the name and description — you can edit
+        both. Your first listing earns {WELCOME_TOKENS} free tokens.
       </p>
       <SubmitForm />
     </div>

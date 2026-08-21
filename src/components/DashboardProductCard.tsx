@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { deleteProduct, updateProduct } from "@/app/actions/products";
 import type { Product } from "@/lib/types";
 import { formatTokens } from "@/lib/tokens";
+import { btnQuiet, card, input, label } from "@/lib/ui";
 import Favicon from "./Favicon";
 
 export default function DashboardProductCard({
@@ -36,7 +37,7 @@ export default function DashboardProductCard({
   };
 
   const remove = () => {
-    if (!window.confirm(`Delete "${product.name}"? Its boost history goes with it.`))
+    if (!window.confirm(`Delete "${product.name}"? Its bid history goes with it.`))
       return;
     startTransition(async () => {
       const result = await deleteProduct(product.id);
@@ -45,40 +46,36 @@ export default function DashboardProductCard({
     });
   };
 
-  const inputClass =
-    "w-full rounded-lg border border-black/15 dark:border-white/15 bg-transparent px-3 py-2 text-sm outline-none focus:border-amber-500";
-
   return (
-    <li className="rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-4">
-      <div className="flex items-center gap-3">
+    <li className={`${card} p-4`}>
+      <div className="flex items-center gap-4">
         <Favicon src={product.favicon_url} name={product.name} size={40} />
         <div className="min-w-0 flex-1">
-          <Link href={`/p/${product.slug}`} className="font-semibold hover:underline">
+          <Link
+            href={`/p/${product.slug}`}
+            className="text-base font-medium hover:underline"
+          >
             {product.name}
           </Link>
-          <p className="text-sm opacity-70">
-            #{rank} · {formatTokens(product.total_amount)} · {product.boost_count}{" "}
-            boost{product.boost_count === 1 ? "" : "s"} · {product.click_count}{" "}
+          <p className="text-sm tabular-nums text-stone-500 dark:text-stone-400">
+            #{rank} · {formatTokens(product.total_amount)} · {product.click_count}{" "}
             click{product.click_count === 1 ? "" : "s"}
           </p>
         </div>
-        <div className="flex items-center gap-2 text-sm shrink-0">
+        <div className="flex shrink-0 items-center gap-4">
           <Link
             href={`/p/${product.slug}#boost`}
-            className="rounded-full bg-amber-500 text-black font-medium px-3 py-1 hover:bg-amber-400 transition-colors"
+            className="rounded-lg bg-amber-500 px-3 py-1.5 text-sm font-semibold text-stone-950 transition-colors hover:bg-amber-400"
           >
             Boost
           </Link>
-          <button
-            onClick={() => setEditing((v) => !v)}
-            className="opacity-70 hover:opacity-100 underline"
-          >
+          <button onClick={() => setEditing((v) => !v)} className={btnQuiet}>
             {editing ? "Cancel" : "Edit"}
           </button>
           <button
             onClick={remove}
             disabled={pending}
-            className="text-red-500 opacity-70 hover:opacity-100 underline disabled:opacity-30"
+            className="text-sm font-medium text-red-600 transition-colors hover:text-red-700 disabled:opacity-50 dark:text-red-400"
           >
             Delete
           </button>
@@ -86,31 +83,47 @@ export default function DashboardProductCard({
       </div>
 
       {editing && (
-        <form onSubmit={save} className="mt-4 space-y-2">
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            maxLength={80}
-            required
-            className={inputClass}
-          />
-          <input
-            value={tagline}
-            onChange={(e) => setTagline(e.target.value)}
-            maxLength={140}
-            placeholder="Tagline"
-            className={inputClass}
-          />
+        <form onSubmit={save} className="mt-4 space-y-3 border-t border-stone-200 pt-4 dark:border-white/10">
+          <div>
+            <label htmlFor={`name-${product.id}`} className={label}>
+              Name
+            </label>
+            <input
+              id={`name-${product.id}`}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              maxLength={80}
+              required
+              className={`${input} text-sm`}
+            />
+          </div>
+          <div>
+            <label htmlFor={`tagline-${product.id}`} className={label}>
+              Tagline
+            </label>
+            <input
+              id={`tagline-${product.id}`}
+              value={tagline}
+              onChange={(e) => setTagline(e.target.value)}
+              maxLength={140}
+              placeholder="One line on why it's great"
+              className={`${input} text-sm`}
+            />
+          </div>
           <button
             type="submit"
             disabled={pending}
-            className="rounded-lg bg-foreground text-background text-sm font-medium px-4 py-2 disabled:opacity-50"
+            className="rounded-lg bg-stone-900 px-4 py-2 text-sm font-semibold text-stone-50 transition-colors hover:bg-stone-700 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900"
           >
-            {pending ? "Saving…" : "Save"}
+            {pending ? "Saving…" : "Save changes"}
           </button>
         </form>
       )}
-      {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
+      {error && (
+        <p className="mt-3 rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-700 dark:text-red-300">
+          {error}
+        </p>
+      )}
     </li>
   );
 }

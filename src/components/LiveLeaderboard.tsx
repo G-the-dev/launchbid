@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import type { Product } from "@/lib/types";
+import { btnPrimary } from "@/lib/ui";
 import LeaderboardRow from "./LeaderboardRow";
 
 export default function LiveLeaderboard({
@@ -35,7 +37,6 @@ export default function LiveLeaderboard({
       )
       .subscribe();
 
-    // Polling fallback in case realtime is unavailable
     const interval = setInterval(refetch, 25_000);
 
     return () => {
@@ -46,9 +47,15 @@ export default function LiveLeaderboard({
 
   if (products.length === 0) {
     return (
-      <div className="text-center py-16 border border-dashed border-black/20 dark:border-white/20 rounded-2xl opacity-70">
-        <p className="font-medium">The board is empty.</p>
-        <p className="text-sm mt-1">Submit your product and claim #1 for ₹10.</p>
+      <div className="rounded-xl border border-dashed border-stone-300 py-16 text-center dark:border-white/15">
+        <p className="text-base font-medium">The board is empty.</p>
+        <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-stone-500 dark:text-stone-400">
+          The first product listed takes #1 for just 5 tokens — and you get 25
+          free for listing.
+        </p>
+        <Link href="/submit" className={`${btnPrimary} mt-5`}>
+          Claim the top spot
+        </Link>
       </div>
     );
   }
