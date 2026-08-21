@@ -116,9 +116,10 @@ export default async function EarnPage() {
             </span>
           </div>
           <p className="mt-1 mb-4 text-sm text-pretty text-mcgray">
-            Putting your product on the board costs {LISTING_COST_TOKENS} ⚡.
-            One share quest covers it, with {SHARE_X_TOKENS - LISTING_COST_TOKENS} ⚡
-            left over for your first bids.
+            Putting your product on the board costs {LISTING_COST_TOKENS}{" "}
+            tokens. One share quest covers it, with{" "}
+            {SHARE_X_TOKENS - LISTING_COST_TOKENS} ⚡ left over for your first
+            bids.
           </p>
           <Link href="/#hero-url" className={btnSecondary}>
             List a product

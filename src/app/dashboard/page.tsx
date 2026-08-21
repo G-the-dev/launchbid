@@ -45,7 +45,7 @@ export default async function DashboardPage() {
         <div className="rounded-none border border-dashed border-mcdim py-16 text-center">
           <p className="text-base font-medium">Nothing spawned from this browser yet.</p>
           <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-mcgray">
-            Spawning costs 25 ⚡, and one verified X share earns 50. Start
+            Spawning costs 25 ⚡ and one verified X share earns 50. Start
             climbing the board.
           </p>
           <Link href="/#hero-url" className={`${btnPrimary} mt-5`}>

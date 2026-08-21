@@ -6,10 +6,10 @@ export const metadata = { title: "Server rules: LaunchBid" };
 const RULES = [
   "Your rank is your lifetime token total. Totals never reset, and being outbid is not a refund reason.",
   "Anyone can bid on any product at any time. Sinking down the board just means someone wanted your spot more.",
-  "Spawning a product costs 25 ⚡ and bids start at 5 ⚡. One verified X share earns 50 ⚡, which covers your spawn with change.",
+  "Spawning a product costs 25 ⚡ and bids start at 5 ⚡. One verified X share earns 50 ⚡, enough to spawn with 25 to spare.",
   "One listing per URL across the whole server. Resubmitting the same URL is blocked.",
   "Clicks are counted through go-links. Query strings are stripped, so affiliate and tracking URLs won't work here.",
-  "Earning caps: the share quest pays once per player and the post must actually mention LaunchBid, explore quests pay for up to 10 visits a day, and your own products never pay you.",
+  "Earning caps: the share quest pays once per player and the post must actually mention LaunchBid; explore quests pay for up to 10 visits a day; your own products never pay you.",
   "Token purchases are credited after UPI verification and confirmed to your email.",
   "No chat-invite links (Telegram, WhatsApp, Discord) and no adult content. Rule-breaking listings are removed without refund.",
 ];
