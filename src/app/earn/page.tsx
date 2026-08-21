@@ -122,7 +122,7 @@ export default async function EarnPage() {
             Your first listing comes with a welcome bonus, enough to place
             your first bids.
           </p>
-          <Link href="/submit" className={btnSecondary}>
+          <Link href="/#hero-url" className={btnSecondary}>
             List a product
           </Link>
         </section>

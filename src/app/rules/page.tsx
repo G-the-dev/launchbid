@@ -32,7 +32,7 @@ export default function RulesPage() {
         ))}
       </ol>
       <div className="mt-6 text-center">
-        <Link href="/submit" className={btnPrimary}>
+        <Link href="/#hero-url" className={btnPrimary}>
           Spawn your product
         </Link>
       </div>

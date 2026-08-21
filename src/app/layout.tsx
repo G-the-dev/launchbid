@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import Header from "@/components/Header";
 import SessionBootstrap from "@/components/SessionBootstrap";
 import "./globals.css";
@@ -10,6 +11,8 @@ const minecraft = localFont({
   variable: "--font-minecraft",
 });
 
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+
 export const metadata: Metadata = {
   title: "LaunchBid: bid your product to #1",
   description:
@@ -18,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${minecraft.variable} h-full antialiased`}>
+    <html lang="en" className={`${minecraft.variable} ${inter.variable} h-full antialiased`}>
       <body className="flex min-h-dvh flex-col">
         {/* The overworld, dimmed behind everything */}
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">

@@ -38,7 +38,7 @@ export default async function DashboardPage() {
       <div className="mb-6 flex items-baseline justify-between">
         <h1 className="pixel-text text-2xl uppercase">My products</h1>
         {products.length > 0 && (
-          <Link href="/submit" className="text-sm font-medium underline">
+          <Link href="/#hero-url" className="text-sm font-medium underline">
             List another
           </Link>
         )}
@@ -51,7 +51,7 @@ export default async function DashboardPage() {
             List your product to start climbing the board. It comes with 25
             free tokens.
           </p>
-          <Link href="/submit" className={`${btnPrimary} mt-5`}>
+          <Link href="/#hero-url" className={`${btnPrimary} mt-5`}>
             List your product
           </Link>
         </div>

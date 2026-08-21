@@ -121,7 +121,7 @@ export default function LiveLeaderboard({
           The first product spawned takes #1 for just 5 tokens, and spawning
           itself earns you 25.
         </p>
-        <Link href="/submit" className={`${btnPrimary} mt-5`}>
+        <Link href="/#hero-url" className={`${btnPrimary} mt-5`}>
           Claim the top spot
         </Link>
       </div>
