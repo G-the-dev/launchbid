@@ -110,19 +110,15 @@ export default async function EarnPage() {
 
         <section className={`${card} p-6`}>
           <div className="flex items-baseline justify-between gap-3">
-            <h2 className="text-base font-semibold">Spawn a product</h2>
-            <span className="shrink-0 text-sm font-semibold tabular-nums text-mcgray">
-              -{LISTING_COST_TOKENS} ⚡
-            </span>
+            <h2 className="text-base font-semibold">Ready to spawn?</h2>
           </div>
           <p className="mt-1 mb-4 text-sm text-pretty text-mcgray">
-            Putting your product on the board costs {LISTING_COST_TOKENS}{" "}
-            tokens. One share quest covers it, with{" "}
-            {SHARE_X_TOKENS - LISTING_COST_TOKENS} ⚡ left over for your first
-            bids.
+            Spawning onto the board costs {LISTING_COST_TOKENS} tokens. One
+            share quest covers it, and leaves{" "}
+            {SHARE_X_TOKENS - LISTING_COST_TOKENS} ⚡ for your first bids.
           </p>
           <Link href="/#hero-url" className={btnSecondary}>
-            List a product
+            Spawn a product
           </Link>
         </section>
 
