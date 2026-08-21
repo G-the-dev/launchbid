@@ -9,7 +9,7 @@ import {
   MIN_BOOST_TOKENS,
   formatTokens,
 } from "@/lib/tokens";
-import { btnPrimary } from "@/lib/ui";
+import { btnPrimary, card } from "@/lib/ui";
 
 export default function BoostPanel({
   productId,
@@ -37,7 +37,7 @@ export default function BoostPanel({
       } else {
         setMessage({
           ok: true,
-          text: `Boost landed — the board just re-ranked. You have ${formatTokens(result.balance ?? 0)} left.`,
+          text: `Bid landed — the board just re-ranked. You have ${formatTokens(result.balance ?? 0)} left.`,
         });
         router.refresh();
       }
@@ -45,22 +45,21 @@ export default function BoostPanel({
   };
 
   return (
-    <section
-      id="boost"
-      className="rounded-xl border border-stone-200 bg-white p-6 dark:border-white/10 dark:bg-stone-900"
-    >
+    <section id="boost" className={`${card} p-6`}>
       <div className="flex items-baseline justify-between gap-3">
         <h2 className="text-xl font-semibold">Boost this product</h2>
-        <span className="text-sm tabular-nums text-stone-500 dark:text-stone-400">
+        <span className="text-sm tabular-nums text-zinc-400">
           Your balance: {formatTokens(balance)}
         </span>
       </div>
-      <p className="mt-1 text-sm text-pretty text-stone-500 dark:text-stone-400">
+      <p className="mt-1 text-sm text-pretty text-zinc-400">
         Every token you bid adds to its lifetime total — that total is its rank.
       </p>
 
       <fieldset className="mt-5">
-        <legend className="mb-1.5 block text-sm font-medium">Amount</legend>
+        <legend className="mb-1.5 block text-sm font-medium text-zinc-200">
+          Amount
+        </legend>
         <div className="flex flex-wrap items-center gap-2">
           {BOOST_PRESETS_TOKENS.map((preset) => (
             <button
@@ -73,8 +72,8 @@ export default function BoostPanel({
               }}
               className={`rounded-lg border px-4 py-2.5 text-sm font-medium tabular-nums transition-colors ${
                 !custom && selected === preset
-                  ? "border-amber-500 bg-amber-500/10"
-                  : "border-stone-300 hover:border-stone-400 dark:border-white/15 dark:hover:border-white/30"
+                  ? "border-amber-500 bg-amber-500/10 text-amber-300"
+                  : "border-zinc-700 hover:border-zinc-500"
               }`}
             >
               {formatTokens(preset)}
@@ -87,7 +86,7 @@ export default function BoostPanel({
             onChange={(e) => setCustom(e.target.value)}
             placeholder="Custom"
             aria-label="Custom token amount"
-            className="w-28 rounded-lg border border-stone-300 bg-transparent px-3.5 py-2.5 text-sm tabular-nums outline-none transition-colors placeholder:text-stone-400 focus:border-amber-500 dark:border-white/15"
+            className="w-28 rounded-lg border border-zinc-700 bg-transparent px-3.5 py-2.5 text-sm tabular-nums outline-none transition-colors placeholder:text-zinc-500 focus:border-amber-500"
           />
         </div>
       </fieldset>
@@ -106,13 +105,13 @@ export default function BoostPanel({
       </button>
 
       {amountValid && !affordable && (
-        <p className="mt-3 text-sm text-pretty">
+        <p className="mt-3 text-sm text-pretty text-zinc-300">
           You need {formatTokens(amount - balance)} more.{" "}
-          <Link href="/earn" className="font-medium underline">
+          <Link href="/earn" className="font-medium text-amber-400 underline">
             Earn them free
           </Link>{" "}
           or{" "}
-          <Link href="/tokens" className="font-medium underline">
+          <Link href="/tokens" className="font-medium text-amber-400 underline">
             buy a pack with UPI
           </Link>
           .
@@ -123,8 +122,8 @@ export default function BoostPanel({
           role="status"
           className={`mt-3 rounded-lg px-4 py-2.5 text-sm ${
             message.ok
-              ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
-              : "bg-red-500/10 text-red-700 dark:text-red-300"
+              ? "bg-emerald-500/10 text-emerald-300"
+              : "bg-red-500/10 text-red-300"
           }`}
         >
           {message.text}

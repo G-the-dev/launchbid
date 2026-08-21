@@ -58,7 +58,7 @@ export default function SubmitForm() {
           {pending ? "Reading your site…" : "Continue"}
         </button>
         {error && (
-          <p className="mt-3 rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-700 dark:text-red-300">
+          <p className="mt-3 rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
             {error}
           </p>
         )}
@@ -70,7 +70,7 @@ export default function SubmitForm() {
     <form onSubmit={submit} className="space-y-4">
       <div className={`${card} flex items-center gap-3 px-4 py-3`}>
         <Favicon src={meta.faviconUrl} name={meta.name} size={40} />
-        <span className="min-w-0 flex-1 truncate text-sm text-stone-500 dark:text-stone-400">
+        <span className="min-w-0 flex-1 truncate text-sm text-zinc-400">
           {meta.url}
         </span>
         <button
@@ -110,7 +110,7 @@ export default function SubmitForm() {
           placeholder="One line on why it's great"
           className={input}
         />
-        <p className="mt-1.5 text-sm text-stone-500 dark:text-stone-400">
+        <p className="mt-1.5 text-sm text-zinc-400">
           This is what the board shows under your name — make it count.
         </p>
       </div>
@@ -119,7 +119,7 @@ export default function SubmitForm() {
         {pending ? "Listing…" : "List it on the board"}
       </button>
       {error && (
-        <p className="rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-700 dark:text-red-300">
+        <p className="rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
           {error}
         </p>
       )}

@@ -44,9 +44,9 @@ export default async function DashboardPage() {
       </div>
 
       {products.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-stone-300 py-16 text-center dark:border-white/15">
+        <div className="rounded-xl border border-dashed border-zinc-700 py-16 text-center">
           <p className="text-base font-medium">Nothing listed from this browser yet.</p>
-          <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-stone-500 dark:text-stone-400">
+          <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-zinc-400">
             List your product to start climbing the board — it comes with 25
             free tokens.
           </p>

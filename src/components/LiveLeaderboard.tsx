@@ -47,9 +47,9 @@ export default function LiveLeaderboard({
 
   if (products.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-stone-300 py-16 text-center dark:border-white/15">
+      <div className="rounded-xl border border-dashed border-zinc-700 py-16 text-center">
         <p className="text-base font-medium">The board is empty.</p>
-        <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-stone-500 dark:text-stone-400">
+        <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-zinc-400">
           The first product listed takes #1 for just 5 tokens — and you get 25
           free for listing.
         </p>
@@ -61,7 +61,7 @@ export default function LiveLeaderboard({
   }
 
   return (
-    <ol className="space-y-2">
+    <ol className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
       {products.map((product, i) => (
         <LeaderboardRow key={product.id} product={product} rank={i + 1} />
       ))}

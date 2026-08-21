@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import LiveLeaderboard from "@/components/LiveLeaderboard";
-import { formatTokens } from "@/lib/tokens";
-import { btnPrimary } from "@/lib/ui";
+import { SHARE_X_TOKENS, VISIT_TOKENS, formatTokens } from "@/lib/tokens";
+import { btnPrimary, card } from "@/lib/ui";
 import type { Product } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -25,44 +25,80 @@ export default async function Home() {
   const products = (data ?? []) as Product[];
   const totalBid = products.reduce((sum, p) => sum + Number(p.total_amount), 0);
 
+  const ways = [
+    {
+      title: "Share & earn",
+      desc: `Post LaunchBid on X, claim +${SHARE_X_TOKENS} ⚡`,
+      href: "/earn",
+    },
+    {
+      title: "Explore & earn",
+      desc: `+${VISIT_TOKENS} ⚡ for every product you visit`,
+      href: "/earn",
+    },
+    {
+      title: "Refill anytime",
+      desc: "UPI packs from ₹49 — scan and pay",
+      href: "/tokens",
+    },
+  ];
+
   return (
-    <div className="pt-12">
+    <div className="pt-14">
       <section className="text-center">
         <h1 className="text-4xl font-semibold text-balance">
-          The top 10 spots on this board are for sale
+          The top 10 spots on this board
+          <br className="hidden sm:block" /> are{" "}
+          <span className="text-amber-400">for sale</span>
         </h1>
-        <p className="mx-auto mt-4 max-w-md text-base text-pretty text-stone-500 dark:text-stone-400">
-          No upvotes, no algorithm. Products rank by tokens bid on them —
-          earn tokens free or buy them with UPI, then outbid the board.
+        <p className="mx-auto mt-4 max-w-md text-base text-pretty text-zinc-400">
+          No upvotes, no algorithm. Products rank by tokens bid on them — stack
+          tokens free or refill with UPI, then outbid the board.
         </p>
-        <div className="mt-6 flex items-center justify-center gap-4">
+        <div className="mt-7">
           <Link href="/submit" className={btnPrimary}>
             List your product — 25 tokens free
           </Link>
         </div>
       </section>
 
-      <dl className="mx-auto mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-xl border border-stone-200 bg-stone-200 text-center dark:border-white/10 dark:bg-white/10">
+      <div className="mx-auto mt-12 grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-xl border border-zinc-800 bg-zinc-800 text-center">
         {[
           { k: "Tokens bid", v: formatTokens(totalBid) },
           { k: "Products", v: String(productCount ?? products.length) },
           { k: "Boosts placed", v: String(boostCount ?? 0) },
         ].map(({ k, v }) => (
-          <div key={k} className="bg-background px-2 py-3">
-            <dd className="text-base font-semibold tabular-nums">{v}</dd>
-            <dt className="mt-0.5 text-sm text-stone-500 dark:text-stone-400">{k}</dt>
+          <div key={k} className="bg-zinc-900 px-2 py-3.5">
+            <div className="text-base font-semibold tabular-nums">{v}</div>
+            <div className="mt-0.5 text-sm text-zinc-400">{k}</div>
           </div>
         ))}
-      </dl>
+      </div>
 
-      <section className="mt-12">
+      <section className="mt-14">
         <div className="mb-4 flex items-baseline justify-between">
           <h2 className="text-xl font-semibold">The board</h2>
-          <p className="text-sm text-stone-500 dark:text-stone-400">
-            Updates live · visit a product, earn 2 ⚡
-          </p>
+          <p className="text-sm text-zinc-400">Re-ranks live with every bid</p>
         </div>
         <LiveLeaderboard initialProducts={products} />
+      </section>
+
+      <section className="mt-14">
+        <h2 className="mb-4 text-xl font-semibold">Stack tokens, take spots</h2>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {ways.map((way) => (
+            <Link
+              key={way.title}
+              href={way.href}
+              className={`${card} group p-5 transition-colors hover:border-amber-500/50`}
+            >
+              <h3 className="text-base font-semibold group-hover:text-amber-400">
+                {way.title}
+              </h3>
+              <p className="mt-1 text-sm text-pretty text-zinc-400">{way.desc}</p>
+            </Link>
+          ))}
+        </div>
       </section>
     </div>
   );

@@ -40,13 +40,13 @@ export default function ShareClaimForm() {
         <button
           type="submit"
           disabled={pending}
-          className="shrink-0 rounded-lg bg-stone-900 px-4 py-2.5 text-sm font-semibold text-stone-50 transition-colors hover:bg-stone-700 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+          className="shrink-0 rounded-lg bg-zinc-50 px-4 py-2.5 text-sm font-semibold text-zinc-950 transition-colors hover:bg-white disabled:opacity-50"
         >
           {pending ? "Checking…" : `Claim ${SHARE_X_TOKENS} ⚡`}
         </button>
       </div>
       {error && (
-        <p className="mt-2 text-sm text-red-700 dark:text-red-300">{error}</p>
+        <p className="mt-2 text-sm text-red-300">{error}</p>
       )}
     </form>
   );

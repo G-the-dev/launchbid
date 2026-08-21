@@ -9,7 +9,7 @@ type Pack = { inr: number; tokens: number; qr: string | null };
 function Step({ n, title }: { n: number; title: string }) {
   return (
     <h2 className="flex items-center gap-2.5 text-base font-semibold">
-      <span className="flex size-6 items-center justify-center rounded-full bg-stone-900 text-xs font-semibold text-stone-50 dark:bg-stone-100 dark:text-stone-900">
+      <span className="flex size-6 items-center justify-center rounded-full bg-zinc-100 text-xs font-semibold text-zinc-900">
         {n}
       </span>
       {title}
@@ -49,7 +49,7 @@ export default function BuyTokensForm({
 
   if (status === "sent") {
     return (
-      <div className="rounded-xl bg-emerald-500/10 p-6 text-emerald-800 dark:text-emerald-300">
+      <div className="rounded-xl bg-emerald-500/10 p-6 text-emerald-300">
         <p className="text-base font-semibold">Payment submitted</p>
         <p className="mt-1 text-sm text-pretty">
           We're matching your ₹{selected.inr} payment now. Your{" "}
@@ -75,13 +75,13 @@ export default function BuyTokensForm({
               className={`rounded-lg border px-4 py-3 text-left transition-colors ${
                 selected.inr === pack.inr
                   ? "border-amber-500 bg-amber-500/10"
-                  : "border-stone-300 hover:border-stone-400 dark:border-white/15 dark:hover:border-white/30"
+                  : "border-zinc-700 hover:border-zinc-500"
               }`}
             >
               <span className="block text-base font-semibold tabular-nums">
                 ₹{pack.inr}
               </span>
-              <span className="block text-sm tabular-nums text-stone-500 dark:text-stone-400">
+              <span className="block text-sm tabular-nums text-zinc-400">
                 {pack.tokens} tokens
               </span>
             </button>
@@ -99,14 +99,14 @@ export default function BuyTokensForm({
               alt={`UPI QR code for ₹${selected.inr}`}
               width={144}
               height={144}
-              className="shrink-0 rounded-lg bg-white p-2 ring-1 ring-stone-200"
+              className="shrink-0 rounded-lg bg-white p-2 ring-1 ring-zinc-300"
             />
-            <div className="text-sm text-pretty text-stone-500 dark:text-stone-400">
+            <div className="text-sm text-pretty text-zinc-400">
               <p>Scan with GPay, PhonePe, Paytm — any UPI app.</p>
               {vpa && (
                 <p className="mt-2">
                   Or send directly to{" "}
-                  <span className="font-mono font-medium text-stone-900 dark:text-stone-100">
+                  <span className="font-mono font-medium text-zinc-100">
                     {vpa}
                   </span>
                 </p>
@@ -114,7 +114,7 @@ export default function BuyTokensForm({
             </div>
           </div>
         ) : (
-          <p className="mt-3 text-sm text-stone-500 dark:text-stone-400">
+          <p className="mt-3 text-sm text-zinc-400">
             UPI payments are being set up — check back shortly.
           </p>
         )}
@@ -136,7 +136,7 @@ export default function BuyTokensForm({
               placeholder="you@example.com"
               className={input}
             />
-            <p className="mt-1.5 text-sm text-stone-500 dark:text-stone-400">
+            <p className="mt-1.5 text-sm text-zinc-400">
               We'll confirm your tokens here, plus occasional LaunchBid updates.
             </p>
           </div>
@@ -153,7 +153,7 @@ export default function BuyTokensForm({
               placeholder="e.g. 421912345678"
               className={`${input} font-mono`}
             />
-            <p className="mt-1.5 text-sm text-stone-500 dark:text-stone-400">
+            <p className="mt-1.5 text-sm text-zinc-400">
               Shown in your UPI app right after paying — it's how we match your
               payment.
             </p>
@@ -171,7 +171,7 @@ export default function BuyTokensForm({
           : `I've paid ₹${selected.inr} — credit ${selected.tokens} tokens`}
       </button>
       {error && (
-        <p className="rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-700 dark:text-red-300">
+        <p className="rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
           {error}
         </p>
       )}
