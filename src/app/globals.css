@@ -120,3 +120,22 @@ body {
 .pixelated {
   image-rendering: pixelated;
 }
+
+/* Motion: compositor-only, and only for people who want it */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-up {
+    animation: fadeUp 350ms ease-out both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+  .crown-float {
+    display: inline-block;
+    animation: crownFloat 2.2s ease-in-out infinite;
+  }
+  @keyframes crownFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+}

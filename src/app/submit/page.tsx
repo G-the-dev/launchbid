@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { getBalance } from "@/lib/data";
 import SubmitForm from "@/components/SubmitForm";
 import { LISTING_COST_TOKENS, SHARE_X_TOKENS } from "@/lib/tokens";
 
@@ -11,21 +11,7 @@ export default async function SubmitPage({
 }) {
   const { url } = await searchParams;
 
-  const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
-
-  let balance = 0;
-  if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("token_balance")
-      .eq("id", user.id)
-      .single();
-    balance = Number(profile?.token_balance ?? 0);
-  }
+  const balance = await getBalance();
 
   return (
     <div className="mx-auto max-w-lg pt-12">

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { getServerClient, getSessionUser } from "@/lib/data";
 import type { Product } from "@/lib/types";
 import { btnPrimary } from "@/lib/ui";
 import DashboardProductCard from "@/components/DashboardProductCard";
@@ -7,11 +7,8 @@ import DashboardProductCard from "@/components/DashboardProductCard";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
+  const supabase = await getServerClient();
+  const user = await getSessionUser();
 
   let products: Product[] = [];
   if (user) {

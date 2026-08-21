@@ -32,7 +32,7 @@ function PodiumCard({
       }`}
     >
       {center && (
-        <span aria-hidden className="pixel-text -mt-1 mb-1 text-xl">
+        <span aria-hidden className="crown-float pixel-text -mt-1 mb-1 text-xl">
           👑
         </span>
       )}

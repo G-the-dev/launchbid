@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getBalance } from "@/lib/data";
 import type { BoostWithProfile, Product } from "@/lib/types";
 import { formatTokens } from "@/lib/tokens";
 import Favicon from "@/components/Favicon";
@@ -24,7 +25,7 @@ export default async function ProductPage({
   if (!data) notFound();
   const product = data as Product;
 
-  const [{ count }, { data: boostsData }, { data: auth }] = await Promise.all([
+  const [{ count }, { data: boostsData }, balance] = await Promise.all([
     supabase
       .from("products")
       .select("*", { count: "exact", head: true })
@@ -35,19 +36,8 @@ export default async function ProductPage({
       .eq("product_id", product.id)
       .order("created_at", { ascending: false })
       .limit(10),
-    supabase.auth.getSession(),
+    getBalance(),
   ]);
-
-  let balance = 0;
-  const authUser = auth.session?.user ?? null;
-  if (authUser) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("token_balance")
-      .eq("id", authUser.id)
-      .single();
-    balance = Number(profile?.token_balance ?? 0);
-  }
 
   const rank = (count ?? 0) + 1;
   const boosts = (boostsData ?? []) as unknown as BoostWithProfile[];

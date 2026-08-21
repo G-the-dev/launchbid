@@ -30,13 +30,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             src="/bg-world.png"
             alt=""
             className="pixelated size-full object-cover opacity-25"
+            fetchPriority="low"
+            decoding="async"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
         </div>
 
         <SessionBootstrap />
         <Header />
-        <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-24">
+        <main className="fade-up mx-auto w-full max-w-3xl flex-1 px-4 pb-24">
           {children}
         </main>
 

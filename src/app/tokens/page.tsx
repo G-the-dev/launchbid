@@ -1,38 +1,27 @@
 import QRCode from "qrcode";
-import { createClient } from "@/lib/supabase/server";
+import { getBalance } from "@/lib/data";
 import { TOKEN_PACKS, formatTokens, upiPayUri } from "@/lib/tokens";
 import BuyTokensForm from "@/components/BuyTokensForm";
+
+// QRs are static per (vpa, amount): render once per server instance, then reuse.
+const qrCache = new Map<string, string>();
+async function packQr(vpa: string, inr: number): Promise<string | null> {
+  if (!vpa) return null;
+  const key = `${vpa}:${inr}`;
+  if (!qrCache.has(key)) {
+    qrCache.set(key, await QRCode.toDataURL(upiPayUri(vpa, inr), { margin: 1, width: 240 }));
+  }
+  return qrCache.get(key)!;
+}
 
 export const dynamic = "force-dynamic";
 
 export default async function TokensPage() {
-  const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
-
-  let balance = 0;
-  if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("token_balance")
-      .eq("id", user.id)
-      .single();
-    balance = Number(profile?.token_balance ?? 0);
-  }
+  const balance = await getBalance();
 
   const vpa = process.env.NEXT_PUBLIC_UPI_VPA ?? "";
   const packs = await Promise.all(
-    TOKEN_PACKS.map(async (pack) => ({
-      ...pack,
-      qr: vpa
-        ? await QRCode.toDataURL(upiPayUri(vpa, pack.inr), {
-            margin: 1,
-            width: 240,
-          })
-        : null,
-    }))
+    TOKEN_PACKS.map(async (pack) => ({ ...pack, qr: await packQr(vpa, pack.inr) }))
   );
 
   return (
@@ -48,7 +37,7 @@ export default async function TokensPage() {
         Tokens land after we match your payment, confirmed by email.
       </p>
 
-      <BuyTokensForm packs={packs} vpa={vpa} defaultEmail={user?.email ?? ""} />
+      <BuyTokensForm packs={packs} vpa={vpa} defaultEmail="" />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { getBalance, getServerClient, getSessionUser } from "@/lib/data";
 import {
   LISTING_COST_TOKENS,
   SHARE_X_TOKENS,
@@ -22,25 +22,21 @@ const KIND_LABELS: Record<TokenEvent["kind"], string> = {
 };
 
 export default async function EarnPage() {
-  const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
-
+  const user = await getSessionUser();
   let balance = 0;
   let events: TokenEvent[] = [];
   let shareClaimed = false;
   if (user) {
-    const [{ data: profile }, { data: eventsData }] = await Promise.all([
-      supabase.from("profiles").select("token_balance").eq("id", user.id).single(),
+    const supabase = await getServerClient();
+    const [bal, { data: eventsData }] = await Promise.all([
+      getBalance(),
       supabase
         .from("token_events")
         .select("id, delta, kind, created_at")
         .order("created_at", { ascending: false })
         .limit(15),
     ]);
-    balance = Number(profile?.token_balance ?? 0);
+    balance = bal;
     events = (eventsData ?? []) as TokenEvent[];
     shareClaimed = events.some((e) => e.kind === "share_x");
   }

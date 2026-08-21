@@ -1,25 +1,11 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { getBalance } from "@/lib/data";
 import { formatTokens } from "@/lib/tokens";
 import { btnQuiet } from "@/lib/ui";
 import { Logo } from "./Logo";
 
 export default async function Header() {
-  const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const user = session?.user ?? null;
-
-  let balance = 0;
-  if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("token_balance")
-      .eq("id", user.id)
-      .single();
-    balance = Number(profile?.token_balance ?? 0);
-  }
+  const balance = await getBalance();
 
   return (
     <header className="sticky top-0 z-40 border-b-2 border-black bg-background/90 backdrop-blur">

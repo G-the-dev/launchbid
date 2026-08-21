@@ -1,0 +1,10 @@
+import { readFileSync } from "fs";
+import { createClient } from "@supabase/supabase-js";
+const env = Object.fromEntries(readFileSync(new URL("../.env.local", import.meta.url), "utf8").split(/\r?\n/).filter((l)=>l.includes("=")&&!l.startsWith("#")).map((l)=>[l.slice(0,l.indexOf("=")),l.slice(l.indexOf("=")+1)]));
+const admin = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
+const before = (await admin.from("products").select("click_count").eq("slug","pagehaul").single()).data.click_count;
+const res = await fetch("https://launchbid.vercel.app/go/pagehaul", { redirect: "manual" });
+const loc = res.headers.get("location");
+await new Promise(r => setTimeout(r, 1500));
+const after = (await admin.from("products").select("click_count").eq("slug","pagehaul").single()).data.click_count;
+console.log(`redirect ${res.status} -> ${loc}; clicks ${before} -> ${after} ${after > before ? "PASS" : "FAIL"}`);
