@@ -83,8 +83,8 @@ export default async function Home({
             Spawn my product
           </button>
         </form>
-        <p className="pixel-text mt-3 text-sm text-gold">
-          Spawning costs 25 ⚡ and one X share earns 50, instantly. No sign-up.
+        <p className="mt-3 text-sm font-medium text-gold">
+          Spawning takes 25 ⚡. One X share earns you 50, instantly. No sign-up.
         </p>
       </section>
 
