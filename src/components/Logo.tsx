@@ -27,9 +27,10 @@ export function LogoMark({ size = 26 }: { size?: number }) {
 
 export function Logo() {
   return (
-    <span className="inline-flex items-center gap-2.5">
+    <span className="inline-flex items-center gap-2">
       <LogoMark />
-      <span className="pixel-text text-lg">
+      {/* The Minecraft font carries extra descent space; nudge to optical center */}
+      <span className="pixel-text text-lg leading-none translate-y-[2px]">
         Launch<span className="text-gold">Bid</span>
       </span>
     </span>
