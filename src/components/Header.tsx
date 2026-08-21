@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatTokens } from "@/lib/tokens";
-import { btnQuiet, btnSolid } from "@/lib/ui";
+import { btnQuiet } from "@/lib/ui";
 import { Logo } from "./Logo";
 
 export default async function Header() {
@@ -22,14 +22,14 @@ export default async function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b-2 border-black bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between gap-4 px-4">
         <Link href="/">
           <Logo />
         </Link>
         <nav className="flex items-center gap-4">
           <Link href="/earn" className={btnQuiet}>
-            Earn
+            Quests
           </Link>
           <Link href="/dashboard" className={btnQuiet}>
             My products
@@ -37,10 +37,10 @@ export default async function Header() {
           <Link
             href="/tokens"
             title="Your token balance: top up with UPI"
-            className={`${btnSolid} tabular-nums`}
+            className="mc-btn mc-btn-grass px-3.5 py-1.5 text-sm tabular-nums"
           >
             {formatTokens(balance)}
-            <span aria-hidden className="text-zinc-400">·</span>
+            <span aria-hidden className="opacity-60">·</span>
             Top up
           </Link>
         </nav>

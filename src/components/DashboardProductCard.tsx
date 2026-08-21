@@ -57,7 +57,7 @@ export default function DashboardProductCard({
           >
             {product.name}
           </Link>
-          <p className="text-sm tabular-nums text-zinc-400">
+          <p className="text-sm tabular-nums text-mcgray">
             #{rank} · {formatTokens(product.total_amount)} · {product.click_count}{" "}
             click{product.click_count === 1 ? "" : "s"}
           </p>
@@ -65,7 +65,7 @@ export default function DashboardProductCard({
         <div className="flex shrink-0 items-center gap-4">
           <Link
             href={`/p/${product.slug}#boost`}
-            className="rounded-lg bg-zinc-50 px-3 py-1.5 text-sm font-semibold text-zinc-950 transition-colors hover:bg-white"
+            className="mc-btn px-3 py-1.5 text-sm"
           >
             Boost
           </Link>
@@ -83,7 +83,7 @@ export default function DashboardProductCard({
       </div>
 
       {editing && (
-        <form onSubmit={save} className="mt-4 space-y-3 border-t border-zinc-800 pt-4">
+        <form onSubmit={save} className="mt-4 space-y-3 border-t border-black/70 pt-4">
           <div>
             <label htmlFor={`name-${product.id}`} className={label}>
               Name
@@ -113,14 +113,14 @@ export default function DashboardProductCard({
           <button
             type="submit"
             disabled={pending}
-            className="rounded-lg bg-zinc-50 px-4 py-2 text-sm font-semibold text-zinc-950 transition-colors hover:bg-white disabled:opacity-50"
+            className="rounded-none mc-btn px-4 py-2 text-sm"
           >
             {pending ? "Saving…" : "Save changes"}
           </button>
         </form>
       )}
       {error && (
-        <p className="mt-3 rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
+        <p className="mt-3 rounded-none bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
           {error}
         </p>
       )}

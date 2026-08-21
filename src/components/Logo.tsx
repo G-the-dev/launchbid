@@ -1,17 +1,26 @@
-// LaunchBid mark: three ascending bars, a leaderboard being climbed.
-export function LogoMark({ size = 28 }: { size?: number }) {
+// LaunchBid mark: a grass block, pixel by pixel.
+export function LogoMark({ size = 26 }: { size?: number }) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 64 64"
+      viewBox="0 0 16 16"
       aria-hidden
-      className="shrink-0"
+      className="pixelated shrink-0"
+      shapeRendering="crispEdges"
     >
-      <rect width="64" height="64" rx="14" fill="#fafafa" />
-      <rect x="14" y="36" width="9" height="14" rx="2" fill="#09090b" />
-      <rect x="27.5" y="26" width="9" height="24" rx="2" fill="#09090b" />
-      <rect x="41" y="14" width="9" height="36" rx="2" fill="#09090b" />
+      <rect width="16" height="16" fill="#79553a" />
+      <rect x="2" y="7" width="2" height="2" fill="#5e4127" />
+      <rect x="7" y="10" width="2" height="2" fill="#5e4127" />
+      <rect x="12" y="8" width="2" height="2" fill="#8a6142" />
+      <rect x="4" y="13" width="2" height="2" fill="#8a6142" />
+      <rect width="16" height="5" fill="#5bba3a" />
+      <rect x="0" y="4" width="2" height="2" fill="#5bba3a" />
+      <rect x="6" y="4" width="3" height="2" fill="#5bba3a" />
+      <rect x="12" y="4" width="2" height="2" fill="#5bba3a" />
+      <rect x="2" y="1" width="2" height="2" fill="#4a9e2d" />
+      <rect x="9" y="2" width="3" height="1" fill="#4a9e2d" />
+      <rect x="13" y="0" width="2" height="2" fill="#6fd14b" />
     </svg>
   );
 }
@@ -20,8 +29,8 @@ export function Logo() {
   return (
     <span className="inline-flex items-center gap-2.5">
       <LogoMark />
-      <span className="text-lg font-semibold">
-        Launch<span className="text-zinc-400">Bid</span>
+      <span className="pixel-text text-lg">
+        Launch<span className="text-gold">Bid</span>
       </span>
     </span>
   );

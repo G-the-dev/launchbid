@@ -82,7 +82,7 @@ export default async function ProductPage({
             </a>
           </h1>
           {product.tagline && (
-            <p className="mt-1 text-base text-pretty text-zinc-400">
+            <p className="mt-1 text-base text-pretty text-mcgray">
               {product.tagline}
             </p>
           )}
@@ -90,7 +90,7 @@ export default async function ProductPage({
             href={`/go/${product.slug}`}
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="mt-1 inline-block text-sm font-medium text-zinc-400 hover:text-zinc-100 hover:underline"
+            className="mt-1 inline-block text-sm font-medium text-mcgray hover:text-white hover:underline"
             title="Visit: you earn 2 tokens"
           >
             {host} ↗
@@ -98,11 +98,11 @@ export default async function ProductPage({
         </div>
       </section>
 
-      <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-zinc-800 bg-zinc-800 text-center sm:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-none border border-black/70 bg-[#2a2a30] text-center sm:grid-cols-4">
         {stats.map(({ k, v }) => (
-          <div key={k} className="bg-zinc-900 px-2 py-3.5">
+          <div key={k} className="bg-[#101013] px-2 py-3.5">
             <dd className="text-base font-semibold tabular-nums">{v}</dd>
-            <dt className="mt-0.5 text-sm text-zinc-400">{k}</dt>
+            <dt className="mt-0.5 text-sm text-mcgray">{k}</dt>
           </div>
         ))}
       </dl>

@@ -1,25 +1,33 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import HeroShader from "@/components/HeroShader";
 import LiveLeaderboard from "@/components/LiveLeaderboard";
+import Pagination from "@/components/Pagination";
 import { SHARE_X_TOKENS, VISIT_TOKENS, formatTokens } from "@/lib/tokens";
 import { btnPrimary, card } from "@/lib/ui";
 import type { Product } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
-export default async function Home() {
-  const supabase = await createClient();
+const PAGE_SIZE = 10;
 
-  const [{ data }, { count: productCount }, { count: boostCount }] =
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const { page: rawPage } = await searchParams;
+  const page = Math.max(1, Math.floor(Number(rawPage) || 1));
+  const offset = (page - 1) * PAGE_SIZE;
+
+  const supabase = await createClient();
+  const [{ data, count: productCount }, { count: boostCount }] =
     await Promise.all([
       supabase
         .from("products")
-        .select("*")
+        .select("*", { count: "exact" })
         .order("total_amount", { ascending: false })
         .order("created_at", { ascending: true })
-        .limit(10),
-      supabase.from("products").select("*", { count: "exact", head: true }),
+        .range(offset, offset + PAGE_SIZE - 1),
       supabase.from("boosts").select("*", { count: "exact", head: true }),
     ]);
 
@@ -28,38 +36,31 @@ export default async function Home() {
 
   const ways = [
     {
-      title: "Share & earn",
+      title: "Share quest",
       desc: `Post LaunchBid on X and claim +${SHARE_X_TOKENS} ⚡`,
       href: "/earn",
     },
     {
-      title: "Explore & earn",
+      title: "Explore quest",
       desc: `+${VISIT_TOKENS} ⚡ for every product you visit`,
       href: "/earn",
     },
     {
-      title: "Refill anytime",
-      desc: "UPI packs from ₹49. Scan, pay, done.",
+      title: "Villager trade",
+      desc: "UPI token packs from ₹49. Scan, pay, done.",
       href: "/tokens",
     },
   ];
 
   return (
-    <div className="pt-14">
-      <section className="relative py-10 text-center">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-[-6.5rem] left-1/2 -z-10 h-[26rem] w-screen -translate-x-1/2 overflow-hidden"
-        >
-          <HeroShader />
-          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/40 via-zinc-950/20 to-background" />
-        </div>
-        <h1 className="text-4xl font-semibold text-balance">
-          Bid your product to <span className="underline decoration-zinc-600 decoration-2 underline-offset-8">#1</span>
+    <div className="pt-12">
+      <section className="py-10 text-center">
+        <h1 className="pixel-text text-4xl text-balance uppercase">
+          Mine your way to <span className="text-gold">#1</span>
         </h1>
-        <p className="mx-auto mt-4 max-w-md text-base text-pretty text-zinc-400">
-          A live leaderboard where tokens are bids. Earn tokens free or refill
-          with UPI, then outbid the board for the top spot.
+        <p className="mx-auto mt-4 max-w-md text-base text-pretty text-mcgray">
+          A live leaderboard where tokens are bids. Craft tokens for free or
+          grab UPI packs, then outbid the whole server for the top spot.
         </p>
 
         <form
@@ -76,51 +77,60 @@ export default async function Home() {
             type="text"
             required
             placeholder="yourproduct.com"
-            className="min-w-0 flex-1 rounded-lg border border-zinc-700 bg-zinc-900/80 px-3.5 py-2.5 text-base text-zinc-50 outline-none backdrop-blur transition-colors placeholder:text-zinc-500 focus:border-zinc-400"
+            className="mc-input min-w-0 flex-1 px-3.5 py-2.5 text-base"
           />
           <button type="submit" className={`${btnPrimary} shrink-0`}>
-            List it free
+            Spawn my product
           </button>
         </form>
-        <p className="mt-3 text-sm text-zinc-500">
-          Your first listing earns 25 ⚡. No sign-up.
+        <p className="pixel-text mt-3 text-sm text-gold">
+          First spawn earns 25 ⚡. No sign-up, no password.
         </p>
       </section>
 
-      <div className="mx-auto mt-10 grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-xl border border-zinc-800 bg-zinc-800 text-center">
+      <div className="mc-panel mx-auto grid max-w-xl grid-cols-3 divide-x-2 divide-black/70 text-center">
         {[
           { k: "Tokens bid", v: formatTokens(totalBid) },
-          { k: "Products", v: String(productCount ?? products.length) },
+          { k: "On the server", v: String(productCount ?? products.length) },
           { k: "Boosts placed", v: String(boostCount ?? 0) },
         ].map(({ k, v }) => (
-          <div key={k} className="bg-zinc-900 px-2 py-3.5">
-            <div className="text-base font-semibold tabular-nums">{v}</div>
-            <div className="mt-0.5 text-sm text-zinc-400">{k}</div>
+          <div key={k} className="px-2 py-3.5">
+            <div className="pixel-text text-base tabular-nums">{v}</div>
+            <div className="mt-0.5 text-sm text-mcgray">{k}</div>
           </div>
         ))}
       </div>
 
       <section className="relative left-1/2 mt-14 w-screen max-w-5xl -translate-x-1/2 px-4">
-        <div className="mb-3 flex items-baseline justify-between font-mono text-xs uppercase">
-          <h2 className="font-semibold tracking-wider text-zinc-100">
-            Lifetime ranking
-          </h2>
-          <p className="tracking-wider text-zinc-500">Totals never reset.</p>
+        <div className="mb-4 flex items-baseline justify-between">
+          <h2 className="pixel-text text-xl uppercase">Server leaderboard</h2>
+          <p className="text-sm text-mcgray">Totals never reset.</p>
         </div>
-        <LiveLeaderboard initialProducts={products} />
+        <LiveLeaderboard
+          initialProducts={products}
+          page={page}
+          pageSize={PAGE_SIZE}
+        />
+        <Pagination
+          page={page}
+          pageSize={PAGE_SIZE}
+          total={productCount ?? products.length}
+        />
       </section>
 
       <section className="mt-14">
-        <h2 className="mb-4 text-xl font-semibold">Stack tokens, take spots</h2>
+        <h2 className="pixel-text mb-4 text-xl uppercase">
+          Craft tokens, claim spots
+        </h2>
         <div className="grid gap-3 sm:grid-cols-3">
           {ways.map((way) => (
             <Link
               key={way.title}
               href={way.href}
-              className={`${card} group p-5 transition-colors hover:border-zinc-500`}
+              className={`${card} p-5 transition-colors hover:bg-white/5`}
             >
-              <h3 className="text-base font-semibold">{way.title}</h3>
-              <p className="mt-1 text-sm text-pretty text-zinc-400">{way.desc}</p>
+              <h3 className="pixel-text text-base">{way.title}</h3>
+              <p className="mt-1 text-sm text-pretty text-mcgray">{way.desc}</p>
             </Link>
           ))}
         </div>

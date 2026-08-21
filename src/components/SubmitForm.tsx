@@ -69,10 +69,10 @@ export default function SubmitForm({ initialUrl = "" }: { initialUrl?: string })
           autoFocus
         />
         <button type="submit" disabled={pending} className={`${btnPrimary} mt-4 w-full`}>
-          {pending ? "Reading your site…" : "Continue"}
+          {pending ? "Mining your site…" : "Continue"}
         </button>
         {error && (
-          <p className="mt-3 rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
+          <p className="mt-3 rounded-none bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
             {error}
           </p>
         )}
@@ -84,7 +84,7 @@ export default function SubmitForm({ initialUrl = "" }: { initialUrl?: string })
     <form onSubmit={submit} className="space-y-4">
       <div className={`${card} flex items-center gap-3 px-4 py-3`}>
         <Favicon src={meta.faviconUrl} name={meta.name} size={40} />
-        <span className="min-w-0 flex-1 truncate text-sm text-zinc-400">
+        <span className="min-w-0 flex-1 truncate text-sm text-mcgray">
           {meta.url}
         </span>
         <button
@@ -124,16 +124,16 @@ export default function SubmitForm({ initialUrl = "" }: { initialUrl?: string })
           placeholder="One line on why it's great"
           className={input}
         />
-        <p className="mt-1.5 text-sm text-zinc-400">
+        <p className="mt-1.5 text-sm text-mcgray">
           This is what the board shows under your name, so make it count.
         </p>
       </div>
 
       <button type="submit" disabled={pending} className={`${btnPrimary} w-full`}>
-        {pending ? "Listing…" : "List it on the board"}
+        {pending ? "Spawning…" : "Spawn it on the board"}
       </button>
       {error && (
-        <p className="rounded-lg bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
+        <p className="rounded-none bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
           {error}
         </p>
       )}

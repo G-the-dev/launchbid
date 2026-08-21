@@ -1,36 +1,73 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import Header from "@/components/Header";
 import SessionBootstrap from "@/components/SessionBootstrap";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+const minecraft = localFont({
+  src: "../fonts/Minecraft.ttf",
+  variable: "--font-minecraft",
 });
 
 export const metadata: Metadata = {
   title: "LaunchBid: bid your product to #1",
   description:
-    "The top 10 spots on this board are for sale. Products rank by tokens bid on them. Earn tokens free or buy with UPI, then outbid the board.",
+    "A live leaderboard where tokens are bids. Craft tokens free or trade UPI for packs, then outbid the server for the top spot.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${minecraft.variable} h-full antialiased`}>
       <body className="flex min-h-dvh flex-col">
+        {/* The overworld, dimmed behind everything */}
+        <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/bg-world.png"
+            alt=""
+            className="pixelated size-full object-cover opacity-25"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
+        </div>
+
         <SessionBootstrap />
         <Header />
         <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-24">
           {children}
         </main>
-        <footer className="border-t border-zinc-800 py-8">
-          <div className="mx-auto flex max-w-3xl items-center justify-between px-4 text-sm text-zinc-400">
-            <span>Every token is a bid. Top 10 own the board.</span>
-            <Link href="/earn" className="font-medium hover:text-zinc-50">
-              Earn free tokens
-            </Link>
+
+        <footer className="border-t-2 border-black bg-background/90">
+          <div className="mx-auto max-w-3xl px-4 py-8">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <span className="pixel-text text-base">
+                Launch<span className="text-gold">Bid</span>
+              </span>
+              <nav className="flex flex-wrap items-center gap-5 text-sm text-mcgray">
+                <Link href="/rules" className="hover:text-white">
+                  Rules
+                </Link>
+                <Link href="/earn" className="hover:text-white">
+                  Quests
+                </Link>
+                <Link href="/tokens" className="hover:text-white">
+                  Token shop
+                </Link>
+                <a
+                  href="https://outbid.lol"
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="hover:text-white"
+                >
+                  Inspired by outbid.lol
+                </a>
+              </nav>
+            </div>
+            <p className="mt-5 text-sm text-mcdim">
+              Every token is a bid and totals never reset. Clicks are counted
+              through go-links, so affiliate and tracking URLs won&apos;t work
+              here.
+            </p>
           </div>
         </footer>
       </body>

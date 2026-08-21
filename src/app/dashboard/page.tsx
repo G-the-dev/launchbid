@@ -36,7 +36,7 @@ export default async function DashboardPage() {
   return (
     <div className="pt-12">
       <div className="mb-6 flex items-baseline justify-between">
-        <h1 className="text-2xl font-semibold">My products</h1>
+        <h1 className="pixel-text text-2xl uppercase">My products</h1>
         {products.length > 0 && (
           <Link href="/submit" className="text-sm font-medium underline">
             List another
@@ -45,9 +45,9 @@ export default async function DashboardPage() {
       </div>
 
       {products.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-zinc-700 py-16 text-center">
-          <p className="text-base font-medium">Nothing listed from this browser yet.</p>
-          <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-zinc-400">
+        <div className="rounded-none border border-dashed border-mcdim py-16 text-center">
+          <p className="text-base font-medium">Nothing spawned from this browser yet.</p>
+          <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-mcgray">
             List your product to start climbing the board. It comes with 25
             free tokens.
           </p>

@@ -48,16 +48,16 @@ export default function BoostPanel({
     <section id="boost" className={`${card} p-6`}>
       <div className="flex items-baseline justify-between gap-3">
         <h2 className="text-xl font-semibold">Boost this product</h2>
-        <span className="text-sm tabular-nums text-zinc-400">
+        <span className="text-sm tabular-nums text-mcgray">
           Your balance: {formatTokens(balance)}
         </span>
       </div>
-      <p className="mt-1 text-sm text-pretty text-zinc-400">
+      <p className="mt-1 text-sm text-pretty text-mcgray">
         Every token you bid adds to its lifetime total. That total is its rank.
       </p>
 
       <fieldset className="mt-5">
-        <legend className="mb-1.5 block text-sm font-medium text-zinc-200">
+        <legend className="mb-1.5 block text-sm font-medium text-mcgray">
           Amount
         </legend>
         <div className="flex flex-wrap items-center gap-2">
@@ -70,10 +70,10 @@ export default function BoostPanel({
                 setSelected(preset);
                 setCustom("");
               }}
-              className={`rounded-lg border px-4 py-2.5 text-sm font-medium tabular-nums transition-colors ${
+              className={`rounded-none border px-4 py-2.5 text-sm font-medium tabular-nums transition-colors ${
                 !custom && selected === preset
-                  ? "border-zinc-300 bg-white/10 text-white"
-                  : "border-zinc-700 hover:border-zinc-500"
+                  ? "border-white bg-white/10 text-white"
+                  : "border-mcdim hover:border-white"
               }`}
             >
               {formatTokens(preset)}
@@ -86,7 +86,7 @@ export default function BoostPanel({
             onChange={(e) => setCustom(e.target.value)}
             placeholder="Custom"
             aria-label="Custom token amount"
-            className="w-28 rounded-lg border border-zinc-700 bg-transparent px-3.5 py-2.5 text-sm tabular-nums outline-none transition-colors placeholder:text-zinc-500 focus:border-zinc-400"
+            className="w-28 rounded-none border border-mcdim bg-transparent px-3.5 py-2.5 text-sm tabular-nums outline-none transition-colors placeholder:text-mcdim focus:border-white"
           />
         </div>
       </fieldset>
@@ -105,13 +105,13 @@ export default function BoostPanel({
       </button>
 
       {amountValid && !affordable && (
-        <p className="mt-3 text-sm text-pretty text-zinc-300">
+        <p className="mt-3 text-sm text-pretty text-mcgray">
           You need {formatTokens(amount - balance)} more.{" "}
-          <Link href="/earn" className="font-medium text-zinc-100 underline">
+          <Link href="/earn" className="font-medium text-white underline">
             Earn them free
           </Link>{" "}
           or{" "}
-          <Link href="/tokens" className="font-medium text-zinc-100 underline">
+          <Link href="/tokens" className="font-medium text-white underline">
             buy a pack with UPI
           </Link>
           .
@@ -120,7 +120,7 @@ export default function BoostPanel({
       {message && (
         <p
           role="status"
-          className={`mt-3 rounded-lg px-4 py-2.5 text-sm ${
+          className={`mt-3 rounded-none px-4 py-2.5 text-sm ${
             message.ok
               ? "bg-emerald-500/10 text-emerald-300"
               : "bg-red-500/10 text-red-300"

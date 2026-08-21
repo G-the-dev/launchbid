@@ -40,7 +40,7 @@ export default function ShareClaimForm() {
         <button
           type="submit"
           disabled={pending}
-          className="shrink-0 rounded-lg bg-zinc-50 px-4 py-2.5 text-sm font-semibold text-zinc-950 transition-colors hover:bg-white disabled:opacity-50"
+          className="shrink-0 rounded-none mc-btn px-4 py-2.5 text-sm"
         >
           {pending ? "Checking…" : `Claim ${SHARE_X_TOKENS} ⚡`}
         </button>
