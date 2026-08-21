@@ -1,5 +1,6 @@
 import QRCode from "qrcode";
 import { getBalance } from "@/lib/data";
+import { getIntlPacks } from "@/lib/polar";
 import { TOKEN_PACKS, formatTokens, upiPayUri } from "@/lib/tokens";
 import BuyTokensForm from "@/components/BuyTokensForm";
 
@@ -16,7 +17,12 @@ async function packQr(vpa: string, inr: number): Promise<string | null> {
 
 export const dynamic = "force-dynamic";
 
-export default async function TokensPage() {
+export default async function TokensPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ paid?: string }>;
+}) {
+  const { paid } = await searchParams;
   const balance = await getBalance();
 
   const vpa = process.env.NEXT_PUBLIC_UPI_VPA ?? "";
@@ -37,7 +43,21 @@ export default async function TokensPage() {
         Tokens land after we match your payment, confirmed by email.
       </p>
 
-      <BuyTokensForm packs={packs} vpa={vpa} defaultEmail="" />
+      {paid === "1" && (
+        <div className="mc-panel mb-6 border-gold/50 p-5">
+          <p className="pixel-text text-base text-gold">Payment received!</p>
+          <p className="mt-1 text-sm text-mcgray">
+            Your tokens land automatically within a minute, confirmed to your
+            email. Watch the balance in the top bar.
+          </p>
+        </div>
+      )}
+      <BuyTokensForm
+        packs={packs}
+        vpa={vpa}
+        defaultEmail=""
+        intlPacks={getIntlPacks().map(({ usd, tokens }) => ({ usd, tokens }))}
+      />
     </div>
   );
 }
