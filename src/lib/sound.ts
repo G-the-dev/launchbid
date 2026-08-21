@@ -1,12 +1,10 @@
 "use client";
 
-// Minecraft-STYLE audio, synthesized with WebAudio. No Mojang assets are
-// shipped (game sounds and C418's music are copyrighted); these are original
-// blips, booms, and an original calm chiptune loop in that spirit.
+// SFX are Minecraft-STYLE audio synthesized with WebAudio (original blips
+// and booms, no game assets). Background music plays the owner-supplied
+// /public/music.mp3 on a raw loop.
 
 let ctx: AudioContext | null = null;
-let musicTimer: ReturnType<typeof setInterval> | null = null;
-let musicGain: GainNode | null = null;
 
 const KEY = "lb-sound";
 
@@ -91,45 +89,22 @@ export function sfxExplosion() {
   src.start();
 }
 
-// Original calm loop: slow broken chords, very quiet. Two bars, loops forever.
-const CHORDS: number[][] = [
-  [261.63, 329.63, 392.0, 493.88], // Cmaj7
-  [220.0, 261.63, 329.63, 415.3], // Am(maj-ish)
-  [174.61, 261.63, 349.23, 440.0], // F add
-  [196.0, 293.66, 392.0, 493.88], // G add
-];
+// Background music: /public/music.mp3, looped raw with no fades.
+let musicEl: HTMLAudioElement | null = null;
 
 export function startMusic() {
-  if (!soundOn() || musicTimer) return;
-  const a = audio();
-  if (!a) return;
-  musicGain ??= a.createGain();
-  musicGain.gain.value = 1;
-  let step = 0;
-  const playChord = () => {
-    const notes = CHORDS[step % CHORDS.length];
-    notes.forEach((f, i) => {
-      const osc = a.createOscillator();
-      const g = a.createGain();
-      osc.type = "triangle";
-      osc.frequency.value = f;
-      const t = a.currentTime + i * 0.45;
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.022, t + 0.8);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 3.6);
-      osc.connect(g).connect(musicGain!).connect(a.destination);
-      osc.start(t);
-      osc.stop(t + 3.8);
-    });
-    step++;
-  };
-  playChord();
-  musicTimer = setInterval(playChord, 4000);
+  if (!soundOn()) return;
+  if (!musicEl) {
+    musicEl = new Audio("/music.mp3");
+    musicEl.loop = true;
+    musicEl.volume = 0.45;
+    musicEl.preload = "auto";
+  }
+  void musicEl.play().catch(() => {
+    // Autoplay blocked until a user gesture; SoundControl retries on first click.
+  });
 }
 
 export function stopMusic() {
-  if (musicTimer) {
-    clearInterval(musicTimer);
-    musicTimer = null;
-  }
+  musicEl?.pause();
 }
