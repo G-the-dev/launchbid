@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getBalance } from "@/lib/data";
 import { formatTokens } from "@/lib/tokens";
 import { btnQuiet } from "@/lib/ui";
+import SoundControl from "./SoundControl";
 import { Logo } from "./Logo";
 
 export default async function Header() {
@@ -14,6 +15,7 @@ export default async function Header() {
           <Logo />
         </Link>
         <nav className="flex items-center gap-4">
+          <SoundControl />
           <Link href="/earn" className={btnQuiet}>
             Quests
           </Link>

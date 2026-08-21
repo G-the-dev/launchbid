@@ -54,14 +54,15 @@ body {
 /* Classic MC text drop shadow */
 .pixel-text {
   font-family: var(--font-minecraft), "Courier New", monospace;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.14em;
+  word-spacing: 0.2em;
   text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.7);
 }
 
 /* MC button: stone slab with light top-left / dark bottom-right bevel */
 .mc-btn {
   font-family: var(--font-minecraft), "Courier New", monospace;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   display: inline-flex;
   align-items: center;
   justify-content: center;

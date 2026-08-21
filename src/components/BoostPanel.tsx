@@ -10,6 +10,7 @@ import {
   formatTokens,
 } from "@/lib/tokens";
 import { btnPrimary, card } from "@/lib/ui";
+import { sfxLevelUp } from "@/lib/sound";
 
 export default function BoostPanel({
   productId,
@@ -35,6 +36,7 @@ export default function BoostPanel({
       if (result.error) {
         setMessage({ ok: false, text: result.error });
       } else {
+        sfxLevelUp();
         setMessage({
           ok: true,
           text: `Bid landed. The board just re-ranked. You have ${formatTokens(result.balance ?? 0)} left.`,

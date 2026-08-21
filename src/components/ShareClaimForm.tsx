@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { claimShareReward } from "@/app/actions/tokens";
+import { sfxLevelUp } from "@/lib/sound";
 import { SHARE_X_TOKENS } from "@/lib/tokens";
 import { input } from "@/lib/ui";
 
@@ -18,7 +19,10 @@ export default function ShareClaimForm() {
     startTransition(async () => {
       const result = await claimShareReward(url);
       if (result.error) setError(result.error);
-      else router.refresh();
+      else {
+        sfxLevelUp();
+        router.refresh();
+      }
     });
   };
 

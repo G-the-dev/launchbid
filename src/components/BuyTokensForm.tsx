@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { createPurchase } from "@/app/actions/tokens";
+import { sfxLevelUp } from "@/lib/sound";
 import { btnPrimary, card, input, label } from "@/lib/ui";
 
 type Pack = { inr: number; tokens: number; qr: string | null };
@@ -43,7 +44,10 @@ export default function BuyTokensForm({
         utr,
       });
       if (result.error) setError(result.error);
-      else setStatus("sent");
+      else {
+        sfxLevelUp();
+        setStatus("sent");
+      }
     });
   };
 

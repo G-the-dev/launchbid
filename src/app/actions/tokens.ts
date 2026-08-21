@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendMail } from "@/lib/mail";
+import { purchaseApproveEmail, purchaseReceivedEmail } from "@/lib/email";
 import { SHARE_X_TOKENS, TOKEN_PACKS, formatTokens } from "@/lib/tokens";
 
 export async function boostWithTokens(
@@ -75,6 +76,9 @@ export async function claimShareReward(
     if (error.message.includes("token_events_share_once")) {
       return { error: "You've already claimed the share reward." };
     }
+    if (error.message.includes("token_events_share_post_once")) {
+      return { error: "That post was already used to claim tokens. Write your own post to earn." };
+    }
     return { error: error.message };
   }
   return { balance: Number(data) };
@@ -124,18 +128,18 @@ export async function createPurchase(input: {
   if (error) return { error: error.message };
 
   const approveUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/purchases/approve?id=${purchase.id}&sig=${approveSignature(purchase.id)}`;
-  const { error: mailError } = await sendMail({
-    to: process.env.OWNER_EMAIL ?? process.env.GMAIL_USER!,
-    subject: `LaunchBid: approve ₹${pack.inr} → ${formatTokens(pack.tokens)} (UTR ${utr})`,
-    html: `<p>Token purchase waiting for approval.</p>
-<ul>
-  <li>Buyer: ${email}</li>
-  <li>Pack: ₹${pack.inr} → ${pack.tokens} tokens</li>
-  <li>UTR: <b>${utr}</b></li>
-</ul>
-<p>Check the UPI credit in your bank app, then</p>
-<p><a href="${approveUrl}">Approve and credit ${pack.tokens} tokens</a></p>`,
-  });
+  const [{ error: mailError }] = await Promise.all([
+    sendMail({
+      to: process.env.OWNER_EMAIL ?? process.env.GMAIL_USER!,
+      subject: `Approve ₹${pack.inr} → ${formatTokens(pack.tokens)} (UTR ${utr})`,
+      html: purchaseApproveEmail({ email, inr: pack.inr, tokens: pack.tokens, utr, approveUrl }),
+    }),
+    sendMail({
+      to: email,
+      subject: `Payment received: ${formatTokens(pack.tokens)} on the way`,
+      html: purchaseReceivedEmail({ inr: pack.inr, tokens: pack.tokens }),
+    }),
+  ]);
   if (mailError) {
     // Purchase row exists; it can still be approved from the Supabase table.
     return { error: "Request saved, but the notification mail failed. Your tokens will still be credited after manual review." };

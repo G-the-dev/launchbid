@@ -6,15 +6,19 @@ import { formatTokens } from "@/lib/tokens";
 import Favicon from "@/components/Favicon";
 import BoostPanel from "@/components/BoostPanel";
 import RecentBoosts from "@/components/RecentBoosts";
+import SpawnCelebration from "@/components/SpawnCelebration";
 
 export const dynamic = "force-dynamic";
 
 export default async function ProductPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ spawned?: string }>;
 }) {
   const { slug } = await params;
+  const { spawned } = await searchParams;
   const supabase = await createClient();
 
   const { data } = await supabase
@@ -57,6 +61,7 @@ export default async function ProductPage({
 
   return (
     <div className="space-y-8 pt-12">
+      {spawned === "1" && <SpawnCelebration />}
       <section className="flex items-start gap-4">
         <Favicon src={product.favicon_url} name={product.name} size={56} />
         <div className="min-w-0">

@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendMail } from "@/lib/mail";
 import { formatTokens } from "@/lib/tokens";
+import { tokensCreditedEmail } from "@/lib/email";
 
 function page(title: string, body: string, ok: boolean) {
   return new Response(
@@ -60,9 +61,7 @@ export async function GET(request: Request) {
   await sendMail({
     to: purchase.email,
     subject: `Your ${formatTokens(purchase.tokens)} just landed on LaunchBid`,
-    html: `<p>Payment confirmed: <b>${purchase.tokens} tokens</b> are in your LaunchBid balance.</p>
-<p><a href="${process.env.NEXT_PUBLIC_SITE_URL}">Spend them on the leaderboard</a> and take your spot.</p>
-<p style="color:#888;font-size:0.85em">You'll also get product updates from LaunchBid at this address.</p>`,
+    html: tokensCreditedEmail({ tokens: purchase.tokens, siteUrl: process.env.NEXT_PUBLIC_SITE_URL! }),
   });
 
   return page(

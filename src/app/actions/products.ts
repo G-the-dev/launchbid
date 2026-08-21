@@ -54,7 +54,7 @@ export async function createProduct(input: {
 
     if (!error) {
       revalidatePath("/");
-      redirect(`/p/${slug}`);
+      redirect(`/p/${slug}?spawned=1`);
     }
     if (error.message.includes("NOT_ENOUGH_TOKENS")) {
       return { error: "NOT_ENOUGH_TOKENS" };
