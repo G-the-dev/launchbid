@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Product } from "@/lib/types";
 import DashboardProductCard from "@/components/DashboardProductCard";
@@ -11,14 +10,16 @@ export default async function DashboardPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login?next=/dashboard");
 
-  const { data } = await supabase
-    .from("products")
-    .select("*")
-    .eq("owner_id", user.id)
-    .order("total_amount", { ascending: false });
-  const products = (data ?? []) as Product[];
+  let products: Product[] = [];
+  if (user) {
+    const { data } = await supabase
+      .from("products")
+      .select("*")
+      .eq("owner_id", user.id)
+      .order("total_amount", { ascending: false });
+    products = (data ?? []) as Product[];
+  }
 
   const ranks = await Promise.all(
     products.map(async (product) => {

@@ -15,7 +15,7 @@ export async function getSiteMetadata(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { error: "Sign in to submit a product." };
+  if (!user) return { error: "Your session is still starting — try again in a second." };
   return fetchSiteMetadata(url);
 }
 
@@ -39,7 +39,7 @@ export async function createProduct(input: {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { error: "Sign in to submit a product." };
+  if (!user) return { error: "Your session is still starting — try again in a second." };
 
   const name = input.name.trim().slice(0, 80);
   const tagline = input.tagline.trim().slice(0, 140);

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import {
   SHARE_X_TOKENS,
@@ -25,18 +24,21 @@ export default async function EarnPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login?next=/earn");
 
-  const [{ data: profile }, { data: eventsData }] = await Promise.all([
-    supabase.from("profiles").select("token_balance").eq("id", user.id).single(),
-    supabase
-      .from("token_events")
-      .select("id, delta, kind, created_at")
-      .order("created_at", { ascending: false })
-      .limit(15),
-  ]);
-  const balance = Number(profile?.token_balance ?? 0);
-  const events = (eventsData ?? []) as TokenEvent[];
+  let balance = 0;
+  let events: TokenEvent[] = [];
+  if (user) {
+    const [{ data: profile }, { data: eventsData }] = await Promise.all([
+      supabase.from("profiles").select("token_balance").eq("id", user.id).single(),
+      supabase
+        .from("token_events")
+        .select("id, delta, kind, created_at")
+        .order("created_at", { ascending: false })
+        .limit(15),
+    ]);
+    balance = Number(profile?.token_balance ?? 0);
+    events = (eventsData ?? []) as TokenEvent[];
+  }
 
   const shareText = encodeURIComponent(
     `The leaderboard money built 🏆 I'm bidding my product to the top of @LaunchBid — every token is a vote. Outbid me: ${process.env.NEXT_PUBLIC_SITE_URL}`

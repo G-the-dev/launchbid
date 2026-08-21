@@ -31,7 +31,7 @@ export async function claimShareReward(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { error: "Sign in first." };
+  if (!user) return { error: "Your session is still starting — try again in a second." };
   if (!X_POST_RE.test(postUrl.trim())) {
     return { error: "That doesn't look like a link to an X post." };
   }
@@ -67,7 +67,7 @@ export async function createPurchase(input: {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { error: "Sign in first." };
+  if (!user) return { error: "Your session is still starting — try again in a second." };
 
   const pack = TOKEN_PACKS.find((p) => p.inr === input.packInr);
   if (!pack) return { error: "Pick a token pack." };

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { signOut } from "@/app/actions/auth";
 import { formatTokens } from "@/lib/tokens";
 
 export default async function Header() {
@@ -26,17 +25,18 @@ export default async function Header() {
           Launch<span className="text-amber-500">Bid</span>
         </Link>
         <nav className="flex items-center gap-3 text-sm">
-          {user && (
-            <Link
-              href="/tokens"
-              className="rounded-full border border-amber-500/50 bg-amber-500/10 px-3 py-1 font-medium tabular-nums hover:bg-amber-500/20 transition-colors"
-              title="Your token balance — click to get more"
-            >
-              {formatTokens(balance)}
-            </Link>
-          )}
+          <Link
+            href="/tokens"
+            className="rounded-full border border-amber-500/50 bg-amber-500/10 px-3 py-1 font-medium tabular-nums hover:bg-amber-500/20 transition-colors"
+            title="Your token balance — click to get more"
+          >
+            {formatTokens(balance)}
+          </Link>
           <Link href="/earn" className="hover:underline">
             Earn
+          </Link>
+          <Link href="/dashboard" className="hover:underline">
+            My products
           </Link>
           <Link
             href="/submit"
@@ -44,22 +44,6 @@ export default async function Header() {
           >
             Submit
           </Link>
-          {user ? (
-            <>
-              <Link href="/dashboard" className="hover:underline">
-                Dashboard
-              </Link>
-              <form action={signOut}>
-                <button type="submit" className="opacity-70 hover:opacity-100">
-                  Sign out
-                </button>
-              </form>
-            </>
-          ) : (
-            <Link href="/login" className="hover:underline">
-              Sign in
-            </Link>
-          )}
         </nav>
       </div>
     </header>

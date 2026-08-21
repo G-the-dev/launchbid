@@ -84,12 +84,7 @@ export default async function ProductPage({
         </div>
       </section>
 
-      <BoostPanel
-        productId={product.id}
-        isSignedIn={!!auth.user}
-        balance={balance}
-        loginHref={`/login?next=/p/${product.slug}`}
-      />
+      <BoostPanel productId={product.id} balance={balance} />
 
       <RecentBoosts boosts={boosts} />
     </div>

@@ -1,16 +1,8 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import SubmitForm from "@/components/SubmitForm";
 
 export const dynamic = "force-dynamic";
 
-export default async function SubmitPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login?next=/submit");
-
+export default function SubmitPage() {
   return (
     <div className="pt-12 max-w-lg mx-auto">
       <h1 className="text-2xl font-bold">Submit your product</h1>

@@ -12,14 +12,10 @@ import {
 
 export default function BoostPanel({
   productId,
-  isSignedIn,
   balance,
-  loginHref,
 }: {
   productId: string;
-  isSignedIn: boolean;
   balance: number;
-  loginHref: string;
 }) {
   const router = useRouter();
   const [selected, setSelected] = useState<number>(BOOST_PRESETS_TOKENS[0]);
@@ -32,10 +28,6 @@ export default function BoostPanel({
   const affordable = amountValid && amount <= balance;
 
   const boost = () => {
-    if (!isSignedIn) {
-      router.push(loginHref);
-      return;
-    }
     setMessage(null);
     startTransition(async () => {
       const result = await boostWithTokens(productId, amount);
@@ -58,11 +50,9 @@ export default function BoostPanel({
     >
       <div className="flex items-baseline justify-between gap-3">
         <h2 className="font-semibold">Boost this product</h2>
-        {isSignedIn && (
-          <span className="text-sm opacity-70 tabular-nums">
-            You have {formatTokens(balance)}
-          </span>
-        )}
+        <span className="text-sm opacity-70 tabular-nums">
+          You have {formatTokens(balance)}
+        </span>
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -96,19 +86,17 @@ export default function BoostPanel({
       <button
         type="button"
         onClick={boost}
-        disabled={pending || !amountValid || (isSignedIn && !affordable)}
+        disabled={pending || !amountValid || !affordable}
         className="w-full rounded-xl bg-amber-500 text-black py-2.5 font-semibold hover:bg-amber-400 disabled:opacity-50 transition-colors"
       >
         {pending
           ? "Boosting…"
-          : !isSignedIn
-            ? "Sign in to boost"
-            : amountValid
-              ? `Boost ${formatTokens(amount)}`
-              : `Minimum ${MIN_BOOST_TOKENS} tokens`}
+          : amountValid
+            ? `Boost ${formatTokens(amount)}`
+            : `Minimum ${MIN_BOOST_TOKENS} tokens`}
       </button>
 
-      {isSignedIn && amountValid && !affordable && (
+      {amountValid && !affordable && (
         <p className="text-sm">
           Not enough tokens —{" "}
           <Link href="/earn" className="underline font-medium">

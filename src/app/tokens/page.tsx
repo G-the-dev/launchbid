@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import QRCode from "qrcode";
 import { createClient } from "@/lib/supabase/server";
 import { TOKEN_PACKS, formatTokens, upiPayUri } from "@/lib/tokens";
@@ -11,14 +10,16 @@ export default async function TokensPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login?next=/tokens");
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("token_balance")
-    .eq("id", user.id)
-    .single();
-  const balance = Number(profile?.token_balance ?? 0);
+  let balance = 0;
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("token_balance")
+      .eq("id", user.id)
+      .single();
+    balance = Number(profile?.token_balance ?? 0);
+  }
 
   const vpa = process.env.NEXT_PUBLIC_UPI_VPA ?? "";
   const packs = await Promise.all(
@@ -46,11 +47,7 @@ export default async function TokensPage() {
         verification, confirmed to your email.
       </p>
 
-      <BuyTokensForm
-        packs={packs}
-        vpa={vpa}
-        defaultEmail={user.email ?? ""}
-      />
+      <BuyTokensForm packs={packs} vpa={vpa} defaultEmail={user?.email ?? ""} />
     </div>
   );
 }

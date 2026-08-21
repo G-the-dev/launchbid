@@ -46,7 +46,7 @@ export default function LeaderboardRow({
             target="_blank"
             rel="noopener noreferrer nofollow"
             className="text-xs opacity-50 hover:opacity-100 truncate"
-            title="Visit — signed-in visitors earn tokens"
+            title="Visit — you earn tokens"
           >
             {host} ↗
           </a>
