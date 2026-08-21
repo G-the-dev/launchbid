@@ -23,7 +23,8 @@ export default async function Home() {
         </h1>
         <p className="mt-3 opacity-70 max-w-md mx-auto">
           No upvotes. No algorithms. The top 10 products are the ones that bid
-          the most — outbid them to take their spot.
+          the most tokens — earn tokens by sharing and exploring, or buy them
+          with UPI, and outbid the board.
         </p>
       </section>
       <LiveLeaderboard initialProducts={products} />

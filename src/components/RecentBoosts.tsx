@@ -1,5 +1,5 @@
 import type { BoostWithProfile } from "@/lib/types";
-import { formatPaise } from "@/lib/money";
+import { formatTokens } from "@/lib/tokens";
 
 function timeAgo(iso: string): string {
   const seconds = Math.max(1, Math.floor((Date.now() - new Date(iso).getTime()) / 1000));
@@ -15,7 +15,7 @@ export default function RecentBoosts({ boosts }: { boosts: BoostWithProfile[] })
   if (boosts.length === 0) {
     return (
       <p className="text-sm opacity-60 text-center py-4">
-        No boosts yet — be the first to put money on it.
+        No boosts yet — be the first to put tokens on it.
       </p>
     );
   }
@@ -35,7 +35,7 @@ export default function RecentBoosts({ boosts }: { boosts: BoostWithProfile[] })
               </span>{" "}
               boosted{" "}
               <span className="font-semibold text-amber-600 dark:text-amber-400">
-                {formatPaise(boost.amount)}
+                {formatTokens(boost.amount)}
               </span>
             </span>
             <span className="opacity-50 shrink-0 ml-3">{timeAgo(boost.created_at)}</span>

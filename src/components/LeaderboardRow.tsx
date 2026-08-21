@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Product } from "@/lib/types";
-import { formatPaise } from "@/lib/money";
+import { formatTokens } from "@/lib/tokens";
 import Favicon from "./Favicon";
 
 const MEDALS: Record<number, string> = {
@@ -42,24 +42,27 @@ export default function LeaderboardRow({
             {product.name}
           </Link>
           <a
-            href={product.url}
+            href={`/go/${product.slug}`}
             target="_blank"
             rel="noopener noreferrer nofollow"
             className="text-xs opacity-50 hover:opacity-100 truncate"
+            title="Visit — signed-in visitors earn tokens"
           >
             {host} ↗
           </a>
         </div>
-        {product.tagline && (
-          <p className="text-sm opacity-70 truncate">{product.tagline}</p>
-        )}
+        <p className="text-sm opacity-70 truncate">
+          {product.tagline ?? ""}
+          {product.tagline ? " · " : ""}
+          {product.click_count} click{product.click_count === 1 ? "" : "s"}
+        </p>
       </div>
       <div className="text-right shrink-0">
         <div className="font-bold tabular-nums">
-          {formatPaise(product.total_amount)}
+          {formatTokens(product.total_amount)}
         </div>
         <Link
-          href={`/p/${product.slug}`}
+          href={`/p/${product.slug}#boost`}
           className="text-xs font-medium text-amber-600 dark:text-amber-400 hover:underline"
         >
           Boost ↑

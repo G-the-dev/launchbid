@@ -16,7 +16,8 @@ export default async function SubmitPage() {
       <h1 className="text-2xl font-bold">Submit your product</h1>
       <p className="text-sm opacity-70 mt-2 mb-8">
         Paste your website URL — we&apos;ll pull the name and description, you
-        tweak it, then boost it onto the board.
+        tweak it, then boost it onto the board. Your first listing earns a
+        25-token welcome bonus.
       </p>
       <SubmitForm />
     </div>

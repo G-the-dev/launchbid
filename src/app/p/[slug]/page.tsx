@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { BoostWithProfile, Product } from "@/lib/types";
-import { formatPaise } from "@/lib/money";
+import { formatTokens } from "@/lib/tokens";
 import Favicon from "@/components/Favicon";
 import BoostPanel from "@/components/BoostPanel";
 import RecentBoosts from "@/components/RecentBoosts";
@@ -38,6 +38,16 @@ export default async function ProductPage({
     supabase.auth.getUser(),
   ]);
 
+  let balance = 0;
+  if (auth.user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("token_balance")
+      .eq("id", auth.user.id)
+      .single();
+    balance = Number(profile?.token_balance ?? 0);
+  }
+
   const rank = (count ?? 0) + 1;
   const boosts = (boostsData ?? []) as unknown as BoostWithProfile[];
   let host = "";
@@ -55,7 +65,7 @@ export default async function ProductPage({
           <h1 className="text-2xl font-bold truncate">{product.name}</h1>
           {product.tagline && <p className="opacity-70 mt-1">{product.tagline}</p>}
           <a
-            href={product.url}
+            href={`/go/${product.slug}`}
             target="_blank"
             rel="noopener noreferrer nofollow"
             className="text-sm text-amber-600 dark:text-amber-400 hover:underline"
@@ -65,19 +75,19 @@ export default async function ProductPage({
         </div>
         <div className="text-right shrink-0">
           <div className="text-2xl font-bold tabular-nums">
-            {formatPaise(product.total_amount)}
+            {formatTokens(product.total_amount)}
           </div>
           <div className="text-sm opacity-70">
-            rank #{rank} · {product.boost_count} boost
-            {product.boost_count === 1 ? "" : "s"}
+            rank #{rank} · {product.click_count} click
+            {product.click_count === 1 ? "" : "s"}
           </div>
         </div>
       </section>
 
       <BoostPanel
         productId={product.id}
-        productName={product.name}
         isSignedIn={!!auth.user}
+        balance={balance}
         loginHref={`/login?next=/p/${product.slug}`}
       />
 

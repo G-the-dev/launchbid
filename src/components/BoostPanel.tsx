@@ -1,118 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { boostWithTokens } from "@/app/actions/tokens";
 import {
-  BOOST_PRESETS_PAISE,
-  MAX_BOOST_PAISE,
-  MIN_BOOST_PAISE,
-  formatPaise,
-  rupeesToPaise,
-} from "@/lib/money";
-
-declare global {
-  interface Window {
-    Razorpay?: new (options: Record<string, unknown>) => {
-      open: () => void;
-      on: (event: string, handler: (resp: unknown) => void) => void;
-    };
-  }
-}
-
-function loadCheckoutScript(): Promise<boolean> {
-  return new Promise((resolve) => {
-    if (window.Razorpay) return resolve(true);
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-}
-
-type Status = "idle" | "working" | "success" | "failed";
+  BOOST_PRESETS_TOKENS,
+  MIN_BOOST_TOKENS,
+  formatTokens,
+} from "@/lib/tokens";
 
 export default function BoostPanel({
   productId,
-  productName,
   isSignedIn,
+  balance,
   loginHref,
 }: {
   productId: string;
-  productName: string;
   isSignedIn: boolean;
+  balance: number;
   loginHref: string;
 }) {
   const router = useRouter();
-  const [selected, setSelected] = useState<number>(BOOST_PRESETS_PAISE[1]);
+  const [selected, setSelected] = useState<number>(BOOST_PRESETS_TOKENS[0]);
   const [custom, setCustom] = useState("");
-  const [status, setStatus] = useState<Status>("idle");
-  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
+  const [pending, startTransition] = useTransition();
 
-  const amountPaise = custom ? rupeesToPaise(Number(custom)) : selected;
-  const amountValid =
-    Number.isFinite(amountPaise) &&
-    amountPaise >= MIN_BOOST_PAISE &&
-    amountPaise <= MAX_BOOST_PAISE;
+  const amount = custom ? Math.floor(Number(custom)) : selected;
+  const amountValid = Number.isFinite(amount) && amount >= MIN_BOOST_TOKENS;
+  const affordable = amountValid && amount <= balance;
 
-  const boost = async () => {
+  const boost = () => {
     if (!isSignedIn) {
       router.push(loginHref);
       return;
     }
-    setError(null);
-    setStatus("working");
-
-    try {
-      const orderRes = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ productId, amount: amountPaise }),
-      });
-      const order = await orderRes.json();
-      if (!orderRes.ok) throw new Error(order.error ?? "Could not start payment.");
-
-      if (!(await loadCheckoutScript()) || !window.Razorpay) {
-        throw new Error("Could not load the payment window. Check your connection.");
+    setMessage(null);
+    startTransition(async () => {
+      const result = await boostWithTokens(productId, amount);
+      if (result.error) {
+        setMessage({ ok: false, text: result.error });
+      } else {
+        setMessage({
+          ok: true,
+          text: `Boost landed — the board just moved. Balance: ${formatTokens(result.balance ?? 0)}`,
+        });
+        router.refresh();
       }
-
-      const rzp = new window.Razorpay({
-        key: order.keyId,
-        order_id: order.orderId,
-        name: "LaunchBid",
-        description: `Boost ${productName}`,
-        theme: { color: "#f59e0b" },
-        modal: {
-          ondismiss: () => setStatus("idle"),
-        },
-        handler: async (response: {
-          razorpay_order_id: string;
-          razorpay_payment_id: string;
-          razorpay_signature: string;
-        }) => {
-          const verifyRes = await fetch("/api/payments/verify", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify(response),
-          });
-          if (verifyRes.ok) {
-            setStatus("success");
-            router.refresh();
-          } else {
-            setStatus("failed");
-            setError("Payment captured but not yet credited — it will appear shortly.");
-          }
-        },
-      });
-      rzp.on("payment.failed", () => {
-        setStatus("failed");
-        setError("Payment failed. No money was credited — try again.");
-      });
-      rzp.open();
-    } catch (e) {
-      setStatus("failed");
-      setError(e instanceof Error ? e.message : "Something went wrong.");
-    }
+    });
   };
 
   return (
@@ -120,10 +56,17 @@ export default function BoostPanel({
       id="boost"
       className="rounded-2xl border border-amber-500/40 bg-amber-500/5 p-5 space-y-4"
     >
-      <h2 className="font-semibold">Boost this product</h2>
+      <div className="flex items-baseline justify-between gap-3">
+        <h2 className="font-semibold">Boost this product</h2>
+        {isSignedIn && (
+          <span className="text-sm opacity-70 tabular-nums">
+            You have {formatTokens(balance)}
+          </span>
+        )}
+      </div>
 
       <div className="flex flex-wrap gap-2">
-        {BOOST_PRESETS_PAISE.map((preset) => (
+        {BOOST_PRESETS_TOKENS.map((preset) => (
           <button
             key={preset}
             type="button"
@@ -137,47 +80,58 @@ export default function BoostPanel({
                 : "border-black/15 dark:border-white/15 hover:border-amber-500"
             }`}
           >
-            {formatPaise(preset)}
+            {formatTokens(preset)}
           </button>
         ))}
-        <div className="flex items-center gap-1 text-sm">
-          <span className="opacity-70">₹</span>
-          <input
-            type="number"
-            min={10}
-            max={500000}
-            value={custom}
-            onChange={(e) => setCustom(e.target.value)}
-            placeholder="custom"
-            className="w-24 rounded-full border border-black/15 dark:border-white/15 bg-transparent px-3 py-1.5 outline-none focus:border-amber-500"
-          />
-        </div>
+        <input
+          type="number"
+          min={MIN_BOOST_TOKENS}
+          value={custom}
+          onChange={(e) => setCustom(e.target.value)}
+          placeholder="custom"
+          className="w-24 rounded-full border border-black/15 dark:border-white/15 bg-transparent px-3 py-1.5 text-sm outline-none focus:border-amber-500"
+        />
       </div>
 
       <button
         type="button"
         onClick={boost}
-        disabled={status === "working" || !amountValid}
+        disabled={pending || !amountValid || (isSignedIn && !affordable)}
         className="w-full rounded-xl bg-amber-500 text-black py-2.5 font-semibold hover:bg-amber-400 disabled:opacity-50 transition-colors"
       >
-        {status === "working"
-          ? "Opening payment…"
-          : isSignedIn
-            ? `Boost ${amountValid ? formatPaise(amountPaise) : "—"}`
-            : "Sign in to boost"}
+        {pending
+          ? "Boosting…"
+          : !isSignedIn
+            ? "Sign in to boost"
+            : amountValid
+              ? `Boost ${formatTokens(amount)}`
+              : `Minimum ${MIN_BOOST_TOKENS} tokens`}
       </button>
 
-      {!amountValid && custom && (
-        <p className="text-xs opacity-70">
-          Boosts must be between ₹10 and ₹5,00,000.
+      {isSignedIn && amountValid && !affordable && (
+        <p className="text-sm">
+          Not enough tokens —{" "}
+          <Link href="/earn" className="underline font-medium">
+            earn free tokens
+          </Link>{" "}
+          or{" "}
+          <Link href="/tokens" className="underline font-medium">
+            buy a pack via UPI
+          </Link>
+          .
         </p>
       )}
-      {status === "success" && (
-        <p className="text-sm rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 py-2.5 px-4">
-          Boost landed — the leaderboard has been updated. 🎉
+      {message && (
+        <p
+          className={`text-sm rounded-xl py-2.5 px-4 ${
+            message.ok
+              ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+              : "text-red-500"
+          }`}
+        >
+          {message.text}
         </p>
       )}
-      {error && <p className="text-sm text-red-500">{error}</p>}
     </section>
   );
 }

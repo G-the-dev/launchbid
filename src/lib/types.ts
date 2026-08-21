@@ -8,6 +8,14 @@ export type Product = {
   favicon_url: string | null;
   total_amount: number;
   boost_count: number;
+  click_count: number;
+  created_at: string;
+};
+
+export type TokenEvent = {
+  id: string;
+  delta: number;
+  kind: "welcome" | "share_x" | "visit" | "purchase" | "boost";
   created_at: string;
 };
 

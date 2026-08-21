@@ -3,7 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchSiteMetadata } from "@/lib/metadata";
+import { WELCOME_TOKENS } from "@/lib/tokens";
 import type { SiteMetadata } from "@/lib/types";
 
 export async function getSiteMetadata(
@@ -58,6 +60,14 @@ export async function createProduct(input: {
     });
 
     if (!error) {
+      // First-listing welcome bonus; the partial unique index makes it one-time.
+      await createAdminClient()
+        .rpc("credit_tokens", {
+          p_user: user.id,
+          p_delta: WELCOME_TOKENS,
+          p_kind: "welcome",
+        })
+        .then(() => {});
       revalidatePath("/");
       redirect(`/p/${slug}`);
     }

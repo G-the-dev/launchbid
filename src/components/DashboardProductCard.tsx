@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { deleteProduct, updateProduct } from "@/app/actions/products";
 import type { Product } from "@/lib/types";
-import { formatPaise } from "@/lib/money";
+import { formatTokens } from "@/lib/tokens";
 import Favicon from "./Favicon";
 
 export default function DashboardProductCard({
@@ -57,8 +57,9 @@ export default function DashboardProductCard({
             {product.name}
           </Link>
           <p className="text-sm opacity-70">
-            #{rank} · {formatPaise(product.total_amount)} · {product.boost_count}{" "}
-            boost{product.boost_count === 1 ? "" : "s"}
+            #{rank} · {formatTokens(product.total_amount)} · {product.boost_count}{" "}
+            boost{product.boost_count === 1 ? "" : "s"} · {product.click_count}{" "}
+            click{product.click_count === 1 ? "" : "s"}
           </p>
         </div>
         <div className="flex items-center gap-2 text-sm shrink-0">
