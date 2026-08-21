@@ -21,14 +21,19 @@ export default function Favicon({
     );
   }
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt=""
-      width={size}
-      height={size}
-      referrerPolicy="no-referrer"
-      className="shrink-0 rounded-none bg-white object-contain p-0.5 ring-1 ring-black"
-    />
+    <span
+      className="inline-flex shrink-0 items-center justify-center overflow-hidden bg-[#3a3a42] ring-1 ring-black"
+      style={{ width: size, height: size }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt=""
+        width={size}
+        height={size}
+        referrerPolicy="no-referrer"
+        className="size-full scale-110 object-contain"
+      />
+    </span>
   );
 }
