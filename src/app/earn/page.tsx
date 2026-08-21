@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import {
+  LISTING_COST_TOKENS,
   SHARE_X_TOKENS,
   VISIT_TOKENS,
-  WELCOME_TOKENS,
   formatTokens,
 } from "@/lib/tokens";
 import type { TokenEvent } from "@/lib/types";
@@ -13,7 +13,8 @@ import ShareClaimForm from "@/components/ShareClaimForm";
 export const dynamic = "force-dynamic";
 
 const KIND_LABELS: Record<TokenEvent["kind"], string> = {
-  welcome: "Listed your first product",
+  welcome: "Welcome bonus",
+  spawn: "Spawned a product",
   share_x: "Shared LaunchBid on X",
   visit: "Visited a product",
   purchase: "Bought tokens",
@@ -53,7 +54,7 @@ export default async function EarnPage() {
     <div className="mx-auto max-w-lg pt-12">
       <h1 className="pixel-text text-2xl uppercase">Quests</h1>
       <p className="mt-1 text-base text-pretty text-mcgray">
-        Tokens are bids. Three free quests to stack them, no payment needed.
+        Tokens are bids. Complete quests to stack them, no payment needed.
       </p>
 
       <div className={`${card} mt-6 flex items-center justify-between px-6 py-4`}>
@@ -113,14 +114,15 @@ export default async function EarnPage() {
 
         <section className={`${card} p-6`}>
           <div className="flex items-baseline justify-between gap-3">
-            <h2 className="text-base font-semibold">Spawn bonus: list your product</h2>
+            <h2 className="text-base font-semibold">Spawn a product</h2>
             <span className="shrink-0 text-sm font-semibold tabular-nums text-mcgray">
-              +{WELCOME_TOKENS} ⚡
+              -{LISTING_COST_TOKENS} ⚡
             </span>
           </div>
           <p className="mt-1 mb-4 text-sm text-pretty text-mcgray">
-            Your first listing comes with a welcome bonus, enough to place
-            your first bids.
+            Putting your product on the board costs {LISTING_COST_TOKENS} ⚡.
+            One share quest covers it, with {SHARE_X_TOKENS - LISTING_COST_TOKENS} ⚡
+            left over for your first bids.
           </p>
           <Link href="/#hero-url" className={btnSecondary}>
             List a product

@@ -24,6 +24,32 @@ export async function boostWithTokens(
 const X_POST_RE =
   /^https?:\/\/(www\.)?(x|twitter)\.com\/[A-Za-z0-9_]{1,15}\/status\/\d+/;
 
+// Instant verification: X's public oEmbed endpoint returns the post's text
+// for any public post, so we can check it actually mentions LaunchBid.
+async function verifySharePost(postUrl: string): Promise<{ error?: string }> {
+  const normalized = postUrl.replace(/\/\/(www\.)?x\.com\//, "//twitter.com/");
+  try {
+    const res = await fetch(
+      `https://publish.twitter.com/oembed?omit_script=1&url=${encodeURIComponent(normalized)}`,
+      { signal: AbortSignal.timeout(6000) }
+    );
+    if (res.status === 404) {
+      return { error: "That post doesn't exist or isn't public. Check the link." };
+    }
+    if (!res.ok) {
+      return { error: "Couldn't verify the post right now. Try again in a minute." };
+    }
+    const data = (await res.json()) as { html?: string };
+    const text = (data.html ?? "").toLowerCase();
+    if (!text.includes("launchbid")) {
+      return { error: "That post doesn't mention LaunchBid. Share the post from the button above, then paste its link." };
+    }
+    return {};
+  } catch {
+    return { error: "Couldn't verify the post right now. Try again in a minute." };
+  }
+}
+
 export async function claimShareReward(
   postUrl: string
 ): Promise<{ balance?: number; error?: string }> {
@@ -35,6 +61,9 @@ export async function claimShareReward(
   if (!X_POST_RE.test(postUrl.trim())) {
     return { error: "That doesn't look like a link to an X post." };
   }
+
+  const verification = await verifySharePost(postUrl.trim());
+  if (verification.error) return { error: verification.error };
 
   const { data, error } = await createAdminClient().rpc("credit_tokens", {
     p_user: user.id,

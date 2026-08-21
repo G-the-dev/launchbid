@@ -3,9 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchSiteMetadata } from "@/lib/metadata";
-import { WELCOME_TOKENS } from "@/lib/tokens";
 import type { SiteMetadata } from "@/lib/types";
 
 export async function getSiteMetadata(
@@ -29,6 +27,7 @@ function slugify(name: string): string {
   );
 }
 
+// Listing costs 25 tokens; the spawn_product function deducts and inserts atomically.
 export async function createProduct(input: {
   url: string;
   name: string;
@@ -36,13 +35,8 @@ export async function createProduct(input: {
   faviconUrl: string;
 }): Promise<{ error: string } | never> {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { error: "Your session is still starting. Try again in a second." };
 
   const name = input.name.trim().slice(0, 80);
-  const tagline = input.tagline.trim().slice(0, 140);
   if (!name) return { error: "Give your product a name." };
   if (!/^https?:\/\//i.test(input.url)) return { error: "Invalid URL." };
 
@@ -50,38 +44,31 @@ export async function createProduct(input: {
   let slug = base;
 
   for (let attempt = 0; attempt < 3; attempt++) {
-    const { error } = await supabase.from("products").insert({
-      owner_id: user.id,
-      url: input.url,
-      slug,
-      name,
-      tagline: tagline || null,
-      favicon_url: input.faviconUrl || null,
+    const { error } = await supabase.rpc("spawn_product", {
+      p_url: input.url,
+      p_slug: slug,
+      p_name: name,
+      p_tagline: input.tagline.trim().slice(0, 140),
+      p_favicon: input.faviconUrl,
     });
 
     if (!error) {
-      // First-listing welcome bonus; the partial unique index makes it one-time.
-      await createAdminClient()
-        .rpc("credit_tokens", {
-          p_user: user.id,
-          p_delta: WELCOME_TOKENS,
-          p_kind: "welcome",
-        })
-        .then(() => {});
       revalidatePath("/");
       redirect(`/p/${slug}`);
     }
-    if (error.code === "23505") {
-      if (error.message.includes("products_url_key")) {
-        return { error: "That website is already listed on LaunchBid." };
-      }
-      // slug collision — retry with a suffix
+    if (error.message.includes("NOT_ENOUGH_TOKENS")) {
+      return { error: "NOT_ENOUGH_TOKENS" };
+    }
+    if (error.message.includes("products_url_key")) {
+      return { error: "That website is already on the board." };
+    }
+    if (error.message.includes("products_slug_key")) {
       slug = `${base}-${Math.random().toString(36).slice(2, 6)}`;
       continue;
     }
     return { error: error.message };
   }
-  return { error: "Could not create the product. Try a different name." };
+  return { error: "Could not spawn the product. Try a different name." };
 }
 
 export async function updateProduct(

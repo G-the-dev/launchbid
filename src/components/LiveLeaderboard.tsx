@@ -118,8 +118,8 @@ export default function LiveLeaderboard({
       <div className="mc-panel border-dashed py-16 text-center">
         <p className="pixel-text text-base">The server is empty.</p>
         <p className="mx-auto mt-1 max-w-sm text-sm text-pretty text-mcgray">
-          The first product spawned takes #1 for just 5 tokens, and spawning
-          itself earns you 25.
+          Share once on X for 50 ⚡, spawn your product for 25, and a 5 ⚡ bid
+          takes #1.
         </p>
         <Link href="/#hero-url" className={`${btnPrimary} mt-5`}>
           Claim the top spot

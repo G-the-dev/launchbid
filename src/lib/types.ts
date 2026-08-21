@@ -16,7 +16,7 @@ export type Product = {
 export type TokenEvent = {
   id: string;
   delta: number;
-  kind: "welcome" | "share_x" | "visit" | "purchase" | "boost";
+  kind: "welcome" | "share_x" | "visit" | "purchase" | "boost" | "spawn";
   created_at: string;
 };
 

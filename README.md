@@ -11,8 +11,8 @@ no payment gateway, just scan-and-pay to a VPA with manual approval.
 
 | Action | Tokens |
 |---|---|
-| List your first product | +25 (once) |
-| Share LaunchBid on X (paste post link) | +50 (once) |
+| Spawn (list) a product | -25 |
+| Share LaunchBid on X (post link verified via oEmbed, must mention LaunchBid) | +50 (once) |
 | Visit another maker's product from the board | +2 each, max 10 rewarded visits/day |
 | Buy via UPI | ₹49→50 · ₹99→110 · ₹199→240 · ₹499→650 |
 | Boost a product | −N (min 5), added to that product's lifetime total |

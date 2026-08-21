@@ -84,7 +84,7 @@ export default async function Home({
           </button>
         </form>
         <p className="pixel-text mt-3 text-sm text-gold">
-          First spawn earns 25 ⚡. No sign-up, no password.
+          Spawning costs 25 ⚡. One X share earns 50 ⚡ instantly. No sign-up.
         </p>
       </section>
 

@@ -3,15 +3,56 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { createProduct, getSiteMetadata } from "@/app/actions/products";
 import type { SiteMetadata } from "@/lib/types";
-import { btnPrimary, card, input, label } from "@/lib/ui";
+import {
+  LISTING_COST_TOKENS,
+  SHARE_X_TOKENS,
+  formatTokens,
+} from "@/lib/tokens";
+import { btnPrimary, btnSecondary, card, input, label } from "@/lib/ui";
 import Favicon from "./Favicon";
+import ShareClaimForm from "./ShareClaimForm";
 
-export default function SubmitForm({ initialUrl = "" }: { initialUrl?: string }) {
+function ShareGate() {
+  const shareText = encodeURIComponent(
+    `The top spots on LaunchBid are literally for sale. I'm bidding my product to #1. Outbid me: ${typeof window !== "undefined" ? window.location.origin : ""}`
+  );
+  return (
+    <div className={`${card} border-gold/50 p-5`}>
+      <h3 className="pixel-text text-base text-gold">
+        Need tokens? Share once, earn {SHARE_X_TOKENS} ⚡ instantly
+      </h3>
+      <p className="mt-1 mb-4 text-sm text-pretty text-mcgray">
+        Post about LaunchBid on X, paste the link to your post, and we verify
+        it on the spot. That covers spawning ({LISTING_COST_TOKENS} ⚡) with{" "}
+        {SHARE_X_TOKENS - LISTING_COST_TOKENS} ⚡ left for your first bids.
+      </p>
+      <a
+        href={`https://twitter.com/intent/tweet?text=${shareText}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${btnSecondary} mb-3`}
+      >
+        Write the post ↗
+      </a>
+      <ShareClaimForm />
+    </div>
+  );
+}
+
+export default function SubmitForm({
+  initialUrl = "",
+  balance,
+}: {
+  initialUrl?: string;
+  balance: number;
+}) {
   const [url, setUrl] = useState(initialUrl);
   const [meta, setMeta] = useState<SiteMetadata | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const autoRan = useRef(false);
+
+  const affordable = balance >= LISTING_COST_TOKENS;
 
   const runLookup = (value: string) => {
     setError(null);
@@ -48,35 +89,44 @@ export default function SubmitForm({ initialUrl = "" }: { initialUrl?: string })
         faviconUrl: meta.faviconUrl,
       });
       // On success createProduct redirects and never returns
-      if (result?.error) setError(result.error);
+      if (result?.error) {
+        setError(
+          result.error === "NOT_ENOUGH_TOKENS"
+            ? `Spawning costs ${LISTING_COST_TOKENS} ⚡ and you have ${formatTokens(balance)}. Complete the share quest below to cover it.`
+            : result.error
+        );
+      }
     });
   };
 
   if (!meta) {
     return (
-      <form onSubmit={lookUp}>
-        <label htmlFor="submit-url" className={label}>
-          Your product's website
-        </label>
-        <input
-          id="submit-url"
-          type="text"
-          required
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          placeholder="yourproduct.com"
-          className={input}
-          autoFocus
-        />
-        <button type="submit" disabled={pending} className={`${btnPrimary} mt-4 w-full`}>
-          {pending ? "Mining your site…" : "Continue"}
-        </button>
-        {error && (
-          <p className="mt-3 rounded-none bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
-            {error}
-          </p>
-        )}
-      </form>
+      <div className="space-y-4">
+        <form onSubmit={lookUp}>
+          <label htmlFor="submit-url" className={label}>
+            Your product&apos;s website
+          </label>
+          <input
+            id="submit-url"
+            type="text"
+            required
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="yourproduct.com"
+            className={input}
+            autoFocus
+          />
+          <button type="submit" disabled={pending} className={`${btnPrimary} mt-4 w-full`}>
+            {pending ? "Mining your site…" : "Continue"}
+          </button>
+          {error && (
+            <p className="mt-3 bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
+              {error}
+            </p>
+          )}
+        </form>
+        {!affordable && <ShareGate />}
+      </div>
     );
   }
 
@@ -129,14 +179,29 @@ export default function SubmitForm({ initialUrl = "" }: { initialUrl?: string })
         </p>
       </div>
 
-      <button type="submit" disabled={pending} className={`${btnPrimary} w-full`}>
-        {pending ? "Spawning…" : "Spawn it on the board"}
+      <div className={`${card} flex items-center justify-between px-4 py-3 text-sm`}>
+        <span className="text-mcgray">Spawning cost</span>
+        <span className="pixel-text tabular-nums">
+          {formatTokens(LISTING_COST_TOKENS)}
+          <span className="ml-2 text-mcdim">
+            (you have {formatTokens(balance)})
+          </span>
+        </span>
+      </div>
+
+      <button
+        type="submit"
+        disabled={pending || !affordable}
+        className={`${btnPrimary} w-full`}
+      >
+        {pending
+          ? "Spawning…"
+          : `Spawn it on the board (${formatTokens(LISTING_COST_TOKENS)})`}
       </button>
       {error && (
-        <p className="rounded-none bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
-          {error}
-        </p>
+        <p className="bg-red-500/10 px-4 py-2.5 text-sm text-red-300">{error}</p>
       )}
+      {!affordable && <ShareGate />}
     </form>
   );
 }
