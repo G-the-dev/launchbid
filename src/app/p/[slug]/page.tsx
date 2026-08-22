@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getBalance } from "@/lib/data";
@@ -29,6 +30,7 @@ export async function generateMetadata({
   return {
     title: data.name,
     description,
+    alternates: { canonical: `/p/${slug}` },
     openGraph: { title: `${data.name} · LaunchBid`, description, images: ["/og.png"] },
     twitter: { card: "summary_large_image", title: `${data.name} · LaunchBid`, description },
   };
@@ -53,7 +55,7 @@ export default async function ProductPage({
   if (!data) notFound();
   const product = data as Product;
 
-  const [{ count }, { data: boostsData }, balance] = await Promise.all([
+  const [{ count }, { data: boostsData }, balance, { data: othersData }] = await Promise.all([
     supabase
       .from("products")
       .select("*", { count: "exact", head: true })
@@ -65,7 +67,23 @@ export default async function ProductPage({
       .order("created_at", { ascending: false })
       .limit(10),
     getBalance(),
+    supabase
+      .from("products")
+      .select("slug, name, total_amount")
+      .neq("id", product.id)
+      .order("total_amount", { ascending: false })
+      .limit(5),
   ]);
+  const others = (othersData ?? []) as Pick<Product, "slug" | "name" | "total_amount">[];
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "LaunchBid", item: "https://launchbid.lol" },
+      { "@type": "ListItem", position: 2, name: product.name, item: `https://launchbid.lol/p/${product.slug}` },
+    ],
+  };
 
   const rank = (count ?? 0) + 1;
   const boosts = (boostsData ?? []) as unknown as BoostWithProfile[];
@@ -129,6 +147,38 @@ export default async function ProductPage({
       <BoostPanel productId={product.id} balance={balance} />
 
       <RecentBoosts boosts={boosts} />
+
+      <p className="text-sm text-pretty text-mcgray">
+        {product.name} is competing on LaunchBid, the live product leaderboard
+        where rank is decided by tokens bid. It currently holds rank #{rank}
+        with {product.total_amount} tokens across {product.boost_count} boost
+        {product.boost_count === 1 ? "" : "s"} and {product.click_count} click
+        {product.click_count === 1 ? "" : "s"}. Bid tokens on it to push it up
+        the board, or visit {host} directly. Totals never reset.
+      </p>
+
+      {others.length > 0 && (
+        <section>
+          <h2 className="mb-3 text-xl font-semibold">More from the board</h2>
+          <ul className="flex flex-wrap gap-2 text-sm">
+            {others.map((other) => (
+              <li key={other.slug}>
+                <Link
+                  href={`/p/${other.slug}`}
+                  className="mc-btn px-3 py-1.5 text-xs"
+                >
+                  {other.name} · {String(other.total_amount)} ⚡
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
     </div>
   );
 }

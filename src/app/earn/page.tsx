@@ -11,6 +11,7 @@ import { btnSecondary, card } from "@/lib/ui";
 import ShareClaimForm from "@/components/ShareClaimForm";
 
 export const metadata = {
+  alternates: { canonical: "/earn" },
   title: "Earn free tokens",
   description:
     "Get free promotion tokens for your product: share LaunchBid on X for 50 tokens or explore products on the leaderboard for 2 tokens each.",

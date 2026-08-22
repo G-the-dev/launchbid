@@ -15,6 +15,7 @@ async function packQr(vpa: string, inr: number): Promise<string | null> {
 }
 
 export const metadata = {
+  alternates: { canonical: "/tokens" },
   title: "Token shop",
   description: "Buy LaunchBid bidding tokens with UPI. Scan, pay, confirmed to your email.",
 };

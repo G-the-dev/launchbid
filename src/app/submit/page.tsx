@@ -3,6 +3,7 @@ import SubmitForm from "@/components/SubmitForm";
 import { LISTING_COST_TOKENS, SHARE_X_TOKENS } from "@/lib/tokens";
 
 export const metadata = {
+  alternates: { canonical: "/submit" },
   title: "Submit your product",
   description:
     "Submit your product to the LaunchBid leaderboard and promote it by bidding tokens. Listing costs 50 tokens; one verified share on X covers it.",

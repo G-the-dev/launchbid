@@ -2,6 +2,7 @@ import Link from "next/link";
 import { btnPrimary } from "@/lib/ui";
 
 export const metadata = {
+  alternates: { canonical: "/rules" },
   title: "Server rules",
   description: "How LaunchBid ranking works: every token is a bid and totals never reset.",
 };
