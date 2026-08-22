@@ -2,6 +2,11 @@ import { getBalance } from "@/lib/data";
 import SubmitForm from "@/components/SubmitForm";
 import { LISTING_COST_TOKENS, SHARE_X_TOKENS } from "@/lib/tokens";
 
+export const metadata = {
+  title: "Spawn your product",
+  description: "List your product on the LaunchBid leaderboard and bid it toward #1.",
+};
+
 export const dynamic = "force-dynamic";
 
 export default async function SubmitPage({

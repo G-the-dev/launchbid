@@ -10,6 +10,11 @@ import type { TokenEvent } from "@/lib/types";
 import { btnSecondary, card } from "@/lib/ui";
 import ShareClaimForm from "@/components/ShareClaimForm";
 
+export const metadata = {
+  title: "Quests: earn free tokens",
+  description: "Share LaunchBid on X or explore products on the board to stack free bidding tokens.",
+};
+
 export const dynamic = "force-dynamic";
 
 const KIND_LABELS: Record<TokenEvent["kind"], string> = {

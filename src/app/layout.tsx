@@ -14,10 +14,46 @@ const minecraft = localFont({
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
+const DESCRIPTION =
+  "A live leaderboard where tokens are bids. Earn tokens free or buy a pack, then outbid the server for the #1 spot.";
+
 export const metadata: Metadata = {
-  title: "LaunchBid: bid your product to #1",
-  description:
-    "A live leaderboard where tokens are bids. Craft tokens free or trade UPI for packs, then outbid the server for the top spot.",
+  metadataBase: new URL("https://launchbid.lol"),
+  title: {
+    default: "LaunchBid: bid your product to #1",
+    template: "%s · LaunchBid",
+  },
+  description: DESCRIPTION,
+  openGraph: {
+    title: "LaunchBid: bid your product to #1",
+    description: DESCRIPTION,
+    url: "/",
+    siteName: "LaunchBid",
+    images: ["/og.png"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LaunchBid: bid your product to #1",
+    description: DESCRIPTION,
+    images: ["/og.png"],
+  },
+  alternates: { canonical: "/" },
+};
+
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "LaunchBid",
+  url: "https://launchbid.lol",
+  description: DESCRIPTION,
+  publisher: {
+    "@type": "Organization",
+    name: "LaunchBid",
+    url: "https://launchbid.lol",
+    logo: "https://launchbid.lol/icon.svg",
+    sameAs: ["https://x.com/gaurav_jain26"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

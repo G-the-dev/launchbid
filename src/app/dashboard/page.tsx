@@ -4,6 +4,8 @@ import type { Product } from "@/lib/types";
 import { btnPrimary } from "@/lib/ui";
 import DashboardProductCard from "@/components/DashboardProductCard";
 
+export const metadata = { title: "My products", robots: { index: false } };
+
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {

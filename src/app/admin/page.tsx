@@ -5,6 +5,8 @@ import { formatTokens } from "@/lib/tokens";
 import { timeAgo } from "@/lib/format";
 import { approvePurchase, rejectPurchase } from "./actions";
 
+export const metadata = { robots: { index: false, follow: false } };
+
 export const dynamic = "force-dynamic";
 
 type Purchase = {

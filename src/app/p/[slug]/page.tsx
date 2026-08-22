@@ -10,6 +10,30 @@ import SpawnCelebration from "@/components/SpawnCelebration";
 
 export const dynamic = "force-dynamic";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("products")
+    .select("name, tagline, total_amount")
+    .eq("slug", slug)
+    .single();
+  if (!data) return { title: "Not found" };
+  const description =
+    data.tagline ??
+    `${data.name} is competing on the LaunchBid leaderboard with ${data.total_amount} tokens bid.`;
+  return {
+    title: data.name,
+    description,
+    openGraph: { title: `${data.name} · LaunchBid`, description, images: ["/og.png"] },
+    twitter: { card: "summary_large_image", title: `${data.name} · LaunchBid`, description },
+  };
+}
+
 export default async function ProductPage({
   params,
   searchParams,

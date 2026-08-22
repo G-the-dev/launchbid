@@ -15,6 +15,11 @@ async function packQr(vpa: string, inr: number): Promise<string | null> {
   return qrCache.get(key)!;
 }
 
+export const metadata = {
+  title: "Token shop",
+  description: "Buy LaunchBid bidding tokens. Card checkout, tokens credited automatically.",
+};
+
 export const dynamic = "force-dynamic";
 
 export default async function TokensPage({

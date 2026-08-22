@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { btnPrimary } from "@/lib/ui";
 
-export const metadata = { title: "Server rules: LaunchBid" };
+export const metadata = {
+  title: "Server rules",
+  description: "How LaunchBid ranking works: every token is a bid and totals never reset.",
+};
 
 const RULES = [
   "Your rank is your lifetime token total. Totals never reset, and being outbid is not a refund reason.",
