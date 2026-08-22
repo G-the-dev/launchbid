@@ -100,8 +100,9 @@ export function startMusic() {
     musicEl.volume = 0.45;
     musicEl.preload = "auto";
   }
+  if (!musicEl.paused) return; // already playing, don't restart the loop
   void musicEl.play().catch(() => {
-    // Autoplay blocked until a user gesture; SoundControl retries on first click.
+    // Autoplay blocked until a user gesture; SoundControl keeps retrying.
   });
 }
 

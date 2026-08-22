@@ -15,14 +15,26 @@ export default function SoundControl() {
     const armMusic = () => {
       if (soundOn()) startMusic();
     };
+    // Try immediately on load/refresh: browsers allow it once they trust the
+    // site (or when autoplay is permitted); otherwise the gesture fallbacks
+    // below catch the first interaction.
+    armMusic();
+
     const clickSfx = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (target?.closest(".mc-btn, button, a")) sfxClick();
     };
-    window.addEventListener("pointerdown", armMusic, { once: true });
+    const onVisible = () => {
+      if (document.visibilityState === "visible") armMusic();
+    };
+    window.addEventListener("pointerdown", armMusic);
+    window.addEventListener("keydown", armMusic);
+    document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("click", clickSfx);
     return () => {
       window.removeEventListener("pointerdown", armMusic);
+      window.removeEventListener("keydown", armMusic);
+      document.removeEventListener("visibilitychange", onVisible);
       window.removeEventListener("click", clickSfx);
     };
   }, []);
