@@ -32,6 +32,11 @@ export const metadata: Metadata = {
     "pay to rank",
     "get traffic to your website",
     "startup directory",
+    "outbid alternative",
+    "bid to rank",
+    "top rank leaderboard",
+    "launch your product",
+    "product bidding site",
   ],
   description: DESCRIPTION,
   openGraph: {

@@ -37,6 +37,14 @@ const FAQS = [
     a: "Spawning a product onto the leaderboard costs 25 tokens. One share quest covers it with 25 tokens left over for your first bids.",
   },
   {
+    q: "Is LaunchBid a Product Hunt alternative?",
+    a: "Yes, for makers who want certainty. On upvote sites like Product Hunt your launch depends on votes and timing; on LaunchBid you bid tokens and the leaderboard rank is exactly what you paid for. Totals never reset, so your position compounds.",
+  },
+  {
+    q: "How is LaunchBid different from outbid.lol and other bid-to-rank sites?",
+    a: "Same honest idea: outbid others to rank higher. LaunchBid adds free token quests, UPI payments for India, a Minecraft theme, click tracking on every listing, and a top-10 board where every visible spot matters.",
+  },
+  {
     q: "Do I need an account?",
     a: "No sign-up and no password. Your browser gets an identity automatically, and your email is only used to confirm token purchases.",
   },
