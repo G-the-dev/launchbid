@@ -7,7 +7,7 @@ import type { Product } from "@/lib/types";
 import { formatTokens } from "@/lib/tokens";
 import { timeAgo } from "@/lib/format";
 import { btnPrimary, btnSolid } from "@/lib/ui";
-import Favicon from "./Favicon";
+import PixelFace from "./PixelFace";
 
 function host(url: string): string {
   try {
@@ -43,11 +43,7 @@ function PodiumCard({
         title={`Open ${host(product.url)}: you earn 2 tokens`}
         className="flex flex-col items-center gap-2 hover:underline"
       >
-        <Favicon
-          src={product.favicon_url}
-          name={product.name}
-          size={center ? 64 : 48}
-        />
+        <PixelFace seed={product.slug} size={center ? 64 : 48} />
         <span className="pixel-text max-w-44 truncate text-base">
           {product.name}
         </span>
@@ -189,11 +185,7 @@ export default function LiveLeaderboard({
                         className="flex items-center gap-3 hover:underline"
                         title={`Open ${host(product.url)}: you earn 2 tokens`}
                       >
-                        <Favicon
-                          src={product.favicon_url}
-                          name={product.name}
-                          size={36}
-                        />
+                        <PixelFace seed={product.slug} size={36} />
                         <span className="pixel-text max-w-36 truncate text-base sm:max-w-56">
                           {product.name}
                         </span>

@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getBalance } from "@/lib/data";
 import type { BoostWithProfile, Product } from "@/lib/types";
 import { formatTokens } from "@/lib/tokens";
-import Favicon from "@/components/Favicon";
+import PixelFace from "@/components/PixelFace";
 import BoostPanel from "@/components/BoostPanel";
 import RecentBoosts from "@/components/RecentBoosts";
 import SpawnCelebration from "@/components/SpawnCelebration";
@@ -105,7 +105,7 @@ export default async function ProductPage({
     <div className="space-y-8 pt-12">
       {spawned === "1" && <SpawnCelebration />}
       <section className="flex items-start gap-4">
-        <Favicon src={product.favicon_url} name={product.name} size={56} />
+        <PixelFace seed={product.slug} size={56} />
         <div className="min-w-0">
           <h1 className="text-2xl font-semibold text-balance">
             <a
