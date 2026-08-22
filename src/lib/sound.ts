@@ -90,7 +90,10 @@ export function sfxExplosion() {
 }
 
 // Background music: /public/music.mp3, looped raw with no fades.
+// Position persists across refreshes so playback resumes mid-track instead
+// of restarting: a refresh feels like a pause, not a reset.
 let musicEl: HTMLAudioElement | null = null;
+const POS_KEY = "lb-music-pos";
 
 export function startMusic() {
   if (!soundOn()) return;
@@ -99,6 +102,23 @@ export function startMusic() {
     musicEl.loop = true;
     musicEl.volume = 0.45;
     musicEl.preload = "auto";
+    const saved = Number(localStorage.getItem(POS_KEY) ?? 0);
+    if (saved > 0) {
+      musicEl.addEventListener(
+        "loadedmetadata",
+        () => {
+          if (musicEl && saved < musicEl.duration) musicEl.currentTime = saved;
+        },
+        { once: true }
+      );
+    }
+    const savePos = () => {
+      if (musicEl && !musicEl.paused) {
+        localStorage.setItem(POS_KEY, String(musicEl.currentTime));
+      }
+    };
+    setInterval(savePos, 5000);
+    window.addEventListener("pagehide", savePos);
   }
   if (!musicEl.paused) return; // already playing, don't restart the loop
   void musicEl.play().catch(() => {
