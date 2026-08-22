@@ -7,8 +7,13 @@ const env = Object.fromEntries(readFileSync(new URL("../.env.local", import.meta
 const admin = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
 const ok = (n, c) => console.log(`${c ? "PASS" : "FAIL"}  ${n}`);
 
-const { data: list } = await admin.auth.admin.listUsers();
-const buyer = list.users.find((u) => u.email === "spamgaurav139@gmail.com");
+let buyer = null;
+for (let page = 1; page <= 20 && !buyer; page++) {
+  const { data: list } = await admin.auth.admin.listUsers({ page, perPage: 200 });
+  buyer = list.users.find((u) => u.email === "spamgaurav139@gmail.com") ?? null;
+  if (list.users.length < 200) break;
+}
+if (!buyer) throw new Error("seed buyer not found");
 const balBefore = Number((await admin.from("profiles").select("token_balance").eq("id", buyer.id).single()).data.token_balance);
 
 const { data: purchase } = await admin.from("purchases").insert({

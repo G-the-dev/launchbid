@@ -53,6 +53,19 @@ export async function createProduct(input: {
     });
 
     if (!error) {
+      // Tell Bing & friends about the new page immediately (fire-and-forget)
+      if (process.env.INDEXNOW_KEY) {
+        void fetch("https://api.indexnow.org/indexnow", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            host: "launchbid.lol",
+            key: process.env.INDEXNOW_KEY,
+            keyLocation: `https://launchbid.lol/${process.env.INDEXNOW_KEY}.txt`,
+            urlList: [`https://launchbid.lol/p/${slug}`, "https://launchbid.lol"],
+          }),
+        }).catch(() => {});
+      }
       revalidatePath("/");
       redirect(`/p/${slug}?spawned=1`);
     }
