@@ -49,7 +49,7 @@ export default function DashboardProductCard({
   return (
     <li className={`${card} p-4`}>
       <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-        <PixelFace seed={product.slug} size={40} />
+        <PixelFace seed={product.slug} size={40} tokens={Number(product.total_amount)} />
         <div className="min-w-0 flex-1">
           <Link
             href={`/p/${product.slug}`}

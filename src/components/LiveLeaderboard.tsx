@@ -43,7 +43,7 @@ function PodiumCard({
         title={`Open ${host(product.url)}: you earn 2 tokens`}
         className="flex flex-col items-center gap-2 hover:underline"
       >
-        <PixelFace seed={product.slug} size={center ? 64 : 48} />
+        <PixelFace seed={product.slug} size={center ? 64 : 48} tokens={Number(product.total_amount)} />
         <span className="pixel-text max-w-44 truncate text-base">
           {product.name}
         </span>
@@ -185,7 +185,7 @@ export default function LiveLeaderboard({
                         className="flex items-center gap-3 hover:underline"
                         title={`Open ${host(product.url)}: you earn 2 tokens`}
                       >
-                        <PixelFace seed={product.slug} size={36} />
+                        <PixelFace seed={product.slug} size={36} tokens={Number(product.total_amount)} />
                         <span className="pixel-text max-w-36 truncate text-base sm:max-w-56">
                           {product.name}
                         </span>
