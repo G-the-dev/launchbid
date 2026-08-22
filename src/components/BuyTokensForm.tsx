@@ -9,9 +9,9 @@ import QuickTopUp from "./QuickTopUp";
 type Pack = { inr: number; tokens: number; qr: string | null };
 type CardPack = { usd: number; tokens: number };
 
-// UPI is parked for now. Flip to true to bring the QR + UTR flow back;
-// everything below still works (actions, emails, admin approval).
-const UPI_ENABLED = false;
+// Active payment rail. Card (Dodo) is parked in QuickTopUp's CARD_ENABLED
+// flag; flip both to swap rails.
+const UPI_ENABLED = true;
 
 function Step({ n, title }: { n: number; title: string }) {
   return (

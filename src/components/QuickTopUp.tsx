@@ -4,6 +4,10 @@ import { useState } from "react";
 
 type CardPack = { usd: number; tokens: number };
 
+// Card payments are parked until the Dodo merchant account goes live.
+// Flip to true to bring the pack buttons back on home and in the shop.
+const CARD_ENABLED = false;
+
 // One-line token refill, used on the homepage and in the token shop.
 // Click a pack, land in the hosted card checkout, tokens credit automatically.
 export default function QuickTopUp({
@@ -35,6 +39,8 @@ export default function QuickTopUp({
       setPending(null);
     }
   };
+
+  if (!CARD_ENABLED) return null;
 
   if (packs.length === 0) {
     return emptyNote ? (

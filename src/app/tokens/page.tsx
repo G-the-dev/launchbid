@@ -17,7 +17,7 @@ async function packQr(vpa: string, inr: number): Promise<string | null> {
 
 export const metadata = {
   title: "Token shop",
-  description: "Buy LaunchBid bidding tokens. Card checkout, tokens credited automatically.",
+  description: "Buy LaunchBid bidding tokens with UPI. Scan, pay, confirmed to your email.",
 };
 
 export const dynamic = "force-dynamic";
@@ -44,8 +44,8 @@ export default async function TokensPage({
         </span>
       </div>
       <p className="mt-1 mb-8 text-base text-pretty text-mcgray">
-        Pay by card in two clicks. Tokens land in your balance
-        automatically, confirmed by email.
+        Pay with any UPI app in three steps: pick a pack, scan, confirm.
+        Tokens land after we match your payment, confirmed by email.
       </p>
 
       {paid === "1" && (

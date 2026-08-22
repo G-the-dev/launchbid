@@ -49,7 +49,7 @@ export default async function Home({
     },
     {
       title: "Villager trade",
-      desc: "Token packs from $1. Card checkout, instant credit.",
+      desc: "UPI token packs from ₹49. Scan, pay, done.",
       href: "/tokens",
     },
   ];

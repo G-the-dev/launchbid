@@ -71,7 +71,7 @@ export default async function AdminPage({
     <div className="pt-12">
       <h1 className="pixel-text text-2xl uppercase">Payments admin</h1>
       <p className="mt-1 mb-6 text-sm text-mcgray">
-        Owner-only. Card payments credit automatically; UPI rows need manual approval.
+        Owner-only. Approve after the UPI credit shows in your bank app.
       </p>
 
       <div className="mc-panel grid grid-cols-2 divide-x-2 divide-black/70 text-center sm:grid-cols-6">
