@@ -60,6 +60,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 <Link href="/tokens" className="hover:text-white">
                   Token shop
                 </Link>
+                {process.env.NEXT_PUBLIC_X_HANDLE && (
+                  <a
+                    href={`https://x.com/${process.env.NEXT_PUBLIC_X_HANDLE}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 hover:text-white"
+                  >
+                    <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden fill="currentColor">
+                      <path d="M18.24 2H21.5l-7.1 8.12L22.75 22h-6.54l-5.12-6.7L5.22 22H1.95l7.6-8.68L1.25 2h6.7l4.63 6.12L18.24 2Zm-1.15 18.05h1.81L6.98 3.85H5.04l12.05 16.2Z"/>
+                    </svg>
+                    @{process.env.NEXT_PUBLIC_X_HANDLE}
+                  </a>
+                )}
                 <a
                   href="https://outbid.lol"
                   target="_blank"
