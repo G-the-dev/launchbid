@@ -104,7 +104,7 @@ export default async function Home({
           </button>
         </form>
         <p className="mt-3 text-sm font-medium text-gold">
-          Spawning takes 25 ⚡. One X share earns you 50, instantly. No sign-up.
+          Spawning takes 50 ⚡. One verified X share covers it, instantly. No sign-up.
         </p>
       </section>
 

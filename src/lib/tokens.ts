@@ -1,7 +1,7 @@
 export const MIN_BOOST_TOKENS = 5;
 export const BOOST_PRESETS_TOKENS = [10, 50, 250];
 
-export const LISTING_COST_TOKENS = 25; // spawning a product costs this (atomic in DB)
+export const LISTING_COST_TOKENS = 50; // spawning a product costs this (atomic in DB)
 export const SHARE_X_TOKENS = 50; // share on X, verified via the post link (once per user)
 export const VISIT_TOKENS = 2; // per site visited, max 10 rewarded visits/day
 
