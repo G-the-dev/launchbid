@@ -11,6 +11,30 @@ export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 10;
 
+const FAQS = [
+  {
+    q: "What is LaunchBid?",
+    a: "LaunchBid is a live product leaderboard where makers promote their product by bidding tokens on it. There are no upvotes and no algorithm: the products with the most tokens bid hold the top spots.",
+  },
+  {
+    q: "How does the ranking work?",
+    a: "Every token bid on a product adds to its lifetime total, and the board ranks products by that total. Totals never reset, and anyone can outbid anyone at any time.",
+  },
+  {
+    q: "How do I get tokens?",
+    a: "Complete quests for free tokens: share LaunchBid on X for 50 tokens (verified instantly) or earn 2 tokens for each product you visit from the board. You can also buy UPI token packs from Rs 49.",
+  },
+  {
+    q: "What does it cost to list my product?",
+    a: "Spawning a product onto the leaderboard costs 25 tokens. One share quest covers it with 25 tokens left over for your first bids.",
+  },
+  {
+    q: "Do I need an account?",
+    a: "No sign-up and no password. Your browser gets an identity automatically, and your email is only used to confirm token purchases.",
+  },
+];
+
+
 export default async function Home({
   searchParams,
 }: {
@@ -53,8 +77,35 @@ export default async function Home({
     },
   ];
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  };
+
+  const boardJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "LaunchBid server leaderboard",
+    itemListOrder: "https://schema.org/ItemListOrderDescending",
+    itemListElement: products.map((p, i) => ({
+      "@type": "ListItem",
+      position: offset + i + 1,
+      name: p.name,
+      url: `https://launchbid.lol/p/${p.slug}`,
+    })),
+  };
+
   return (
     <div className="pt-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([faqJsonLd, boardJsonLd]) }}
+      />
       <section className="py-10 text-center">
         <h1 className="pixel-text text-3xl text-balance uppercase sm:text-4xl">
           Mine your way to <span className="text-gold">#1</span>
@@ -139,6 +190,22 @@ export default async function Home({
               <h3 className="pixel-text text-base">{way.title}</h3>
               <p className="mt-1 text-sm text-pretty text-mcgray">{way.desc}</p>
             </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-14">
+        <h2 className="pixel-text mb-4 text-xl uppercase">Wiki</h2>
+        <div className="space-y-3">
+          {FAQS.map(({ q, a }) => (
+            <details key={q} className="mc-panel group px-5 py-4">
+              <summary className="cursor-pointer list-none text-base font-semibold marker:content-none">
+                <span className="mr-2 text-gold group-open:hidden">+</span>
+                <span className="mr-2 hidden text-gold group-open:inline">-</span>
+                {q}
+              </summary>
+              <p className="mt-2 text-sm text-pretty text-mcgray">{a}</p>
+            </details>
           ))}
         </div>
       </section>
