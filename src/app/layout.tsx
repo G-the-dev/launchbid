@@ -15,14 +15,24 @@ const minecraft = localFont({
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const DESCRIPTION =
-  "A live leaderboard where tokens are bids. Earn tokens free or buy a pack, then outbid the server for the #1 spot.";
+  "Promote your product on a live leaderboard where tokens are bids. Submit your product, earn free tokens by sharing, and outbid the board to reach #1. A pay-to-rank alternative to upvote launch sites.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://launchbid.lol"),
   title: {
-    default: "LaunchBid: bid your product to #1",
+    default: "LaunchBid: bid your product to #1 on a live leaderboard",
     template: "%s · LaunchBid",
   },
+  keywords: [
+    "promote your product",
+    "product leaderboard",
+    "submit your startup",
+    "product launch site",
+    "product hunt alternative",
+    "pay to rank",
+    "get traffic to your website",
+    "startup directory",
+  ],
   description: DESCRIPTION,
   openGraph: {
     title: "LaunchBid: bid your product to #1",

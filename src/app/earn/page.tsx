@@ -11,8 +11,9 @@ import { btnSecondary, card } from "@/lib/ui";
 import ShareClaimForm from "@/components/ShareClaimForm";
 
 export const metadata = {
-  title: "Quests: earn free tokens",
-  description: "Share LaunchBid on X or explore products on the board to stack free bidding tokens.",
+  title: "Earn free tokens",
+  description:
+    "Get free promotion tokens for your product: share LaunchBid on X for 50 tokens or explore products on the leaderboard for 2 tokens each.",
 };
 
 export const dynamic = "force-dynamic";
