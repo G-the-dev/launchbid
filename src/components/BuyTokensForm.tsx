@@ -63,7 +63,6 @@ export default function BuyTokensForm({
       <QuickTopUp
         packs={cardPacks}
         heading="Pick a pack"
-        note="Secure card checkout. Tokens are credited automatically within a minute, confirmed to your email."
         emptyNote="The token shop is being restocked. Check back shortly."
       />
 

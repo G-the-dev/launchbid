@@ -9,12 +9,10 @@ type CardPack = { usd: number; tokens: number };
 export default function QuickTopUp({
   packs,
   heading = "Quick refill",
-  note = "Tokens land automatically after checkout.",
   emptyNote,
 }: {
   packs: CardPack[];
   heading?: string;
-  note?: string;
   emptyNote?: string;
 }) {
   const [pending, setPending] = useState<number | null>(null);
@@ -45,7 +43,7 @@ export default function QuickTopUp({
   }
 
   return (
-    <div className="w-fit max-w-full space-y-2" title={note}>
+    <div className="w-fit max-w-full space-y-2">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <span className="text-sm text-mcgray">{heading}:</span>
         <div className="flex flex-wrap gap-1.5">

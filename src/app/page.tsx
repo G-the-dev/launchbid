@@ -106,7 +106,6 @@ export default async function Home({
       <div className="mt-5 flex justify-center">
         <QuickTopUp
           packs={getDodoPacks().map(({ usd, tokens }) => ({ usd, tokens }))}
-          note="Tokens land automatically after checkout. No detours."
         />
       </div>
 
