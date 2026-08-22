@@ -37,6 +37,9 @@ export const metadata: Metadata = {
     "top rank leaderboard",
     "launch your product",
     "product bidding site",
+    "outbid.lol alternative",
+    "uprank alternative",
+    "bid board sites",
   ],
   description: DESCRIPTION,
   openGraph: {
@@ -120,6 +123,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 </Link>
                 <Link href="/tokens" className="hover:text-white">
                   Token shop
+                </Link>
+                <Link href="/alternatives" className="hover:text-white">
+                  Compared
                 </Link>
                 {process.env.X_HANDLE && (
                   <a
