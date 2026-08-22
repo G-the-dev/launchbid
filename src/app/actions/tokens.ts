@@ -42,8 +42,11 @@ async function verifySharePost(postUrl: string): Promise<{ error?: string }> {
     }
     const data = (await res.json()) as { html?: string };
     const text = (data.html ?? "").toLowerCase();
-    if (!text.includes("launchbid")) {
-      return { error: "That post doesn't mention LaunchBid. Share the post from the button above, then paste its link." };
+    // The post must contain our actual link, not just the word: a mention
+    // without the URL delivers nothing and can be satisfied by unrelated
+    // posts that happen to contain "launchbid".
+    if (!text.includes("launchbid.lol")) {
+      return { error: "That post doesn't include a link to launchbid.lol. Use the share button (the link is pre-filled), post it, then paste your post's URL." };
     }
     return {};
   } catch {
