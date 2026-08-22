@@ -37,6 +37,22 @@ const FAQS = [
     a: "Spawning a product onto the leaderboard costs 25 tokens. One share quest covers it with 25 tokens left over for your first bids.",
   },
   {
+    q: "Where can I promote my product for free?",
+    a: "Free options include launch platforms like Product Hunt and Peerlist, Show HN on Hacker News, maker communities on Reddit and X, and LaunchBid, where one verified share on X earns enough tokens to list your product on the live leaderboard without paying anything.",
+  },
+  {
+    q: "How do I get the first users for my product?",
+    a: "Put your product where makers and early adopters already look: launch directories, communities, and leaderboards. Ship a clear one-line pitch, share it publicly, and engage everyone who responds. On LaunchBid, every listing gets clicks from the board and its click count is public.",
+  },
+  {
+    q: "How much does it cost to promote a product online?",
+    a: "Anywhere from nothing to thousands. Community launches and directories are free, featured directory spots run 29 to 400 dollars, and ads scale infinitely. LaunchBid starts free via share quests, and paid token packs begin at Rs 49, so you control the exact spend.",
+  },
+  {
+    q: "What is a pay-to-rank leaderboard?",
+    a: "A pay-to-rank leaderboard ranks listings by how much has been spent on them instead of votes or algorithms. On LaunchBid, every token bid on a product adds to its lifetime total, the board sorts by that total, and anyone can outbid anyone at any time.",
+  },
+  {
     q: "Is LaunchBid a Product Hunt alternative?",
     a: "Yes, for makers who want certainty. On upvote sites like Product Hunt your launch depends on votes and timing; on LaunchBid you bid tokens and the leaderboard rank is exactly what you paid for. Totals never reset, so your position compounds.",
   },
