@@ -45,32 +45,29 @@ export default function QuickTopUp({
   }
 
   return (
-    <div
-      className="flex flex-wrap items-center gap-x-3 gap-y-2"
-      title={note}
-    >
-      <span className="text-sm text-mcgray">{heading}:</span>
-      <div className="flex flex-wrap gap-1.5">
-        {packs.map((pack) => (
-          <button
-            key={pack.usd}
-            type="button"
-            disabled={pending !== null}
-            onClick={() => pay(pack.usd)}
-            className="mc-btn px-2.5 py-1.5 text-xs whitespace-nowrap"
-          >
-            ${pack.usd}
-            <span className="opacity-75 tabular-nums">· {pack.tokens} ⚡</span>
-          </button>
-        ))}
+    <div className="w-fit max-w-full space-y-2" title={note}>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+        <span className="text-sm text-mcgray">{heading}:</span>
+        <div className="flex flex-wrap gap-1.5">
+          {packs.map((pack) => (
+            <button
+              key={pack.usd}
+              type="button"
+              disabled={pending !== null}
+              onClick={() => pay(pack.usd)}
+              className="mc-btn px-2.5 py-1.5 text-xs whitespace-nowrap"
+            >
+              ${pack.usd}
+              <span className="opacity-75 tabular-nums">· {pack.tokens} ⚡</span>
+            </button>
+          ))}
+        </div>
       </div>
       {pending !== null && (
-        <span className="basis-full text-xs text-mcgray">Opening secure checkout…</span>
+        <p className="text-xs text-mcgray">Opening secure checkout…</p>
       )}
       {error && (
-        <span className="basis-full bg-red-500/10 px-3 py-1.5 text-xs text-red-300">
-          {error}
-        </span>
+        <p className="w-fit bg-red-500/10 px-3 py-1.5 text-xs text-red-300">{error}</p>
       )}
     </div>
   );
