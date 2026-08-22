@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { createPurchase } from "@/app/actions/tokens";
 import { sfxLevelUp } from "@/lib/sound";
 import { btnPrimary, card, input, label } from "@/lib/ui";
+import QuickTopUp from "./QuickTopUp";
 
 type Pack = { inr: number; tokens: number; qr: string | null };
 type CardPack = { usd: number; tokens: number };
@@ -32,28 +33,6 @@ export default function BuyTokensForm({
   defaultEmail: string;
   cardPacks?: CardPack[];
 }) {
-  // --- card checkout (Dodo Payments) ---
-  const [cardPending, setCardPending] = useState<number | null>(null);
-  const [cardError, setCardError] = useState<string | null>(null);
-
-  const payCard = async (usd: number) => {
-    setCardError(null);
-    setCardPending(usd);
-    try {
-      const res = await fetch("/api/dodo/checkout", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ usd }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Could not start checkout.");
-      window.location.href = data.url;
-    } catch (e) {
-      setCardError(e instanceof Error ? e.message : "Could not start checkout.");
-      setCardPending(null);
-    }
-  };
-
   // --- UPI flow state (kept intact for when UPI_ENABLED returns) ---
   const [selected, setSelected] = useState<Pack>(packs[1] ?? packs[0]);
   const [email, setEmail] = useState(defaultEmail);
@@ -81,42 +60,12 @@ export default function BuyTokensForm({
 
   return (
     <div className="space-y-6">
-      <section className={`${card} p-6`}>
-        <h2 className="pixel-text text-base">Pick a pack</h2>
-        <p className="mt-1 mb-4 text-sm text-pretty text-mcgray">
-          Secure card checkout. Tokens are credited automatically within a
-          minute, confirmed to your email.
-        </p>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {cardPacks.map((pack) => (
-            <button
-              key={pack.usd}
-              type="button"
-              disabled={cardPending !== null}
-              onClick={() => payCard(pack.usd)}
-              className="mc-btn flex-col px-3 py-3 text-sm"
-            >
-              <span className="tabular-nums">${pack.usd}</span>
-              <span className="text-xs opacity-80 tabular-nums">
-                {pack.tokens} tokens
-              </span>
-            </button>
-          ))}
-        </div>
-        {cardPacks.length === 0 && (
-          <p className="text-sm text-mcgray">
-            The token shop is being restocked. Check back shortly.
-          </p>
-        )}
-        {cardPending !== null && (
-          <p className="mt-3 text-sm text-mcgray">Opening secure checkout…</p>
-        )}
-        {cardError && (
-          <p className="mt-3 bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
-            {cardError}
-          </p>
-        )}
-      </section>
+      <QuickTopUp
+        packs={cardPacks}
+        heading="Pick a pack"
+        note="Secure card checkout. Tokens are credited automatically within a minute, confirmed to your email."
+        emptyNote="The token shop is being restocked. Check back shortly."
+      />
 
       {UPI_ENABLED && status === "sent" && (
         <div className="rounded-none bg-emerald-500/10 p-6 text-emerald-300">

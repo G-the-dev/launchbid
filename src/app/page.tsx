@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import LiveLeaderboard from "@/components/LiveLeaderboard";
+import QuickTopUp from "@/components/QuickTopUp";
+import { getDodoPacks } from "@/lib/dodo";
 import Pagination from "@/components/Pagination";
 import { SHARE_X_TOKENS, VISIT_TOKENS, formatTokens } from "@/lib/tokens";
 import { btnPrimary, card } from "@/lib/ui";
@@ -99,6 +101,13 @@ export default async function Home({
             <div className="mt-0.5 text-sm text-mcgray">{k}</div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-6">
+        <QuickTopUp
+          packs={getDodoPacks().map(({ usd, tokens }) => ({ usd, tokens }))}
+          note="Tokens land automatically after checkout. No detours."
+        />
       </div>
 
       <section className="relative left-1/2 mt-14 w-screen max-w-5xl -translate-x-1/2 px-4">
