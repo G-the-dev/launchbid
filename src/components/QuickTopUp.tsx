@@ -46,10 +46,10 @@ export default function QuickTopUp({
 
   return (
     <div
-      className="mc-panel flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-2.5"
+      className="flex flex-wrap items-center gap-x-3 gap-y-2"
       title={note}
     >
-      <span className="pixel-text text-sm">{heading}</span>
+      <span className="text-sm text-mcgray">{heading}:</span>
       <div className="flex flex-wrap gap-1.5">
         {packs.map((pack) => (
           <button
