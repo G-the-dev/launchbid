@@ -73,6 +73,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
         </div>
 
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
         <Analytics />
         <SessionBootstrap />
         <Header />
