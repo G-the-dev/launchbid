@@ -1,5 +1,6 @@
 import QRCode from "qrcode";
 import { getBalance } from "@/lib/data";
+import { getDodoPacks } from "@/lib/dodo";
 import { TOKEN_PACKS, formatTokens, upiPayUri } from "@/lib/tokens";
 import BuyTokensForm from "@/components/BuyTokensForm";
 
@@ -38,8 +39,8 @@ export default async function TokensPage({
         </span>
       </div>
       <p className="mt-1 mb-8 text-base text-pretty text-mcgray">
-        Pay with any UPI app in three steps: pick a pack, scan, confirm.
-        Tokens land after we match your payment, confirmed by email.
+        Pay by card in two clicks. Tokens land in your balance
+        automatically, confirmed by email.
       </p>
 
       {paid === "1" && (
@@ -51,7 +52,12 @@ export default async function TokensPage({
           </p>
         </div>
       )}
-      <BuyTokensForm packs={packs} vpa={vpa} defaultEmail="" />
+      <BuyTokensForm
+        packs={packs}
+        vpa={vpa}
+        defaultEmail=""
+        cardPacks={getDodoPacks().map(({ usd, tokens }) => ({ usd, tokens }))}
+      />
     </div>
   );
 }

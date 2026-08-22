@@ -52,11 +52,13 @@ export default async function AdminPage({
   const pending = purchases.filter((p) => p.status === "pending");
   const approved = purchases.filter((p) => p.status === "approved");
   const revenue = approved.reduce((sum, p) => sum + Number(p.amount_inr ?? 0), 0);
+  const revenueUsd =
+    approved.reduce((sum, p) => sum + Number((p as { amount_cents?: number }).amount_cents ?? 0), 0) / 100;
   const tokensSold = approved.reduce((sum, p) => sum + Number(p.tokens), 0);
 
   const stats = [
     { k: "Pending payments", v: String(pending.length) },
-    { k: "Revenue (approved)", v: `₹${revenue}` },
+    { k: "Revenue", v: `₹${revenue} + $${revenueUsd.toFixed(0)}` },
     { k: "Tokens sold", v: formatTokens(tokensSold) },
     { k: "Players", v: String(userCount ?? 0) },
     { k: "Products", v: String(productCount ?? 0) },
@@ -67,7 +69,7 @@ export default async function AdminPage({
     <div className="pt-12">
       <h1 className="pixel-text text-2xl uppercase">Payments admin</h1>
       <p className="mt-1 mb-6 text-sm text-mcgray">
-        Owner-only. Approve after the UPI credit shows in your bank app.
+        Owner-only. Card payments credit automatically; UPI rows need manual approval.
       </p>
 
       <div className="mc-panel grid grid-cols-2 divide-x-2 divide-black/70 text-center sm:grid-cols-6">

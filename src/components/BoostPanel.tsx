@@ -115,7 +115,7 @@ export default function BoostPanel({
           </Link>{" "}
           or{" "}
           <Link href="/tokens" className="font-medium text-white underline">
-            buy a pack with UPI
+            buy a pack
           </Link>
           .
         </p>

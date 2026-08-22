@@ -10,7 +10,7 @@ const RULES = [
   "One listing per URL across the whole server. Resubmitting the same URL is blocked.",
   "Clicks are counted through go-links. Query strings are stripped, so affiliate and tracking URLs won't work here.",
   "Earning caps: the share quest pays once per player and the post must actually mention LaunchBid; explore quests pay for up to 10 visits a day; your own products never pay you.",
-  "Token purchases are credited after UPI verification and confirmed to your email.",
+  "Token purchases are credited automatically after card checkout and confirmed to your email.",
   "No chat-invite links (Telegram, WhatsApp, Discord) and no adult content. Rule-breaking listings are removed without refund.",
 ];
 

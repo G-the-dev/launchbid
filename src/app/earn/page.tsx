@@ -125,9 +125,9 @@ export default async function EarnPage() {
         <p className="text-center text-sm text-mcgray">
           Need tokens now?{" "}
           <Link href="/tokens" className="font-medium underline">
-            Trade with the villager: UPI packs
+            Trade with the villager: token packs
           </Link>{" "}
-          from ₹49.
+          from $1.
         </p>
       </div>
 
