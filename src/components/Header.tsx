@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getBalance } from "@/lib/data";
 import { btnQuiet } from "@/lib/ui";
+import SkinPicker from "./SkinPicker";
 import SoundControl from "./SoundControl";
 import TokenBalance from "./TokenBalance";
 import { Logo } from "./Logo";
@@ -15,6 +16,7 @@ export default async function Header() {
           <Logo />
         </Link>
         <nav className="flex items-center gap-2.5 sm:gap-4">
+          <SkinPicker />
           <SoundControl />
           <Link href="/earn" className={btnQuiet}>
             Quests

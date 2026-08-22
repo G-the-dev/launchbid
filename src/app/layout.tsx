@@ -60,13 +60,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${minecraft.variable} ${inter.variable} h-full antialiased`}>
       <body className="flex min-h-dvh flex-col">
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var s=localStorage.getItem('lb-skin');if(s&&s!=='overworld')document.documentElement.dataset.skin=s}catch(e){}",
+          }}
+        />
         {/* The overworld, dimmed behind everything */}
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/bg-world.png"
             alt=""
-            className="pixelated size-full object-cover opacity-25"
+            className="world-img pixelated size-full object-cover opacity-25"
             fetchPriority="low"
             decoding="async"
           />
