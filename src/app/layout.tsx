@@ -155,6 +155,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               through go-links, so affiliate and tracking URLs won&apos;t work
               here.
             </p>
+            <a
+              href="https://maidensail.com/startup/launchbid"
+              rel="dofollow"
+              className="mt-4 inline-block opacity-60 transition-opacity hover:opacity-100"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://maidensail.com/badge/launchbid.svg?theme=dark"
+                alt="Featured on Maidensail"
+                height={26}
+                loading="lazy"
+                className="h-[26px] w-auto"
+              />
+            </a>
           </div>
         </footer>
       </body>
