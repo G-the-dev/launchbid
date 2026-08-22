@@ -1,6 +1,5 @@
 import QRCode from "qrcode";
 import { getBalance } from "@/lib/data";
-import { getDodoPacks } from "@/lib/dodo";
 import { TOKEN_PACKS, formatTokens, upiPayUri } from "@/lib/tokens";
 import BuyTokensForm from "@/components/BuyTokensForm";
 
@@ -25,9 +24,9 @@ export const dynamic = "force-dynamic";
 export default async function TokensPage({
   searchParams,
 }: {
-  searchParams: Promise<{ paid?: string }>;
+  searchParams: Promise<{ paid?: string; pack?: string }>;
 }) {
-  const { paid } = await searchParams;
+  const { paid, pack } = await searchParams;
   const balance = await getBalance();
 
   const vpa = process.env.NEXT_PUBLIC_UPI_VPA ?? "";
@@ -61,7 +60,7 @@ export default async function TokensPage({
         packs={packs}
         vpa={vpa}
         defaultEmail=""
-        cardPacks={getDodoPacks().map(({ usd, tokens }) => ({ usd, tokens }))}
+        initialInr={Number(pack) || undefined}
       />
     </div>
   );

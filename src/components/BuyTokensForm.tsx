@@ -4,10 +4,8 @@ import { useState, useTransition } from "react";
 import { createPurchase } from "@/app/actions/tokens";
 import { sfxLevelUp } from "@/lib/sound";
 import { btnPrimary, card, input, label } from "@/lib/ui";
-import QuickTopUp from "./QuickTopUp";
 
 type Pack = { inr: number; tokens: number; qr: string | null };
-type CardPack = { usd: number; tokens: number };
 
 // Active payment rail. Card (Dodo) is parked in QuickTopUp's CARD_ENABLED
 // flag; flip both to swap rails.
@@ -26,15 +24,17 @@ export default function BuyTokensForm({
   packs,
   vpa,
   defaultEmail,
-  cardPacks = [],
+  initialInr,
 }: {
   packs: Pack[];
   vpa: string;
   defaultEmail: string;
-  cardPacks?: CardPack[];
+  initialInr?: number;
 }) {
   // --- UPI flow state (kept intact for when UPI_ENABLED returns) ---
-  const [selected, setSelected] = useState<Pack>(packs[1] ?? packs[0]);
+  const [selected, setSelected] = useState<Pack>(
+    packs.find((p) => p.inr === initialInr) ?? packs[1] ?? packs[0]
+  );
   const [email, setEmail] = useState(defaultEmail);
   const [utr, setUtr] = useState("");
   const [status, setStatus] = useState<"idle" | "sent">("idle");
@@ -60,12 +60,6 @@ export default function BuyTokensForm({
 
   return (
     <div className="space-y-6">
-      <QuickTopUp
-        packs={cardPacks}
-        heading="Pick a pack"
-        emptyNote="The token shop is being restocked. Check back shortly."
-      />
-
       {UPI_ENABLED && status === "sent" && (
         <div className="rounded-none bg-emerald-500/10 p-6 text-emerald-300">
           <p className="text-base font-semibold">Payment submitted</p>

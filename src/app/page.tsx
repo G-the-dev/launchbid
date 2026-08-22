@@ -2,9 +2,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import LiveLeaderboard from "@/components/LiveLeaderboard";
 import QuickTopUp from "@/components/QuickTopUp";
-import { getDodoPacks } from "@/lib/dodo";
 import Pagination from "@/components/Pagination";
-import { SHARE_X_TOKENS, VISIT_TOKENS, formatTokens } from "@/lib/tokens";
+import { SHARE_X_TOKENS, TOKEN_PACKS, VISIT_TOKENS, formatTokens } from "@/lib/tokens";
 import { btnPrimary, card } from "@/lib/ui";
 import type { Product } from "@/lib/types";
 
@@ -105,7 +104,7 @@ export default async function Home({
 
       <div className="mt-5 flex justify-center">
         <QuickTopUp
-          packs={getDodoPacks().map(({ usd, tokens }) => ({ usd, tokens }))}
+          packs={TOKEN_PACKS.map(({ inr, tokens }) => ({ inr, tokens }))}
         />
       </div>
 
