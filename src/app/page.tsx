@@ -162,6 +162,12 @@ export default async function Home({
         </div>
       </section>
 
+      <p className="mx-auto mt-14 max-w-xl text-center text-sm text-pretty text-mcdim">
+        LaunchBid is a live product leaderboard and a pay-to-rank alternative
+        to upvote launch sites: submit your product, earn free tokens by
+        sharing, and promote it by bidding. The top spots go to whoever wants
+        them most, and totals never reset.
+      </p>
     </div>
   );
 }
