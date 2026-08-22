@@ -30,12 +30,12 @@ function shade(hex: string, factor: number): string {
 export default function PixelFace({ seed, size }: { seed: string; size: number }) {
   const h = hash(seed);
   const skin = SKINS[h % SKINS.length];
-  const hair = HAIRS[(h >> 4) % HAIRS.length];
-  const shirt = SHIRTS[(h >> 8) % SHIRTS.length];
-  const pupil = PUPILS[(h >> 12) % PUPILS.length];
-  const hairStyle = (h >> 16) % 6; // 0 flat, 1 short, 2 side, 3 mohawk, 4 hood, 5 bald
-  const eyeStyle = (h >> 19) % 3; // 0 open, 1 squint, 2 visor
-  const mouthStyle = (h >> 21) % 3; // 0 small, 1 wide, 2 smile
+  const hair = HAIRS[(h >>> 4) % HAIRS.length];
+  const shirt = SHIRTS[(h >>> 8) % SHIRTS.length];
+  const pupil = PUPILS[(h >>> 12) % PUPILS.length];
+  const hairStyle = (h >>> 16) % 6; // 0 flat, 1 short, 2 side, 3 mohawk, 4 hood, 5 bald
+  const eyeStyle = (h >>> 19) % 3; // 0 open, 1 squint, 2 visor
+  const mouthStyle = (h >>> 21) % 3; // 0 small, 1 wide, 2 smile
   const skinDark = shade(skin, 0.78);
 
   // 8x8 grid: null = transparent
