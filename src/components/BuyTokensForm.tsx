@@ -32,6 +32,17 @@ export default function BuyTokensForm({
   initialInr?: number;
 }) {
   // --- UPI flow state (kept intact for when UPI_ENABLED returns) ---
+  const [copiedVpa, setCopiedVpa] = useState(false);
+  const copyVpa = async () => {
+    try {
+      await navigator.clipboard.writeText(vpa);
+      setCopiedVpa(true);
+      setTimeout(() => setCopiedVpa(false), 1600);
+    } catch {
+      /* clipboard unavailable: the text is still selectable */
+    }
+  };
+
   const [selected, setSelected] = useState<Pack>(
     packs.find((p) => p.inr === initialInr) ?? packs[1] ?? packs[0]
   );
@@ -117,7 +128,22 @@ export default function BuyTokensForm({
                   {vpa && (
                     <p className="mt-2">
                       Or send directly to{" "}
-                      <span className="font-mono font-medium text-white">{vpa}</span>
+                      <button
+                        type="button"
+                        onClick={copyVpa}
+                        title="Copy UPI ID"
+                        className="inline-flex items-center gap-1.5 font-mono font-medium text-white underline decoration-dotted underline-offset-4 hover:text-gold"
+                      >
+                        {vpa}
+                        {copiedVpa ? (
+                          <span className="text-xs text-emerald">Copied!</span>
+                        ) : (
+                          <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.6">
+                            <rect x="5.5" y="5.5" width="8" height="8" />
+                            <path d="M10.5 5.5v-3h-8v8h3" />
+                          </svg>
+                        )}
+                      </button>
                     </p>
                   )}
                 </div>
