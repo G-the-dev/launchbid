@@ -61,7 +61,7 @@ export async function GET(request: Request) {
   await sendMail({
     to: purchase.email,
     subject: `Your ${formatTokens(purchase.tokens)} just landed on LaunchBid`,
-    html: tokensCreditedEmail({ tokens: purchase.tokens, siteUrl: process.env.NEXT_PUBLIC_SITE_URL! }),
+    html: tokensCreditedEmail({ tokens: purchase.tokens, siteUrl: process.env.SITE_URL! }),
   });
 
   return page(

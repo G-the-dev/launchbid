@@ -42,7 +42,7 @@ export default async function EarnPage() {
   }
 
   const shareText = encodeURIComponent(
-    `The top 10 spots on this board are literally for sale. I'm bidding my product to #1 on LaunchBid. Outbid me: ${process.env.NEXT_PUBLIC_SITE_URL}`
+    `The top 10 spots on this board are literally for sale. I'm bidding my product to #1 on LaunchBid. Outbid me: ${process.env.SITE_URL}`
   );
   const intentUrl = `https://twitter.com/intent/tweet?text=${shareText}`;
 

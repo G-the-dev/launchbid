@@ -127,7 +127,7 @@ export async function createPurchase(input: {
     .single();
   if (error) return { error: error.message };
 
-  const approveUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/purchases/approve?id=${purchase.id}&sig=${approveSignature(purchase.id)}`;
+  const approveUrl = `${process.env.SITE_URL}/api/purchases/approve?id=${purchase.id}&sig=${approveSignature(purchase.id)}`;
   const [{ error: mailError }] = await Promise.all([
     sendMail({
       to: process.env.OWNER_EMAIL ?? process.env.GMAIL_USER!,

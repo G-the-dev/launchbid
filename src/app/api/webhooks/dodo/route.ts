@@ -87,7 +87,7 @@ export async function POST(request: Request) {
             subject: `Your ${tokens} ⚡ just landed on LaunchBid`,
             html: tokensCreditedEmail({
               tokens,
-              siteUrl: process.env.NEXT_PUBLIC_SITE_URL!,
+              siteUrl: process.env.SITE_URL!,
             }),
           });
         }

@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     },
     body: JSON.stringify({
       product_cart: [{ product_id: pack.productId, quantity: 1 }],
-      return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/tokens?paid=1`,
+      return_url: `${process.env.SITE_URL}/tokens?paid=1`,
       // Server-set metadata: the webhook trusts this, never the client.
       metadata: { user_id: user.id, tokens: String(pack.tokens) },
     }),

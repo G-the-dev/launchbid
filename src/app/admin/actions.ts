@@ -44,7 +44,7 @@ export async function approvePurchase(formData: FormData) {
     subject: `Your ${purchase.tokens} ⚡ just landed on LaunchBid`,
     html: tokensCreditedEmail({
       tokens: purchase.tokens,
-      siteUrl: process.env.NEXT_PUBLIC_SITE_URL!,
+      siteUrl: process.env.SITE_URL!,
     }),
   });
 
